@@ -15,7 +15,6 @@ import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.client.resources.SkinManager;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.players.GameProfileCache;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -85,7 +84,7 @@ public final class CompanionSkinManager {
 
                 GameProfile withId = ensureProfileId(profile, trimmed);
                 PROFILE_CACHE.put(cacheKey, withId);
-                minecraft.execute(() -> registerProfileSkin(minecraft, withId, cacheKey));
+                enqueueSkinRegistration(minecraft, withId, cacheKey);
 
             } catch (Exception exception) {
                 LOGGER.error("Failed to resolve skin profile for companion name '{}': {}", trimmed, exception.getMessage());
@@ -96,8 +95,8 @@ public final class CompanionSkinManager {
 
 
 
-    private static void enqueueSkinRegistration(GameProfile profile, String cacheKey) {
-        Minecraft minecraft = Minecraft.getInstance();
+    private static void enqueueSkinRegistration(Minecraft minecraft, GameProfile profile, String cacheKey) {
+        //Minecraft minecraft = Minecraft.getInstance();
         if (minecraft == null) {
             REQUESTED.remove(cacheKey);
             return;
