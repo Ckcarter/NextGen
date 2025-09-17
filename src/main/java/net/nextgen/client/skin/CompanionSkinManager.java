@@ -32,18 +32,25 @@ public final class CompanionSkinManager {
             return DefaultPlayerSkin.getDefaultSkin(entity.getUUID());
         }
 
-        ResourceLocation cached = SKIN_CACHE.get(requestedSkin);
+        String trimmed = requestedSkin.trim();
+        String cacheKey = normalize(trimmed);
+        ResourceLocation cached = SKIN_CACHE.get(cacheKey);
         if (cached != null) {
             return cached;
         }
 
-        requestSkin(requestedSkin);
-        UUID fallbackId = UUIDUtil.createOfflinePlayerUUID(requestedSkin);
+        requestSkin(trimmed, cacheKey);
+        UUID fallbackId = UUIDUtil.createOfflinePlayerUUID(trimmed);
         return DefaultPlayerSkin.getDefaultSkin(fallbackId);
     }
 
-    private static void requestSkin(String skinName) {
-        if (!REQUESTED.add(skinName)) {
+    private static void requestSkin(String skinName, String cacheKey) {
+        String trimmed = skinName.trim();
+        if (trimmed.isEmpty()) {
+            return;
+        }
+
+        if (!REQUESTED.add(cacheKey)) {
             return;
         }
 
