@@ -1,5 +1,6 @@
 package net.nextgen.client.skin;
 
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -56,21 +57,24 @@ public final class CompanionSkinManager {
 
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft == null) {
-            REQUESTED.remove(skinName);
+            REQUESTED.remove(cacheKey);
             return;
         }
 
         SkinManager skinManager = minecraft.getSkinManager();
         if (skinManager == null) {
-            REQUESTED.remove(skinName);
+            REQUESTED.remove(cacheKey);
             return;
         }
 
         GameProfile profile = new GameProfile(UUIDUtil.createOfflinePlayerUUID(skinName), skinName);
         skinManager.registerSkins(profile, (type, location, texture) -> {
             if (type == MinecraftProfileTexture.Type.SKIN) {
-                SKIN_CACHE.put(skinName, location);
+                SKIN_CACHE.put(cacheKey, location);
             }
         }, true);
+    }
+    private static String normalize(String value) {
+        return value.toLowerCase(Locale.ROOT);
     }
 }
