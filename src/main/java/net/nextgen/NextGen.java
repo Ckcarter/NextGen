@@ -16,6 +16,8 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.nextgen.entity.ModEntityTypes;
 import org.slf4j.Logger;
@@ -34,6 +36,11 @@ public class NextGen {
     // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
 
+
+    // Register for all custom items that belong to the mod
+    public static final DeferredRegister<Item> ITEMS =
+            DeferredRegister.create(ForgeRegistries.ITEMS, MOD_ID);
+
     // Item that summons and stores the combat companion
     public static final RegistryObject<Item> COMPANION_SUMMONER = ITEMS.register("companion_summoner",
             () -> new CompanionSummonerItem(new Item.Properties().stacksTo(1)));
@@ -46,8 +53,8 @@ public class NextGen {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
 
-
-        // Register entity types
+        // Register item and entity types
+        ITEMS.register(modEventBus);
         ModEntityTypes.ENTITY_TYPES.register(modEventBus);
 
 
