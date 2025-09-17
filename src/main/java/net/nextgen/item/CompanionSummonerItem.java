@@ -7,6 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -30,6 +31,12 @@ public class CompanionSummonerItem extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
+        if (player.isCrouching()) {
+            if (!level.isClientSide && player instanceof ServerPlayer serverPlayer) {
+                CompanionSkinSelection.beginEditing(serverPlayer, hand);
+            }
+            return InteractionResultHolder.sidedSuccess(stack, level.isClientSide());
+        }
         if (level instanceof ServerLevel serverLevel) {
             Vec3 look = player.getLookAngle();
             Vec3 spawnPos = player.position().add(look.scale(2.0D));
@@ -48,6 +55,12 @@ public class CompanionSummonerItem extends Item {
         }
 
         ItemStack stack = context.getItemInHand();
+        if (player.isCrouching()) {
+            if (!level.isClientSide && player instanceof ServerPlayer serverPlayer) {
+                CompanionSkinSelection.beginEditing(serverPlayer, context.getHand());
+            }
+            return net.minecraft.world.InteractionResult.sidedSuccess(level.isClientSide());
+        }
         if (level instanceof ServerLevel serverLevel) {
             BlockPos targetPos = context.getClickedPos().relative(context.getClickedFace());
             Vec3 spawnPos = Vec3.atBottomCenterOf(targetPos);
@@ -105,12 +118,29 @@ public class CompanionSummonerItem extends Item {
     }
 
     public static void storeSkin(ItemStack stack, String skinName) {
-        if (skinName == null || skinName.isBlank()) {
+        if (!(stack.getItem() instanceof CompanionSummonerItem)) {
             return;
         }
-        stack.getOrCreateTag().putString(SKIN_TAG, skinName);
+        String sanitized = skinName == null ? "" : skinName.trim();
+        if (sanitized.isEmpty()) {
+            clearStoredSkin(stack);
+            return;
+        }
+        stack.getOrCreateTag().putString(SKIN_TAG, sanitized);
     }
 
+    public static void clearStoredSkin(ItemStack stack) {
+        if (!(stack.getItem() instanceof CompanionSummonerItem)) {
+            return;
+        }
+        CompoundTag tag = stack.getTag();
+        if (tag != null) {
+            tag.remove(SKIN_TAG);
+            if (tag.isEmpty()) {
+                stack.setTag(null);
+            }
+        }
+    }
     @Override
     public void appendHoverText(ItemStack stack, Level level, List<Component> tooltip, net.minecraft.world.item.TooltipFlag flag) {
         getStoredSkin(stack).ifPresent(name -> tooltip.add(Component.translatable("item.nextgen.companion_summoner.skin", name)));

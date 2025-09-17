@@ -1,0 +1,9 @@
+{
+  "item.nextgen.companion_summoner.skin": "Skin: %s",
+  "message.nextgen.companion_summoner.enter_skin": "Type the new companion skin in chat. Use 'cancel' to keep the current skin or 'clear' to remove it.",
+  "message.nextgen.companion_summoner.current": "Current skin: %s",
+  "message.nextgen.companion_summoner.cancelled": "Skin change cancelled.",
+  "message.nextgen.companion_summoner.cleared": "Stored companion skin cleared.",
+  "message.nextgen.companion_summoner.updated": "Stored companion skin set to %s.",
+  "message.nextgen.companion_summoner.not_found": "Could not find the Companion Summoner you were editing."
+}
