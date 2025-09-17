@@ -67,7 +67,7 @@ public final class CompanionSkinManager {
             return;
         }
 
-        GameProfile profile = new GameProfile(UUIDUtil.createOfflinePlayerUUID(skinName), skinName);
+        GameProfile profile = new GameProfile(null, trimmed);
         skinManager.registerSkins(profile, (type, location, texture) -> {
             if (type == MinecraftProfileTexture.Type.SKIN) {
                 SKIN_CACHE.put(cacheKey, location);
