@@ -89,8 +89,18 @@ public final class CompanionSkinManager {
 
 
     private static void registerProfileSkin(Minecraft minecraft, GameProfile profile, String cacheKey) {
-
+        SkinManager skinManager = minecraft.getSkinManager();
+        if (skinManager == null) {
+            REQUESTED.remove(cacheKey);
+            return;
         }
+        skinManager.registerSkins(profile, (type, location, texture) -> {
+            if (type == MinecraftProfileTexture.Type.SKIN) {
+                SKIN_CACHE.put(cacheKey, location);
+                REQUESTED.remove(cacheKey);
+            }
+        }, true);
+    }
 
     private static GameProfile resolveProfile(Minecraft minecraft, String name) {
         GameProfile profile = getCachedProfile(minecraft, name);
