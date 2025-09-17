@@ -45,7 +45,7 @@ public final class CompanionSkinSelection {
 
         event.setCanceled(true);
 
-        String rawInput = event.getMessage().getSignedContent().trim();
+        String rawInput = event.getRawText().trim();
         if (rawInput.isEmpty() || "cancel".equalsIgnoreCase(rawInput)) {
             player.sendSystemMessage(Component.translatable("message.nextgen.companion_summoner.cancelled"));
             return;
