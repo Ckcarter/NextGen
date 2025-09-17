@@ -1,15 +1,13 @@
 package net.nextgen.client.skin;
 
 import java.util.*;
+
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 
+import com.mojang.authlib.properties.Property;
 import com.mojang.logging.LogUtils;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
@@ -23,6 +21,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.nextgen.entity.custom.CompanionEntity;
 import org.slf4j.Logger;
+
+
+
 
 @OnlyIn(Dist.CLIENT)
 public final class CompanionSkinManager {
@@ -68,12 +69,6 @@ public final class CompanionSkinManager {
             return;
         }
 
-        SkinManager skinManager = minecraft.getSkinManager();
-        if (skinManager == null) {
-            REQUESTED.remove(cacheKey);
-            return;
-        }
-
 
         Util.backgroundExecutor().execute(() -> {
             try {
@@ -84,14 +79,7 @@ public final class CompanionSkinManager {
                 }
 
 
-                if (profile.getId() == null) {
-                    LOGGER.debug("Resolved companion skin profile '{}' has no id; skipping fetch", trimmed);
-                    REQUESTED.remove(cacheKey);
-                    return;
-                }
 
-
-                minecraft.execute(() -> registerProfileSkin(minecraft, profile, cacheKey));
             } catch (Exception exception) {
                 LOGGER.error("Failed to resolve skin profile for companion name '{}': {}", trimmed, exception.getMessage());
                 REQUESTED.remove(cacheKey);
@@ -111,52 +99,70 @@ public final class CompanionSkinManager {
         skinManager.registerSkins(profile, (type, location, texture) -> {
             if (type == MinecraftProfileTexture.Type.SKIN) {
                 SKIN_CACHE.put(cacheKey, location);
-                REQUESTED.remove(cacheKey);
+
             }
         }, true);
+
+
+        REQUESTED.remove(cacheKey);
     }
+
+
+
 
     private static GameProfile resolveProfile(Minecraft minecraft, String name) {
         GameProfile cached = getCachedProfile(minecraft, name);
-        if (cached != null) {
-            if (cached.getId() != null && hasTextures(cached)) {
-                return cached;
-            }
-            if (cached.getId() == null && hasTextures(cached)) {
-                return ensureProfileId(cached, name);
-            }
+        if (cached != null && hasTextures(cached)) {
+            return cached;
         }
 
         GameProfile queryProfile = cached != null ? cached : new GameProfile(null, name);
         try {
-
             GameProfile filled = minecraft.getMinecraftSessionService().fillProfileProperties(queryProfile, true);
-            if (filled != null) {
-                if (filled.getId() != null) {
-                    GameProfileCache cache = minecraft.getGameProfileCache();
-                    if (cache != null && filled.isComplete()) {
-                        cache.add(filled);
-                    }
-                    return filled;
-                }
-                return ensureProfileId(filled, name);
+            if (filled != null && hasTextures(filled)) {
+                cacheProfile(minecraft, filled);
+                return filled;
             }
 
-            private static GameProfile ensureProfileId (GameProfile profile, String name){
-                if (profile.getId() != null) {
-                    return profile;
-                }
+        } catch (Exception exception) {
+            LOGGER.debug("Failed to fetch skin data for companion name '{}'", name, exception);
+        }
+        return cached;
+    }
+    private static void cacheProfile(Minecraft minecraft, GameProfile profile) {
+        GameProfileCache cache = (GameProfileCache) minecraft.getProfiler();
+        if (cache != null && profile.isComplete()) {
+            cache.add(profile);
+        }
+    }
+    private static GameProfile getCachedProfile(Minecraft minecraft, String name) {
+        GameProfileCache cache = (GameProfileCache) minecraft.getProfiler();
+        if (cache == null) {
+            return null;
+        }
+        Optional<GameProfile> cached = cache.get(name);
+        return cached.orElse(null);
+    }
 
-                GameProfile withId = new GameProfile(UUIDUtil.createOfflinePlayerUUID(name), profile.getName() == null ? name : profile.getName());
-                profile.getProperties().entries()
-                        .forEach(entry -> withId.getProperties().put(entry.getKey(), entry.getValue()));
-                return withId;
-            }
+    private static boolean hasTextures(GameProfile profile) {
+        Collection<Property> textures = profile.getProperties().get("textures");
+        return textures != null && !textures.isEmpty();
+    }
 
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+    private static GameProfile ensureProfileId(GameProfile profile, String name) {
+        if (profile.getId() != null) {
+            return profile;
         }
 
+        GameProfile withId = new GameProfile(UUIDUtil.createOfflinePlayerUUID(name),
+                profile.getName() != null ? profile.getName() : name);
+        profile.getProperties().entries()
+                .forEach(entry -> withId.getProperties().put(entry.getKey(), entry.getValue()));
+        return withId;
+    }
+
+    private static String normalize(String name) {
+        return name.toLowerCase(Locale.ROOT);
     }
 }
 

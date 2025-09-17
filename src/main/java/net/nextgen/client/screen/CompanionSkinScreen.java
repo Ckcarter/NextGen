@@ -56,22 +56,22 @@ public class CompanionSkinScreen extends AbstractContainerScreen<CompanionSkinMe
         int topRowY = this.topPos + 72;
         int bottomRowY = this.topPos + 100;
 
-        this.saveButton = Button.builder(Component.translatable("save"), button -> this.saveSkin())
+        this.saveButton = Button.builder(Component.translatable("Save"), button -> this.saveSkin())
                 .bounds(leftButtonX, topRowY, 64, 20)
                 .build();
         this.addRenderableWidget(this.saveButton);
 
-        Button cancelButton = Button.builder(Component.translatable("cancel"), button -> this.onClose())
+        Button cancelButton = Button.builder(Component.translatable("Cancel"), button -> this.onClose())
                 .bounds(rightButtonX, topRowY, 64, 20)
                 .build();
         this.addRenderableWidget(cancelButton);
 
-        this.clearButton = Button.builder(Component.translatable("clear"), button -> this.clearSkin())
+        this.clearButton = Button.builder(Component.translatable("Clear"), button -> this.clearSkin())
                 .bounds(leftButtonX, bottomRowY, 64, 20)
                 .build();
         this.addRenderableWidget(this.clearButton);
 
-        this.unsummonButton = Button.builder(Component.translatable("unsummon"), button -> this.unsummon())
+        this.unsummonButton = Button.builder(Component.translatable("Unsummon"), button -> this.unsummon())
                 .bounds(rightButtonX, bottomRowY, 64, 20)
                 .build();
         this.addRenderableWidget(this.unsummonButton);
@@ -123,14 +123,14 @@ public class CompanionSkinScreen extends AbstractContainerScreen<CompanionSkinMe
             guiGraphics.drawCenteredString(this.font, entity.getDisplayName(), this.imageWidth / 2, 24, 0xFFD0D0);
             String current = entity.getSkinName().isBlank() ? "-" : entity.getSkinName();
             guiGraphics.drawCenteredString(this.font,
-                    Component.translatable("current", current), this.imageWidth / 2, 56,
+                    Component.translatable("Current", current), this.imageWidth / 2, 56,
                     0xFFA0A0);
         } else {
-            guiGraphics.drawCenteredString(this.font, Component.translatable("missing"),
+            guiGraphics.drawCenteredString(this.font, Component.translatable("Missing"),
                     this.imageWidth / 2, 24, 0xFFD0D0);
         }
         guiGraphics.drawCenteredString(this.font,
-                Component.translatable("instructions"), this.imageWidth / 2, 32, 0xFFA0A0);
+                Component.translatable("Instructions"), this.imageWidth / 2, 32, 0xFFA0A0);
     }
 
     private CompanionEntity getEntity() {
