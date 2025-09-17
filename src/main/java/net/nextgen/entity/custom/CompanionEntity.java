@@ -106,7 +106,7 @@ public class CompanionEntity extends TamableAnimal {
                 NetworkHooks.openScreen(serverPlayer,
                         new SimpleMenuProvider((windowId, inventory, serverSidePlayer) ->
                                 new CompanionSkinMenu(windowId, inventory, this.getId()),
-                                Component.translatable("screen.nextgen.companion_skin.title")),
+                                Component.translatable("Pick a players skin by name")),
                         buffer -> buffer.writeVarInt(this.getId()));
             }
             return InteractionResult.sidedSuccess(this.level().isClientSide);

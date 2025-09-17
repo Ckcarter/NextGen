@@ -41,7 +41,7 @@ public class CompanionSkinScreen extends AbstractContainerScreen<CompanionSkinMe
         int inputX = this.leftPos + 20;
         int inputY = this.topPos + 42;
         this.skinInput = new EditBox(this.font, inputX, inputY, 136, 20,
-                Component.translatable("screen.nextgen.companion_skin.input"));
+                Component.translatable("Pick a players skin by Name"));
         CompanionEntity entity = this.getEntity();
         if (entity != null) {
             this.skinInput.setValue(entity.getSkinName());
@@ -123,14 +123,14 @@ public class CompanionSkinScreen extends AbstractContainerScreen<CompanionSkinMe
             guiGraphics.drawCenteredString(this.font, entity.getDisplayName(), this.imageWidth / 2, 24, 0xFFD0D0);
             String current = entity.getSkinName().isBlank() ? "-" : entity.getSkinName();
             guiGraphics.drawCenteredString(this.font,
-                    Component.translatable("screen.nextgen.companion_skin.current", current), this.imageWidth / 2, 56,
+                    Component.translatable("current", current), this.imageWidth / 2, 56,
                     0xFFA0A0);
         } else {
-            guiGraphics.drawCenteredString(this.font, Component.translatable("screen.nextgen.companion_skin.missing"),
+            guiGraphics.drawCenteredString(this.font, Component.translatable("missing"),
                     this.imageWidth / 2, 24, 0xFFD0D0);
         }
         guiGraphics.drawCenteredString(this.font,
-                Component.translatable("screen.nextgen.companion_skin.instructions"), this.imageWidth / 2, 32, 0xFFA0A0);
+                Component.translatable("instructions"), this.imageWidth / 2, 32, 0xFFA0A0);
     }
 
     private CompanionEntity getEntity() {
