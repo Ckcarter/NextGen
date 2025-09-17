@@ -1,5 +1,7 @@
 package net.nextgen.client.screen;
 
+
+import net.minecraft.client.KeyboardHandler;
 import org.lwjgl.glfw.GLFW;
 
 import net.minecraft.client.gui.GuiGraphics;
@@ -30,9 +32,7 @@ public class CompanionSkinScreen extends AbstractContainerScreen<CompanionSkinMe
     @Override
     protected void init() {
         super.init();
-        if (this.minecraft != null) {
-            this.minecraft.keyboardHandler.setSendRepeatsToGui(true);
-        }
+        this.updateKeyboardRepeatState(true);
         this.titleLabelX = (this.imageWidth - this.font.width(this.title)) / 2;
         this.titleLabelY = 8;
         this.inventoryLabelX = 0;
@@ -56,22 +56,22 @@ public class CompanionSkinScreen extends AbstractContainerScreen<CompanionSkinMe
         int topRowY = this.topPos + 72;
         int bottomRowY = this.topPos + 100;
 
-        this.saveButton = Button.builder(Component.translatable("screen.nextgen.companion_skin.save"), button -> this.saveSkin())
+        this.saveButton = Button.builder(Component.translatable("save"), button -> this.saveSkin())
                 .bounds(leftButtonX, topRowY, 64, 20)
                 .build();
         this.addRenderableWidget(this.saveButton);
 
-        Button cancelButton = Button.builder(Component.translatable("screen.nextgen.companion_skin.cancel"), button -> this.onClose())
+        Button cancelButton = Button.builder(Component.translatable("cancel"), button -> this.onClose())
                 .bounds(rightButtonX, topRowY, 64, 20)
                 .build();
         this.addRenderableWidget(cancelButton);
 
-        this.clearButton = Button.builder(Component.translatable("screen.nextgen.companion_skin.clear"), button -> this.clearSkin())
+        this.clearButton = Button.builder(Component.translatable("clear"), button -> this.clearSkin())
                 .bounds(leftButtonX, bottomRowY, 64, 20)
                 .build();
         this.addRenderableWidget(this.clearButton);
 
-        this.unsummonButton = Button.builder(Component.translatable("screen.nextgen.companion_skin.unsummon"), button -> this.unsummon())
+        this.unsummonButton = Button.builder(Component.translatable("unsummon"), button -> this.unsummon())
                 .bounds(rightButtonX, bottomRowY, 64, 20)
                 .build();
         this.addRenderableWidget(this.unsummonButton);
@@ -82,9 +82,8 @@ public class CompanionSkinScreen extends AbstractContainerScreen<CompanionSkinMe
     @Override
     public void removed() {
         super.removed();
-        if (this.minecraft != null) {
-            this.minecraft.keyboardHandler.setSendRepeatsToGui(false);
-        }
+        this.updateKeyboardRepeatState(false);
+
     }
 
     @Override
@@ -182,6 +181,15 @@ public class CompanionSkinScreen extends AbstractContainerScreen<CompanionSkinMe
         }
         if (this.unsummonButton != null) {
             this.unsummonButton.active = hasEntity;
+        }
+    }
+    private void updateKeyboardRepeatState(boolean enabled) {
+        if (this.minecraft == null) {
+            return;
+        }
+        KeyboardHandler keyboardHandler = this.minecraft.keyboardHandler;
+        if (keyboardHandler != null) {
+            keyboardHandler.setClipboard(String.valueOf(enabled));
         }
     }
 }
