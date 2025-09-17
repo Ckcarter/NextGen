@@ -2,7 +2,11 @@ package net.nextgen.client.skin;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-
+import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 
@@ -79,6 +83,14 @@ public final class CompanionSkinManager {
                     return;
                 }
 
+
+                if (profile.getId() == null) {
+                    LOGGER.debug("Resolved companion skin profile '{}' has no id; skipping fetch", trimmed);
+                    REQUESTED.remove(cacheKey);
+                    return;
+                }
+
+
                 minecraft.execute(() -> registerProfileSkin(minecraft, profile, cacheKey));
             } catch (Exception exception) {
                 LOGGER.error("Failed to resolve skin profile for companion name '{}': {}", trimmed, exception.getMessage());
@@ -89,11 +101,13 @@ public final class CompanionSkinManager {
 
 
     private static void registerProfileSkin(Minecraft minecraft, GameProfile profile, String cacheKey) {
+
         SkinManager skinManager = minecraft.getSkinManager();
         if (skinManager == null) {
             REQUESTED.remove(cacheKey);
             return;
         }
+
         skinManager.registerSkins(profile, (type, location, texture) -> {
             if (type == MinecraftProfileTexture.Type.SKIN) {
                 SKIN_CACHE.put(cacheKey, location);
@@ -103,52 +117,46 @@ public final class CompanionSkinManager {
     }
 
     private static GameProfile resolveProfile(Minecraft minecraft, String name) {
-        GameProfile profile = getCachedProfile(minecraft, name);
-        if (profile != null && hasTextures(profile)) {
-            return profile;
-        }
-
-        if (profile == null) {
-            profile = new GameProfile(null, name);
-        }
-
-        try {
-            GameProfile filled = minecraft.getMinecraftSessionService().fillProfileProperties(profile, true);
-            if (filled != null) {
-                GameProfileCache cache = minecraft.getGameProfileCache();
-                if (cache != null && filled.isComplete()) {
-                    cache.add(filled);
-                }
-                return filled;
+        GameProfile cached = getCachedProfile(minecraft, name);
+        if (cached != null) {
+            if (cached.getId() != null && hasTextures(cached)) {
+                return cached;
             }
-        } catch (Exception exception) {
-            LOGGER.debug("Unable to fill profile properties for '{}': {}", name, exception.getMessage());
+            if (cached.getId() == null && hasTextures(cached)) {
+                return ensureProfileId(cached, name);
+            }
         }
 
-        if (profile.getId() == null) {
-            return new GameProfile(UUIDUtil.createOfflinePlayerUUID(name), name);
+        GameProfile queryProfile = cached != null ? cached : new GameProfile(null, name);
+        try {
+
+            GameProfile filled = minecraft.getMinecraftSessionService().fillProfileProperties(queryProfile, true);
+            if (filled != null) {
+                if (filled.getId() != null) {
+                    GameProfileCache cache = minecraft.getGameProfileCache();
+                    if (cache != null && filled.isComplete()) {
+                        cache.add(filled);
+                    }
+                    return filled;
+                }
+                return ensureProfileId(filled, name);
+            }
+
+            private static GameProfile ensureProfileId (GameProfile profile, String name){
+                if (profile.getId() != null) {
+                    return profile;
+                }
+
+                GameProfile withId = new GameProfile(UUIDUtil.createOfflinePlayerUUID(name), profile.getName() == null ? name : profile.getName());
+                profile.getProperties().entries()
+                        .forEach(entry -> withId.getProperties().put(entry.getKey(), entry.getValue()));
+                return withId;
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
-        return profile;
     }
-
-    private static GameProfile getCachedProfile(Minecraft minecraft, String name) {
-        GameProfileCache cache = minecraft.getGameProfileCache();
-        if (cache == null) {
-            return null;
-        }
-
-        Optional<GameProfile> optional = cache.get(name);
-        return optional.orElse(null);
-    }
-
-    private static boolean hasTextures(GameProfile profile) {
-        return profile.getProperties().containsKey("textures");
-    }
-
-
-    private static String normalize(String value) {
-        return value.toLowerCase(Locale.ROOT);
-    }
-
 }
+
