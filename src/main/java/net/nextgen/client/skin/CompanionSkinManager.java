@@ -48,7 +48,17 @@ public final class CompanionSkinManager {
         }
 
         Minecraft minecraft = Minecraft.getInstance();
+        if (minecraft == null) {
+            REQUESTED.remove(skinName);
+            return;
+        }
+
         SkinManager skinManager = minecraft.getSkinManager();
+        if (skinManager == null) {
+            REQUESTED.remove(skinName);
+            return;
+        }
+
         GameProfile profile = new GameProfile(UUIDUtil.createOfflinePlayerUUID(skinName), skinName);
         skinManager.registerSkins(profile, (type, location, texture) -> {
             if (type == MinecraftProfileTexture.Type.SKIN) {
