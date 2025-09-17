@@ -1,8 +1,12 @@
 package net.nextgen;
 
 import com.mojang.logging.LogUtils;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.world.item.CreativeModeTabs;
-
+import net.nextgen.menu.ModMenuTypes;
+import net.nextgen.network.ModMessages;
+import net.nextgen.client.screen.CompanionSkinScreen;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -56,6 +60,7 @@ public class NextGen {
         // Register item and entity types
         ITEMS.register(modEventBus);
         ModEntityTypes.ENTITY_TYPES.register(modEventBus);
+        ModMenuTypes.register(modEventBus);
 
 
         // Register ourselves for server and other game events we are interested in
@@ -69,7 +74,7 @@ public class NextGen {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-        // Some common setup code
+        event.enqueueWork(ModMessages::register);
 
     }
 
@@ -96,7 +101,7 @@ public class NextGen {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event)
         {
-
+            event.enqueueWork(() -> MenuScreens.register(ModMenuTypes.COMPANION_SKIN.get(), CompanionSkinScreen::new));
         }
 
         @SubscribeEvent

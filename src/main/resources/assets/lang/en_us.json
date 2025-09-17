@@ -5,5 +5,14 @@
   "message.nextgen.companion_summoner.cancelled": "Skin change cancelled.",
   "message.nextgen.companion_summoner.cleared": "Stored companion skin cleared.",
   "message.nextgen.companion_summoner.updated": "Stored companion skin set to %s.",
-  "message.nextgen.companion_summoner.not_found": "Could not find the Companion Summoner you were editing."
+  "message.nextgen.companion_summoner.not_found": "Could not find the Companion Summoner you were editing.",
+  "screen.nextgen.companion_skin.title": "Companion Skin",
+  "screen.nextgen.companion_skin.instructions": "Enter the player name to use for this companion's skin.",
+  "screen.nextgen.companion_skin.current": "Current skin: %s",
+  "screen.nextgen.companion_skin.input": "Skin name",
+  "screen.nextgen.companion_skin.save": "Save",
+  "screen.nextgen.companion_skin.cancel": "Cancel",
+  "screen.nextgen.companion_skin.clear": "Clear",
+  "screen.nextgen.companion_skin.unsummon": "Unsummon",
+  "screen.nextgen.companion_skin.missing": "Companion not available"
 }

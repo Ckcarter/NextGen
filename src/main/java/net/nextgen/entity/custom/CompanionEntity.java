@@ -10,8 +10,10 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -37,8 +39,10 @@ import net.minecraft.world.item.NameTagItem;
 import net.minecraft.world.item.TieredItem;
 import net.minecraft.world.item.TridentItem;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.network.NetworkHooks;
 import net.nextgen.NextGen;
 import net.nextgen.item.CompanionSummonerItem;
+import net.nextgen.menu.CompanionSkinMenu;
 
 public class CompanionEntity extends TamableAnimal {
 
@@ -98,17 +102,12 @@ public class CompanionEntity extends TamableAnimal {
         ItemStack stack = player.getItemInHand(hand);
 
         if (player.isCrouching() && stack.isEmpty() && this.isOwnedBy(player)) {
-            if (!this.level().isClientSide) {
-                this.returnEquipment(player);
-                ItemStack token = new ItemStack(NextGen.COMPANION_SUMMONER.get());
-                CompanionSummonerItem.storeSkin(token, this.getSkinName());
-                if (!this.getSkinName().isBlank()) {
-                    token.setHoverName(Component.literal(this.getSkinName()));
-                }
-                if (!player.addItem(token)) {
-                    this.spawnAtLocation(token);
-                }
-                this.discard();
+            if (!this.level().isClientSide && player instanceof ServerPlayer serverPlayer) {
+                NetworkHooks.openScreen(serverPlayer,
+                        new SimpleMenuProvider((windowId, inventory, serverSidePlayer) ->
+                                new CompanionSkinMenu(windowId, inventory, this.getId()),
+                                Component.translatable("screen.nextgen.companion_skin.title")),
+                        buffer -> buffer.writeVarInt(this.getId()));
             }
             return InteractionResult.sidedSuccess(this.level().isClientSide);
         }
@@ -167,7 +166,18 @@ public class CompanionEntity extends TamableAnimal {
             }
         }
     }
-
+    public void unsummon(ServerPlayer player) {
+        this.returnEquipment(player);
+        ItemStack token = new ItemStack(NextGen.COMPANION_SUMMONER.get());
+        CompanionSummonerItem.storeSkin(token, this.getSkinName());
+        if (!this.getSkinName().isBlank()) {
+            token.setHoverName(Component.literal(this.getSkinName()));
+        }
+        if (!player.addItem(token)) {
+            this.spawnAtLocation(token);
+        }
+        this.discard();
+    }
     private boolean canAcceptWeapon(ItemStack stack) {
         Item item = stack.getItem();
         return item instanceof TieredItem || item instanceof TridentItem;
