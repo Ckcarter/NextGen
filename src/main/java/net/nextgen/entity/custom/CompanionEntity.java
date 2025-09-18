@@ -1,10 +1,13 @@
 package net.nextgen.entity.custom;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.annotation.Nullable;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -13,6 +16,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
@@ -31,6 +35,7 @@ import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -39,9 +44,11 @@ import net.minecraft.world.item.NameTagItem;
 import net.minecraft.world.item.TieredItem;
 import net.minecraft.world.item.TridentItem;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.network.NetworkHooks;
 import net.nextgen.NextGen;
 import net.nextgen.item.CompanionSummonerItem;
+import net.nextgen.menu.CompanionInventoryMenu;
 import net.nextgen.menu.CompanionSkinMenu;
 
 public class CompanionEntity extends TamableAnimal {
@@ -49,9 +56,17 @@ public class CompanionEntity extends TamableAnimal {
     private static final EntityDataAccessor<String> DATA_SKIN =
             SynchedEntityData.defineId(CompanionEntity.class, EntityDataSerializers.STRING);
 
+
+    private static final String INVENTORY_TAG = "Inventory";
+    public static final int INVENTORY_SIZE = 9;
+
+    private final SimpleContainer inventory = new SimpleContainer(INVENTORY_SIZE);
+
+
     public CompanionEntity(EntityType<? extends TamableAnimal> entityType, Level level) {
         super(entityType, level);
         this.setPersistenceRequired();
+        this.setCanPickUpLoot(true);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -87,6 +102,19 @@ public class CompanionEntity extends TamableAnimal {
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putString("Skin", this.getSkinName());
+
+        ListTag items = new ListTag();
+        for (int slot = 0; slot < this.inventory.getContainerSize(); slot++) {
+            ItemStack stack = this.inventory.getItem(slot);
+            if (!stack.isEmpty()) {
+                CompoundTag itemTag = new CompoundTag();
+                itemTag.putByte("Slot", (byte) slot);
+                stack.save(itemTag);
+                items.add(itemTag);
+            }
+        }
+        tag.put(INVENTORY_TAG, items);
+
     }
 
     @Override
@@ -95,6 +123,17 @@ public class CompanionEntity extends TamableAnimal {
         if (tag.contains("Skin")) {
             this.setSkinName(tag.getString("Skin"));
         }
+
+        this.inventory.clearContent();
+        ListTag items = tag.getList(INVENTORY_TAG, Tag.TAG_COMPOUND);
+        for (int i = 0; i < items.size(); i++) {
+            CompoundTag itemTag = items.getCompound(i);
+            int slot = itemTag.getByte("Slot") & 255;
+            if (slot >= 0 && slot < this.inventory.getContainerSize()) {
+                this.inventory.setItem(slot, ItemStack.of(itemTag));
+            }
+        }
+
     }
 
     @Override
@@ -111,6 +150,20 @@ public class CompanionEntity extends TamableAnimal {
             }
             return InteractionResult.sidedSuccess(this.level().isClientSide);
         }
+
+        if (!player.isCrouching() && stack.isEmpty() && this.isOwnedBy(player)) {
+            if (!this.level().isClientSide && player instanceof ServerPlayer serverPlayer) {
+                Component title = this.hasCustomName() ? this.getCustomName()
+                        : Component.translatable("container.nextgen.companion");
+                NetworkHooks.openScreen(serverPlayer,
+                        new SimpleMenuProvider((windowId, inventory, serverSidePlayer) ->
+                                new CompanionInventoryMenu(windowId, inventory, this),
+                                title),
+                        buffer -> buffer.writeVarInt(this.getId()));
+            }
+            return InteractionResult.sidedSuccess(this.level().isClientSide);
+        }
+
 
         if (stack.getItem() instanceof NameTagItem && stack.hasCustomHoverName()) {
             if (!this.level().isClientSide) {
@@ -166,8 +219,30 @@ public class CompanionEntity extends TamableAnimal {
             }
         }
     }
-    public void unsummon(ServerPlayer player) {
+    private void returnInventory(Player player) {
+        for (int slot = 0; slot < this.inventory.getContainerSize(); slot++) {
+            ItemStack stack = this.inventory.getItem(slot);
+            if (!stack.isEmpty()) {
+                ItemStack copy = stack.copy();
+                this.inventory.setItem(slot, ItemStack.EMPTY);
+                if (!player.addItem(copy)) {
+                    this.spawnAtLocation(copy);
+                }
+            }
+        }
+    }
+
+    private void returnStoredItems(Player player) {
         this.returnEquipment(player);
+        this.returnInventory(player);
+    }
+
+    public SimpleContainer getInventory() {
+        return this.inventory;
+    }
+
+    public void unsummon(ServerPlayer player) {
+        this.returnStoredItems(player);
         ItemStack token = new ItemStack(NextGen.COMPANION_SUMMONER.get());
         CompanionSummonerItem.storeSkin(token, this.getSkinName());
         if (!this.getSkinName().isBlank()) {
@@ -185,6 +260,57 @@ public class CompanionEntity extends TamableAnimal {
 
     public String getSkinName() {
         return this.entityData.get(DATA_SKIN);
+    }
+
+
+    @Override
+    public void aiStep() {
+        super.aiStep();
+        if (!this.level().isClientSide) {
+            this.collectNearbyItems();
+        }
+    }
+
+    @Override
+    protected void dropEquipment() {
+        super.dropEquipment();
+        this.dropStoredItems();
+    }
+
+    private void collectNearbyItems() {
+        if (this.isOrderedToSit()) {
+            return;
+        }
+        AABB area = this.getBoundingBox().inflate(1.5D);
+        List<ItemEntity> items = this.level().getEntitiesOfClass(ItemEntity.class, area,
+                item -> !item.hasPickUpDelay() && item.isAlive());
+        for (ItemEntity itemEntity : items) {
+            ItemStack stack = itemEntity.getItem();
+            if (stack.isEmpty()) {
+                continue;
+            }
+            int originalCount = stack.getCount();
+            ItemStack remaining = this.inventory.addItem(stack);
+            int pickedUp = originalCount - (remaining.isEmpty() ? 0 : remaining.getCount());
+            if (pickedUp > 0) {
+                if (remaining.isEmpty()) {
+                    itemEntity.discard();
+                } else {
+                    itemEntity.setItem(remaining);
+                }
+            }
+        }
+    }
+
+    private void dropStoredItems() {
+        for (int slot = 0; slot < this.inventory.getContainerSize(); slot++) {
+            ItemStack stack = this.inventory.getItem(slot);
+            if (!stack.isEmpty()) {
+                ItemStack copy = stack.copy();
+                this.inventory.setItem(slot, ItemStack.EMPTY);
+                this.spawnAtLocation(copy);
+            }
+        }
     }
 
     public void setSkinName(@Nullable String name) {

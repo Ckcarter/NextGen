@@ -18,6 +18,9 @@ public final class ModMenuTypes {
     public static final RegistryObject<MenuType<CompanionSkinMenu>> COMPANION_SKIN = MENU_TYPES.register(
             "companion_skin", () -> IForgeMenuType.create(CompanionSkinMenu::new));
 
+    public static final RegistryObject<MenuType<CompanionInventoryMenu>> COMPANION_INVENTORY = MENU_TYPES.register(
+            "companion_inventory", () -> IForgeMenuType.create(CompanionInventoryMenu::new));
+
     public static void register(IEventBus eventBus) {
         MENU_TYPES.register(eventBus);
     }

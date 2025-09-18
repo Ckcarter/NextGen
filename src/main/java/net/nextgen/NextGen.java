@@ -3,6 +3,7 @@ package net.nextgen;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.world.item.CreativeModeTabs;
+import net.nextgen.client.screen.CompanionInventoryScreen;
 import net.nextgen.menu.ModMenuTypes;
 import net.nextgen.network.ModMessages;
 import net.nextgen.client.screen.CompanionSkinScreen;
@@ -101,7 +102,10 @@ public class NextGen {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event)
         {
-            event.enqueueWork(() -> MenuScreens.register(ModMenuTypes.COMPANION_SKIN.get(), CompanionSkinScreen::new));
+            event.enqueueWork(() -> {
+                MenuScreens.register(ModMenuTypes.COMPANION_SKIN.get(), CompanionSkinScreen::new);
+                MenuScreens.register(ModMenuTypes.COMPANION_INVENTORY.get(), CompanionInventoryScreen::new);
+            });
         }
 
         @SubscribeEvent
