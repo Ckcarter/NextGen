@@ -10,13 +10,17 @@ import net.nextgen.menu.CompanionInventoryMenu;
 public class CompanionInventoryScreen extends AbstractContainerScreen<CompanionInventoryMenu> {
 
     private static final ResourceLocation TEXTURE = new ResourceLocation("minecraft",
-            "textures/gui/container/dispenser.png");
+            "textures/gui/container/generic_54.png");
 
     public CompanionInventoryScreen(CompanionInventoryMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
         this.imageWidth = 176;
-        this.imageHeight = 166;
+        this.imageHeight = 168;
+        this.titleLabelX = 8;
+        this.titleLabelY = 6;
+        this.inventoryLabelX = 8;
         this.inventoryLabelY = this.imageHeight - 94;
+
     }
 
     @Override

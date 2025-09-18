@@ -13,6 +13,11 @@ import net.nextgen.entity.custom.CompanionEntity;
 public class CompanionInventoryMenu extends AbstractContainerMenu {
 
     private static final int HOTBAR_SLOT_COUNT = 9;
+    private static final int COMPANION_ROWS = 3;
+    private static final int COMPANION_COLUMNS = 9;
+    private static final int SLOT_SPACING = 18;
+    private static final int COMPANION_SLOT_START_X = 8;
+    private static final int COMPANION_SLOT_START_Y = 18;
     private final CompanionEntity companion;
     private final SimpleContainer companionInventory;
 
@@ -47,11 +52,11 @@ public class CompanionInventoryMenu extends AbstractContainerMenu {
     }
 
     private void addCompanionSlots() {
-        for (int row = 0; row < 3; row++) {
-            for (int column = 0; column < 3; column++) {
-                int slotIndex = column + row * 3;
-                int x = 62 + column * 18;
-                int y = 17 + row * 18;
+        for (int row = 0; row < COMPANION_ROWS; row++) {
+            for (int column = 0; column < COMPANION_COLUMNS; column++) {
+                int slotIndex = column + row * COMPANION_COLUMNS;
+                int x = COMPANION_SLOT_START_X + column * SLOT_SPACING;
+                int y = COMPANION_SLOT_START_Y + row * SLOT_SPACING;
                 this.addSlot(new Slot(this.companionInventory, slotIndex, x, y));
             }
         }
@@ -61,14 +66,14 @@ public class CompanionInventoryMenu extends AbstractContainerMenu {
         for (int row = 0; row < 3; row++) {
             for (int column = 0; column < 9; column++) {
                 int slotIndex = column + row * 9 + HOTBAR_SLOT_COUNT;
-                int x = 8 + column * 18;
-                int y = 84 + row * 18;
+                int x = 8 + column * SLOT_SPACING;
+                int y = 84 + row * SLOT_SPACING;
                 this.addSlot(new Slot(playerInventory, slotIndex, x, y));
             }
         }
 
         for (int column = 0; column < 9; column++) {
-            int x = 8 + column * 18;
+            int x = 8 + column * SLOT_SPACING;
             int y = 142;
             this.addSlot(new Slot(playerInventory, column, x, y));
         }
