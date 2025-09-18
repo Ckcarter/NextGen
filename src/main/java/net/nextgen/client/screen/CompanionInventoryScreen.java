@@ -10,7 +10,7 @@ import net.nextgen.menu.CompanionInventoryMenu;
 public class CompanionInventoryScreen extends AbstractContainerScreen<CompanionInventoryMenu> {
 
     private static final ResourceLocation TEXTURE = new ResourceLocation("minecraft",
-            "textures/gui/container/generic_54.png");
+            "textures/gui/container/shulker_box.png");
 
     public CompanionInventoryScreen(CompanionInventoryMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
