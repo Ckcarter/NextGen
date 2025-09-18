@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/handheld",
   "textures": {
-    "layer0": "minecraft:item/book"
+    "layer0": "nextgen:item/companion_summoner"
   }
 }

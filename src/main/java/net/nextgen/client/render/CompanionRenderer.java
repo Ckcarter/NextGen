@@ -14,19 +14,17 @@ import net.nextgen.client.skin.CompanionSkinManager;
 import net.nextgen.entity.custom.CompanionEntity;
 
 @OnlyIn(Dist.CLIENT)
-    public class CompanionRenderer extends HumanoidMobRenderer<CompanionEntity, CompanionModel> {
+public class CompanionRenderer extends HumanoidMobRenderer<CompanionEntity, CompanionModel> {
 
-        public CompanionRenderer(EntityRendererProvider.Context context) {
+    public CompanionRenderer(EntityRendererProvider.Context context) {
+        super(context, new CompanionModel(context.bakeLayer(ModelLayers.PLAYER), false), 0.5F);
+//        this.addLayer(new HumanoidArmorLayer<>(this,
+//                new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)),
+//                new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR))));
+    }
 
-            super(context, new CompanionModel(context.bakeLayer(ModelLayers.PLAYER), false), 0.5F);
-            this.addLayer(new HumanoidArmorLayer<>(this,
-                    new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)),
-                    new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR))));
-        }
-
-        @Override
-        public ResourceLocation getTextureLocation(CompanionEntity entity) {
-            return CompanionSkinManager.getSkinLocation(entity);
-        }
+    @Override
+    public ResourceLocation getTextureLocation(CompanionEntity entity) {
+        return CompanionSkinManager.getSkinLocation(entity);
     }
 }
