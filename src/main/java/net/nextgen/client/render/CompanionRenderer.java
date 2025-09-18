@@ -1,24 +1,32 @@
 package net.nextgen.client.render;
 
 import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.HumanoidMobRenderer;
+import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.nextgen.client.model.CompanionModel;
 import net.nextgen.client.skin.CompanionSkinManager;
 import net.nextgen.entity.custom.CompanionEntity;
 
 @OnlyIn(Dist.CLIENT)
-public class CompanionRenderer extends HumanoidMobRenderer<CompanionEntity, PlayerModel<CompanionEntity>> {
+    public class CompanionRenderer extends HumanoidMobRenderer<CompanionEntity, CompanionModel> {
 
-    public CompanionRenderer(EntityRendererProvider.Context context) {
-        super(context, new PlayerModel<>(context.bakeLayer(ModelLayers.PLAYER), false), 0.5F);
-    }
+        public CompanionRenderer(EntityRendererProvider.Context context) {
 
-    @Override
-    public ResourceLocation getTextureLocation(CompanionEntity entity) {
-        return CompanionSkinManager.getSkinLocation(entity);
+            super(context, new CompanionModel(context.bakeLayer(ModelLayers.PLAYER), false), 0.5F);
+            this.addLayer(new HumanoidArmorLayer<>(this,
+                    new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)),
+                    new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR))));
+        }
+
+        @Override
+        public ResourceLocation getTextureLocation(CompanionEntity entity) {
+            return CompanionSkinManager.getSkinLocation(entity);
+        }
     }
 }
