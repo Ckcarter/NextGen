@@ -18,6 +18,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -193,7 +194,7 @@ public class CompanionEntity extends TamableAnimal {
                 ItemStack previous = this.getItemBySlot(EquipmentSlot.MAINHAND);
                 if (!previous.isEmpty()) {
                     if (!player.addItem(previous.copy())) {
-                        this.spawnAtLocation(previous.copy());
+                        this.dropItemWithoutDespawn(previous.copy());
                     }
                 }
                 ItemStack copy = stack.copy();
@@ -210,12 +211,14 @@ public class CompanionEntity extends TamableAnimal {
     }
 
     private void returnEquipment(Player player) {
-        ItemStack held = this.getItemBySlot(EquipmentSlot.MAINHAND);
-        if (!held.isEmpty()) {
-            ItemStack copy = held.copy();
-            this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
-            if (!player.addItem(copy)) {
-                this.spawnAtLocation(copy);
+        for (EquipmentSlot slot : EquipmentSlot.values()) {
+            ItemStack equipped = this.getItemBySlot(slot);
+            if (!equipped.isEmpty()) {
+                ItemStack copy = equipped.copy();
+                this.setItemSlot(slot, ItemStack.EMPTY);
+                if (!player.addItem(copy)) {
+                    this.spawnAtLocation(copy);
+                }
             }
         }
     }
@@ -243,13 +246,9 @@ public class CompanionEntity extends TamableAnimal {
 
     public void unsummon(ServerPlayer player) {
         this.returnStoredItems(player);
-        ItemStack token = new ItemStack(NextGen.COMPANION_SUMMONER.get());
-        CompanionSummonerItem.storeSkin(token, this.getSkinName());
-        if (!this.getSkinName().isBlank()) {
-            token.setHoverName(Component.literal(this.getSkinName()));
-        }
+        ItemStack token = this.createSummonerToken();
         if (!player.addItem(token)) {
-            this.spawnAtLocation(token);
+            this.dropItemWithoutDespawn(token);
         }
         this.discard();
     }
@@ -271,11 +270,29 @@ public class CompanionEntity extends TamableAnimal {
         }
     }
 
+
     @Override
     protected void dropEquipment() {
+        Player owner = this.getOwner() instanceof Player player ? player : null;
+
+        if (owner != null) {
+            this.returnStoredItems(owner);
+            ItemStack token = this.createSummonerToken();
+            if (!owner.addItem(token)) {
+                this.spawnAtLocation(token);
+            }
+            super.dropEquipment();
+            return;
+        }
+
         super.dropEquipment();
         this.dropStoredItems();
+        if (this.isTame()) {
+            this.spawnAtLocation(this.createSummonerToken());
+        }
     }
+
+
 
     private void collectNearbyItems() {
         if (this.isOrderedToSit()) {
@@ -302,14 +319,43 @@ public class CompanionEntity extends TamableAnimal {
         }
     }
 
+
+    @Override
+    public void die(DamageSource damageSource) {
+        if (!this.level().isClientSide) {
+            this.dropStoredItems();
+        }
+        super.die(damageSource);
+    }
+
+
     private void dropStoredItems() {
         for (int slot = 0; slot < this.inventory.getContainerSize(); slot++) {
             ItemStack stack = this.inventory.getItem(slot);
             if (!stack.isEmpty()) {
                 ItemStack copy = stack.copy();
                 this.inventory.setItem(slot, ItemStack.EMPTY);
-                this.spawnAtLocation(copy);
+                this.dropItemWithoutDespawn(copy);
             }
+        }
+    }
+
+    private ItemStack createSummonerToken() {
+        ItemStack token = new ItemStack(NextGen.COMPANION_SUMMONER.get());
+        String skinName = this.getSkinName();
+        CompanionSummonerItem.storeSkin(token, skinName);
+        if (!skinName.isBlank()) {
+            token.setHoverName(Component.literal(skinName));
+        }
+        return token;
+    }
+
+
+
+    private void dropItemWithoutDespawn(ItemStack stack) {
+        ItemEntity itemEntity = this.spawnAtLocation(stack);
+        if (itemEntity != null) {
+            itemEntity.setUnlimitedLifetime();
         }
     }
 
