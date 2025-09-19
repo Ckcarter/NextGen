@@ -210,42 +210,14 @@ public class CompanionEntity extends TamableAnimal {
         return super.mobInteract(player, hand);
     }
 
-    private void returnEquipment(Player player) {
-        for (EquipmentSlot slot : EquipmentSlot.values()) {
-            ItemStack equipped = this.getItemBySlot(slot);
-            if (!equipped.isEmpty()) {
-                ItemStack copy = equipped.copy();
-                this.setItemSlot(slot, ItemStack.EMPTY);
-                if (!player.addItem(copy)) {
-                    this.spawnAtLocation(copy);
-                }
-            }
-        }
-    }
-    private void returnInventory(Player player) {
-        for (int slot = 0; slot < this.inventory.getContainerSize(); slot++) {
-            ItemStack stack = this.inventory.getItem(slot);
-            if (!stack.isEmpty()) {
-                ItemStack copy = stack.copy();
-                this.inventory.setItem(slot, ItemStack.EMPTY);
-                if (!player.addItem(copy)) {
-                    this.spawnAtLocation(copy);
-                }
-            }
-        }
-    }
-
-    private void returnStoredItems(Player player) {
-        this.returnEquipment(player);
-        this.returnInventory(player);
-    }
 
     public SimpleContainer getInventory() {
         return this.inventory;
     }
 
     public void unsummon(ServerPlayer player) {
-        this.returnStoredItems(player);
+        this.dropEquipmentItems();
+        this.dropStoredItems();
         ItemStack token = this.createSummonerToken();
         if (!player.addItem(token)) {
             this.dropItemWithoutDespawn(token);
@@ -273,22 +245,12 @@ public class CompanionEntity extends TamableAnimal {
 
     @Override
     protected void dropEquipment() {
-        Player owner = this.getOwner() instanceof Player player ? player : null;
 
-        if (owner != null) {
-            this.returnStoredItems(owner);
-            ItemStack token = this.createSummonerToken();
-            if (!owner.addItem(token)) {
-                this.spawnAtLocation(token);
-            }
-            super.dropEquipment();
-            return;
-        }
         this.dropEquipmentItems();
         super.dropEquipment();
         this.dropStoredItems();
         if (this.isTame()) {
-            this.spawnAtLocation(this.createSummonerToken());
+            this.dropItemWithoutDespawn(this.createSummonerToken());
         }
     }
 
