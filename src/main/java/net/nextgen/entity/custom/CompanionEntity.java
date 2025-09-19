@@ -216,12 +216,7 @@ public class CompanionEntity extends TamableAnimal {
     }
 
     public void unsummon(ServerPlayer player) {
-        this.dropEquipmentItems();
-        this.dropStoredItems();
-        ItemStack token = this.createSummonerToken();
-        if (!player.addItem(token)) {
-            this.dropItemWithoutDespawn(token);
-        }
+        this.dropAllCompanionItems(true);
         this.discard();
     }
     private boolean canAcceptWeapon(ItemStack stack) {
@@ -284,13 +279,19 @@ public class CompanionEntity extends TamableAnimal {
 
     @Override
     public void die(DamageSource damageSource) {
-        if (!this.level().isClientSide) {
-            Player owner = this.getOwner() instanceof Player player ? player : null;
-            if (owner == null) {
-                this.dropStoredItems();
-            }
-        }
+        this.dropAllCompanionItems(this.isTame());
         super.die(damageSource);
+    }
+
+    private void dropAllCompanionItems(boolean dropSummonerToken) {
+        if (this.level().isClientSide) {
+            return;
+        }
+        this.dropEquipmentItems();
+        this.dropStoredItems();
+        if (dropSummonerToken) {
+            this.dropItemWithoutDespawn(this.createSummonerToken());
+        }
     }
 
 
