@@ -39,11 +39,7 @@ import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.NameTagItem;
-import net.minecraft.world.item.TieredItem;
-import net.minecraft.world.item.TridentItem;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.network.NetworkHooks;
@@ -189,20 +185,21 @@ public class CompanionEntity extends TamableAnimal {
             return InteractionResult.sidedSuccess(this.level().isClientSide);
         }
 
+
+        if (!stack.isEmpty() && this.canAcceptArmor(stack) && this.isOwnedBy(player)) {
+            if (!this.level().isClientSide) {
+                ArmorItem armor = (ArmorItem) stack.getItem();
+                EquipmentSlot slot = armor.getEquipmentSlot();
+                this.equipItem(player, slot, stack);
+            }
+            return InteractionResult.sidedSuccess(this.level().isClientSide);
+        }
+
+
+
         if (!stack.isEmpty() && this.canAcceptWeapon(stack) && this.isOwnedBy(player)) {
             if (!this.level().isClientSide) {
-                ItemStack previous = this.getItemBySlot(EquipmentSlot.MAINHAND);
-                if (!previous.isEmpty()) {
-                    if (!player.addItem(previous.copy())) {
-                        this.dropItemWithoutDespawn(previous.copy());
-                    }
-                }
-                ItemStack copy = stack.copy();
-                copy.setCount(1);
-                this.setItemSlot(EquipmentSlot.MAINHAND, copy);
-                if (!player.isCreative()) {
-                    stack.shrink(1);
-                }
+                this.equipItem(player, EquipmentSlot.MAINHAND, stack);
             }
             return InteractionResult.sidedSuccess(this.level().isClientSide);
         }
@@ -222,6 +219,25 @@ public class CompanionEntity extends TamableAnimal {
     private boolean canAcceptWeapon(ItemStack stack) {
         Item item = stack.getItem();
         return item instanceof TieredItem || item instanceof TridentItem;
+    }
+    private boolean canAcceptArmor(ItemStack stack) {
+        return stack.getItem() instanceof ArmorItem;
+    }
+
+    private void equipItem(Player player, EquipmentSlot slot, ItemStack stack) {
+        ItemStack previous = this.getItemBySlot(slot);
+        if (!previous.isEmpty()) {
+            ItemStack previousCopy = previous.copy();
+            if (!player.addItem(previousCopy)) {
+                this.dropItemWithoutDespawn(previousCopy);
+            }
+        }
+        ItemStack copy = stack.copy();
+        copy.setCount(1);
+        this.setItemSlot(slot, copy);
+        if (!player.isCreative()) {
+            stack.shrink(1);
+        }
     }
 
     public String getSkinName() {
