@@ -284,7 +284,7 @@ public class CompanionEntity extends TamableAnimal {
             super.dropEquipment();
             return;
         }
-
+        this.dropEquipmentItems();
         super.dropEquipment();
         this.dropStoredItems();
         if (this.isTame()) {
@@ -323,7 +323,10 @@ public class CompanionEntity extends TamableAnimal {
     @Override
     public void die(DamageSource damageSource) {
         if (!this.level().isClientSide) {
-            this.dropStoredItems();
+            Player owner = this.getOwner() instanceof Player player ? player : null;
+            if (owner == null) {
+                this.dropStoredItems();
+            }
         }
         super.die(damageSource);
     }
@@ -335,6 +338,18 @@ public class CompanionEntity extends TamableAnimal {
             if (!stack.isEmpty()) {
                 ItemStack copy = stack.copy();
                 this.inventory.setItem(slot, ItemStack.EMPTY);
+                this.dropItemWithoutDespawn(copy);
+            }
+        }
+    }
+
+
+    private void dropEquipmentItems() {
+        for (EquipmentSlot slot : EquipmentSlot.values()) {
+            ItemStack equipped = this.getItemBySlot(slot);
+            if (!equipped.isEmpty()) {
+                ItemStack copy = equipped.copy();
+                this.setItemSlot(slot, ItemStack.EMPTY);
                 this.dropItemWithoutDespawn(copy);
             }
         }
