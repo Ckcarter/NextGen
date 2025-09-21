@@ -14,7 +14,7 @@ public class CompanionInventoryScreen extends AbstractContainerScreen<CompanionI
 
     public CompanionInventoryScreen(CompanionInventoryMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
-        this.imageWidth = 176;
+        this.imageWidth = 202;
         this.imageHeight = 168;
         this.titleLabelX = 8;
         this.titleLabelY = 6;
@@ -27,7 +27,7 @@ public class CompanionInventoryScreen extends AbstractContainerScreen<CompanionI
     protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
         int x = this.leftPos;
         int y = this.topPos;
-        guiGraphics.blit(TEXTURE, x, y, 0, 0, this.imageWidth, this.imageHeight);
+        guiGraphics.blit(TEXTURE, x, y, 0, 0, 176, this.imageHeight);
     }
 
     @Override
