@@ -49,6 +49,7 @@ public final class CompanionSkinManager {
     private static final Map<String, ResourceLocation> SKIN_CACHE = new ConcurrentHashMap<>();
     private static final Map<String, GameProfile> PROFILE_CACHE = new ConcurrentHashMap<>();
     private static final Map<String, UUID> PROFILE_IDS = new ConcurrentHashMap<>();
+    private static final Map<String, Boolean> SLIM_MODEL_CACHE = new ConcurrentHashMap<>();
     private static final Set<String> REQUESTED = ConcurrentHashMap.newKeySet();
     private static final Set<String> MISSING_PROFILES = ConcurrentHashMap.newKeySet();
     private static final Logger LOGGER = LogUtils.getLogger();
@@ -78,6 +79,31 @@ public final class CompanionSkinManager {
         UUID fallbackId = UUIDUtil.createOfflinePlayerUUID(trimmed);
         return DefaultPlayerSkin.getDefaultSkin(fallbackId);
     }
+
+    public static boolean usesSlimModel(CompanionEntity entity) {
+        String requestedSkin = entity.getSkinName();
+        if (requestedSkin.isBlank()) {
+            return isSlim(DefaultPlayerSkin.getSkinModelName(entity.getUUID()));
+        }
+
+        String trimmed = requestedSkin.trim();
+        if (trimmed.isEmpty()) {
+            return false;
+        }
+
+        String cacheKey = normalize(trimmed);
+        Boolean cached = SLIM_MODEL_CACHE.get(cacheKey);
+        if (cached != null) {
+            return cached;
+        }
+
+        requestSkin(trimmed, cacheKey);
+        UUID fallbackId = UUIDUtil.createOfflinePlayerUUID(trimmed);
+        return isSlim(DefaultPlayerSkin.getSkinModelName(fallbackId));
+    }
+
+
+
 
     private static void requestSkin(String skinName, String cacheKey) {
         String trimmed = skinName.trim();
@@ -152,7 +178,7 @@ public final class CompanionSkinManager {
         skinManager.registerSkins(profile, (type, location, texture) -> {
             if (type == MinecraftProfileTexture.Type.SKIN) {
                 SKIN_CACHE.put(cacheKey, location);
-
+                SLIM_MODEL_CACHE.put(cacheKey, isSlim(texture.getMetadata("model")));
             }
         }, true);
 
@@ -415,6 +441,16 @@ public final class CompanionSkinManager {
     private static String normalize(String name) {
         return name.toLowerCase(Locale.ROOT);
     }
+
+    private static boolean isSlim(@Nullable String model) {
+        if (model == null) {
+            return false;
+        }
+        String normalized = model.trim().toLowerCase(Locale.ROOT);
+        return normalized.equals("slim") || normalized.equals("alex");
+    }
+
+
 }
 
 
