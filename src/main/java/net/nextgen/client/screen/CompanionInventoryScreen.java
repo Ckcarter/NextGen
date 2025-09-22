@@ -7,10 +7,19 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.nextgen.menu.CompanionInventoryMenu;
 
+
 public class CompanionInventoryScreen extends AbstractContainerScreen<CompanionInventoryMenu> {
 
     private static final ResourceLocation TEXTURE = new ResourceLocation("minecraft",
             "textures/gui/container/shulker_box.png");
+
+
+
+    private static final int SLOT_SPACING = 18;
+    private static final int EQUIPMENT_SLOT_COUNT = 4;
+    private static final int EQUIPMENT_SLOT_START_X = 178;
+    private static final int EQUIPMENT_SLOT_START_Y = 18;
+
 
     public CompanionInventoryScreen(CompanionInventoryMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
@@ -28,6 +37,7 @@ public class CompanionInventoryScreen extends AbstractContainerScreen<CompanionI
         int x = this.leftPos;
         int y = this.topPos;
         guiGraphics.blit(TEXTURE, x, y, 0, 0, 176, this.imageHeight);
+        this.renderEquipmentBackgrounds(guiGraphics, x, y);
     }
 
     @Override
@@ -39,4 +49,14 @@ public class CompanionInventoryScreen extends AbstractContainerScreen<CompanionI
 
     private void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
     }
+
+    private void renderEquipmentBackgrounds(GuiGraphics guiGraphics, int left, int top) {
+        for (int index = 0; index < EQUIPMENT_SLOT_COUNT; index++) {
+            int slotX = left + EQUIPMENT_SLOT_START_X;
+            int slotY = top + EQUIPMENT_SLOT_START_Y + index * SLOT_SPACING;
+            guiGraphics.fill(slotX - 1, slotY - 1, slotX + 17, slotY + 17, 0xFF8B8B8B);
+            guiGraphics.fill(slotX, slotY, slotX + 16, slotY + 16, 0xFF373737);
+        }
+    }
+
 }
