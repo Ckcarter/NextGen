@@ -3,6 +3,7 @@ package net.nextgen.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -33,10 +34,10 @@ public class CompanionRenderer extends HumanoidMobRenderer<CompanionEntity, Comp
         this.slimModel = new CompanionModel(context.bakeLayer(ModelLayers.PLAYER_SLIM), true);
 
 
-        HumanoidModel<CompanionEntity> innerArmorModel =
-                new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR));
-        HumanoidModel<CompanionEntity> outerArmorModel =
-                new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR));
+        PlayerModel<CompanionEntity> innerArmorModel =
+                new PlayerModel<>(context.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR), false);
+        PlayerModel<CompanionEntity> outerArmorModel =
+                new PlayerModel<>(context.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR), false);
         this.addLayer(new HumanoidArmorLayer<>(this, innerArmorModel, outerArmorModel));
     }
 
