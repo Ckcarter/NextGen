@@ -58,7 +58,7 @@ public class CompanionEntity extends TamableAnimal {
     public static final int INVENTORY_SIZE = 27;
 
     private final SimpleContainer inventory = new SimpleContainer(INVENTORY_SIZE);
-
+    private boolean hasDroppedSummonerToken;
 
     public CompanionEntity(EntityType<? extends TamableAnimal> entityType, Level level) {
         super(entityType, level);
@@ -269,9 +269,9 @@ public class CompanionEntity extends TamableAnimal {
         this.dropEquipmentItems();
         super.dropEquipment();
         this.dropStoredItems();
-        if (this.isTame()) {
-            this.dropItemWithoutDespawn(this.createSummonerToken());
-        }
+
+        this.dropSummonerTokenIfNeeded();
+
     }
 
 
@@ -353,6 +353,15 @@ public class CompanionEntity extends TamableAnimal {
         }
         return token;
     }
+
+    private void dropSummonerTokenIfNeeded() {
+        if (this.isTame() && !this.hasDroppedSummonerToken) {
+            this.dropItemWithoutDespawn(this.createSummonerToken());
+            this.hasDroppedSummonerToken = true;
+        }
+    }
+
+
 
 
 
