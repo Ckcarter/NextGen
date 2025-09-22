@@ -131,6 +131,7 @@ public class CompanionEntity extends TamableAnimal {
             }
         }
 
+        this.setOrderedToSit(false);
     }
 
     @Override
@@ -216,6 +217,14 @@ public class CompanionEntity extends TamableAnimal {
         this.dropAllCompanionItems(true);
         this.discard();
     }
+
+
+    @Override
+    public void tame(Player player) {
+        super.tame(player);
+        this.setOrderedToSit(false);
+    }
+
     private boolean canAcceptWeapon(ItemStack stack) {
         Item item = stack.getItem();
         return item instanceof TieredItem || item instanceof TridentItem;
