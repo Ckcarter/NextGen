@@ -305,8 +305,8 @@ public class CompanionEntity extends TamableAnimal {
     @Override
     public void die(DamageSource damageSource) {
         this.setCanPickUpLoot(false);
-        this.dropAllCompanionItems(this.isTame());
-        super.die(damageSource);
+        this.dropAllCompanionItems(false);
+        this.hasDroppedSummonerToken = true;
     }
 
     private void dropAllCompanionItems(boolean dropSummonerToken) {
