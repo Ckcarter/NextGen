@@ -277,7 +277,7 @@ public class CompanionEntity extends TamableAnimal {
 
 
     private void collectNearbyItems() {
-        if (this.isOrderedToSit()) {
+        if (this.isOrderedToSit() || this.isDeadOrDying()) {
             return;
         }
         AABB area = this.getBoundingBox().inflate(1.5D);
@@ -304,6 +304,7 @@ public class CompanionEntity extends TamableAnimal {
 
     @Override
     public void die(DamageSource damageSource) {
+        this.setCanPickUpLoot(false);
         this.dropAllCompanionItems(this.isTame());
         super.die(damageSource);
     }
