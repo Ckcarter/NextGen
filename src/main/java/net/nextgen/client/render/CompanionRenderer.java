@@ -12,7 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.nextgen.client.model.CompanionModel;
-
+import net.nextgen.client.render.layer.CompanionArmorLayer;
 import net.nextgen.client.skin.CompanionSkinManager;
 import net.nextgen.entity.custom.CompanionEntity;
 
@@ -37,6 +37,9 @@ public class CompanionRenderer extends HumanoidMobRenderer<CompanionEntity, Comp
 //        this.addLayer(new HumanoidArmorLayer<>(this,
 //                new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)),
 //                new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR))));
+
+        this.addLayer(new CompanionArmorLayer(this, context.getModelSet()));
+
     }
 
 
