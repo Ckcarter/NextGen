@@ -34,11 +34,11 @@ public class CompanionRenderer extends HumanoidMobRenderer<CompanionEntity, Comp
         this.slimModel = new CompanionModel(context.bakeLayer(ModelLayers.PLAYER_SLIM), true);
 
 
-        PlayerModel<CompanionEntity> innerArmorModel =
-                new PlayerModel<>(context.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR), false);
-        PlayerModel<CompanionEntity> outerArmorModel =
-                new PlayerModel<>(context.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR), false);
-        this.addLayer(new HumanoidArmorLayer<>(this, innerArmorModel, outerArmorModel));
+//        PlayerModel<CompanionEntity> innerArmorModel =
+//                new PlayerModel<>(context.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR), false);
+//        PlayerModel<CompanionEntity> outerArmorModel =
+//                new PlayerModel<>(context.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR), false);
+      //  this.addLayer(new HumanoidArmorLayer<>(this, innerArmorModel, outerArmorModel));
     }
 
 
