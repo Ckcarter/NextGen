@@ -2,17 +2,15 @@ package net.nextgen.client.render;
 
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.HumanoidMobRenderer;
-import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.nextgen.client.model.CompanionModel;
+import net.nextgen.client.render.layer.CompanionArmorLayer;
 import net.nextgen.client.skin.CompanionSkinManager;
 import net.nextgen.entity.custom.CompanionEntity;
 
@@ -34,16 +32,17 @@ public class CompanionRenderer extends HumanoidMobRenderer<CompanionEntity, Comp
         this.slimModel = new CompanionModel(context.bakeLayer(ModelLayers.PLAYER_SLIM), true);
 
 
-        PlayerModel<CompanionEntity> innerArmorModel =
-                new PlayerModel<>(context.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR), false);
-
-        PlayerModel<CompanionEntity> CompanionModel =
-                new PlayerModel<>(context.bakeLayer(ModelLayers.PLAYER), false);
-
-
-        PlayerModel<CompanionEntity> outerArmorModel =
-                new PlayerModel<>(context.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR), false);
-        this.addLayer(new HumanoidArmorLayer<>(this, innerArmorModel, outerArmorModel,CompanionModel));
+//        PlayerModel<CompanionEntity> innerArmorModel =
+//                new PlayerModel<>(context.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR), false);
+//
+//        PlayerModel<CompanionEntity> CompanionModel =
+//                new PlayerModel<>(context.bakeLayer(ModelLayers.PLAYER), false);
+//
+//
+//        PlayerModel<CompanionEntity> outerArmorModel =
+//                new PlayerModel<>(context.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR), false);
+//        this.addLayer(new HumanoidArmorLayer<>(this, innerArmorModel, outerArmorModel));
+        this.addLayer(new CompanionArmorLayer(this, context));
     }
 
 
