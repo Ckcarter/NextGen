@@ -21,7 +21,7 @@ import net.nextgen.entity.custom.CompanionEntity;
  * baked armor models when the companion is using a slim skin.
  */
 @OnlyIn(Dist.CLIENT)
-public class CompanionArmorLayer extends HumanoidArmorLayer<CompanionEntity, PlayerModel<CompanionEntity>, CompanionModel> {
+public class CompanionArmorLayer extends HumanoidArmorLayer<CompanionEntity, CompanionModel, PlayerModel<CompanionEntity>> {
 
     private static final ModelLayerLocation SLIM_INNER_ARMOR =
             new ModelLayerLocation(new ResourceLocation("minecraft", "player_slim_inner_armor"), "main");
@@ -33,8 +33,7 @@ public class CompanionArmorLayer extends HumanoidArmorLayer<CompanionEntity, Pla
 
     public CompanionArmorLayer(RenderLayerParent<CompanionEntity, CompanionModel> parent,
                                EntityModelSet modelSet) {
-        super(parent,
-                new PlayerModel<>(modelSet.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR), false),
+        super(parent, new PlayerModel<>(modelSet.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR), false),
                 new PlayerModel<>(modelSet.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR), false));
         this.slimInnerModel = bakeSlimModel(modelSet, SLIM_INNER_ARMOR, ModelLayers.PLAYER_INNER_ARMOR);
         this.slimOuterModel = bakeSlimModel(modelSet, SLIM_OUTER_ARMOR, ModelLayers.PLAYER_OUTER_ARMOR);
@@ -53,13 +52,11 @@ public class CompanionArmorLayer extends HumanoidArmorLayer<CompanionEntity, Pla
                                                               ModelLayerLocation location,
                                                               ModelLayerLocation fallback) {
         ModelPart part;
-        boolean slim = true;
         try {
             part = modelSet.bakeLayer(location);
-        } catch (IllegalArgumentException | IllegalStateException ignored) {
+        } catch (IllegalArgumentException ignored) {
             part = modelSet.bakeLayer(fallback);
-            slim = false;
         }
-        return new PlayerModel<>(part, slim);
+        return new PlayerModel<>(part, true);
     }
 }
