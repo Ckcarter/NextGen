@@ -1,5 +1,6 @@
 package net.nextgen.client.render.layer;
 
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -21,42 +22,52 @@ import net.nextgen.entity.custom.CompanionEntity;
  * baked armor models when the companion is using a slim skin.
  */
 @OnlyIn(Dist.CLIENT)
-public class CompanionArmorLayer extends HumanoidArmorLayer<CompanionEntity, CompanionModel, PlayerModel<CompanionEntity>> {
+public class CompanionArmorLayer extends HumanoidArmorLayer<CompanionEntity, CompanionModel, HumanoidModel<CompanionEntity>> {
 
-    private static final ModelLayerLocation SLIM_INNER_ARMOR =
-            new ModelLayerLocation(new ResourceLocation("minecraft", "player_slim_inner_armor"), "main");
-    private static final ModelLayerLocation SLIM_OUTER_ARMOR =
-            new ModelLayerLocation(new ResourceLocation("minecraft", "player_slim_outer_armor"), "main");
-
-    private final PlayerModel<CompanionEntity> slimInnerModel;
-    private final PlayerModel<CompanionEntity> slimOuterModel;
+    private final HumanoidModel<CompanionEntity> slimInnerModel;
+    private final HumanoidModel<CompanionEntity> slimOuterModel;
 
     public CompanionArmorLayer(RenderLayerParent<CompanionEntity, CompanionModel> parent,
                                EntityModelSet modelSet) {
-        super(parent, new PlayerModel<>(modelSet.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR), false),
-                new PlayerModel<>(modelSet.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR), false));
-        this.slimInnerModel = bakeSlimModel(modelSet, SLIM_INNER_ARMOR, ModelLayers.PLAYER_INNER_ARMOR);
-        this.slimOuterModel = bakeSlimModel(modelSet, SLIM_OUTER_ARMOR, ModelLayers.PLAYER_OUTER_ARMOR);
+        this(parent,
+                new HumanoidModel<>(modelSet.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)),
+                new HumanoidModel<>(modelSet.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR)),
+                bakeSlimModel(modelSet, ModelLayers.PLAYER_SLIM_INNER_ARMOR, ModelLayers.PLAYER_INNER_ARMOR),
+                bakeSlimModel(modelSet, ModelLayers.PLAYER_SLIM_OUTER_ARMOR, ModelLayers.PLAYER_OUTER_ARMOR));
+    }
+
+    private CompanionArmorLayer(RenderLayerParent<CompanionEntity, CompanionModel> parent,
+                                HumanoidModel<CompanionEntity> defaultInnerModel,
+                                HumanoidModel<CompanionEntity> defaultOuterModel,
+                                HumanoidModel<CompanionEntity> slimInnerModel,
+                                HumanoidModel<CompanionEntity> slimOuterModel) {
+        super(parent, defaultInnerModel, defaultOuterModel);
+        this.slimInnerModel = slimInnerModel;
+        this.slimOuterModel = slimOuterModel;
     }
 
     @Override
-    protected PlayerModel<CompanionEntity> getArmorModelHook(CompanionEntity entity, ItemStack stack,
-                                                             EquipmentSlot slot, PlayerModel<CompanionEntity> original) {
+    protected HumanoidModel<CompanionEntity> getArmorModelHook(CompanionEntity entity, ItemStack stack,
+                                                               EquipmentSlot slot, HumanoidModel<CompanionEntity> original) {
+        HumanoidModel<CompanionEntity> baseModel = super.getArmorModelHook(entity, stack, slot, original);
         if (!CompanionSkinManager.usesSlimModel(entity)) {
-            return super.getArmorModelHook(entity, stack, slot, original);
+            return baseModel;
         }
-        return slot == EquipmentSlot.LEGS ? this.slimInnerModel : this.slimOuterModel;
+
+        HumanoidModel<CompanionEntity> slimModel = slot == EquipmentSlot.LEGS ? this.slimInnerModel : this.slimOuterModel;
+        baseModel.copyPropertiesTo(slimModel);
+        return slimModel;
     }
 
-    private static PlayerModel<CompanionEntity> bakeSlimModel(EntityModelSet modelSet,
-                                                              ModelLayerLocation location,
-                                                              ModelLayerLocation fallback) {
+    private static HumanoidModel<CompanionEntity> bakeSlimModel(EntityModelSet modelSet,
+                                                                ModelLayerLocation location,
+                                                                ModelLayerLocation fallback) {
         ModelPart part;
         try {
             part = modelSet.bakeLayer(location);
         } catch (IllegalArgumentException ignored) {
             part = modelSet.bakeLayer(fallback);
         }
-        return new PlayerModel<>(part, true);
+        return new HumanoidModel<>(part);
     }
 }
