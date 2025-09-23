@@ -49,7 +49,7 @@ public class CompanionArmorLayer extends HumanoidArmorLayer<CompanionEntity, Com
     @Override
     protected HumanoidModel<CompanionEntity> getArmorModelHook(CompanionEntity entity, ItemStack stack,
                                                                EquipmentSlot slot, HumanoidModel<CompanionEntity> original) {
-        HumanoidModel<CompanionEntity> baseModel = super.getArmorModelHook(entity, stack, slot, original);
+        HumanoidModel<CompanionEntity> baseModel = (HumanoidModel<CompanionEntity>) super.getArmorModelHook(entity, stack, slot, original);
         if (!CompanionSkinManager.usesSlimModel(entity)) {
             return baseModel;
         }
