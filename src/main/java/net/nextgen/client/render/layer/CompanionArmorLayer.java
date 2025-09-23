@@ -53,11 +53,13 @@ public class CompanionArmorLayer extends HumanoidArmorLayer<CompanionEntity, Com
                                                               ModelLayerLocation location,
                                                               ModelLayerLocation fallback) {
         ModelPart part;
+        boolean slim = true;
         try {
             part = modelSet.bakeLayer(location);
-        } catch (IllegalArgumentException ignored) {
+        } catch (IllegalArgumentException | IllegalStateException ignored) {
             part = modelSet.bakeLayer(fallback);
+            slim = false;
         }
-        return new PlayerModel<>(part, true);
+        return new PlayerModel<>(part, slim);
     }
 }
