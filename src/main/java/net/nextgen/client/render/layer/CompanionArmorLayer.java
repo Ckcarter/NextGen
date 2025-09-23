@@ -1,45 +1,63 @@
 package net.nextgen.client.render.layer;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.EntityModelSet;
+import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelLayers;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
-import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.nextgen.client.model.CompanionModel;
 import net.nextgen.client.skin.CompanionSkinManager;
 import net.nextgen.entity.custom.CompanionEntity;
 
+/**
+ * Armor layer that mirrors the vanilla player implementation but swaps the
+ * baked armor models when the companion is using a slim skin.
+ */
 @OnlyIn(Dist.CLIENT)
-public class CompanionArmorLayer extends RenderLayer<CompanionEntity, CompanionModel> {
+public class CompanionArmorLayer extends HumanoidArmorLayer<CompanionEntity, CompanionModel, PlayerModel<CompanionEntity>> {
 
-    private final HumanoidArmorLayer<CompanionEntity, CompanionModel, PlayerModel<CompanionEntity>> defaultLayer;
-    private final HumanoidArmorLayer<CompanionEntity, CompanionModel, PlayerModel<CompanionEntity>> slimLayer;
+    private static final ModelLayerLocation SLIM_INNER_ARMOR =
+            new ModelLayerLocation(new ResourceLocation("minecraft", "player_slim_inner_armor"), "main");
+    private static final ModelLayerLocation SLIM_OUTER_ARMOR =
+            new ModelLayerLocation(new ResourceLocation("minecraft", "player_slim_outer_armor"), "main");
 
-    public CompanionArmorLayer(RenderLayerParent<CompanionEntity, CompanionModel> parent, EntityModelSet modelSet) {
-        super(parent);
-        PlayerModel<CompanionEntity> defaultInner = new PlayerModel<>(modelSet.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR), false);
-        PlayerModel<CompanionEntity> defaultOuter = new PlayerModel<>(modelSet.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR), false);
-        PlayerModel<CompanionEntity> slimInner = new PlayerModel<>(modelSet.bakeLayer(ModelLayers.PLAYER_SLIM_INNER_ARMOR), true);
-        PlayerModel<CompanionEntity> slimOuter = new PlayerModel<>(modelSet.bakeLayer(ModelLayers.PLAYER_SLIM_OUTER_ARMOR), true);
-        this.defaultLayer = new HumanoidArmorLayer<>(parent, defaultInner, defaultOuter);
-        this.slimLayer = new HumanoidArmorLayer<>(parent, slimInner, slimOuter);
+    private final PlayerModel<CompanionEntity> slimInnerModel;
+    private final PlayerModel<CompanionEntity> slimOuterModel;
+
+    public CompanionArmorLayer(RenderLayerParent<CompanionEntity, CompanionModel> parent,
+                               EntityModelSet modelSet) {
+        super(parent,
+                new PlayerModel<>(modelSet.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR), false),
+                new PlayerModel<>(modelSet.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR), false));
+        this.slimInnerModel = bakeSlimModel(modelSet, SLIM_INNER_ARMOR, ModelLayers.PLAYER_INNER_ARMOR);
+        this.slimOuterModel = bakeSlimModel(modelSet, SLIM_OUTER_ARMOR, ModelLayers.PLAYER_OUTER_ARMOR);
     }
 
     @Override
-    public void render(PoseStack poseStack, MultiBufferSource buffer, int packedLight, CompanionEntity entity,
-                       float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks,
-                       float netHeadYaw, float headPitch) {
-        if (CompanionSkinManager.usesSlimModel(entity)) {
-            this.slimLayer.render(poseStack, buffer, packedLight, entity, limbSwing, limbSwingAmount, partialTick,
-                    ageInTicks, netHeadYaw, headPitch);
-        } else {
-            this.defaultLayer.render(poseStack, buffer, packedLight, entity, limbSwing, limbSwingAmount, partialTick,
-                    ageInTicks, netHeadYaw, headPitch);
+    protected PlayerModel<CompanionEntity> getArmorModelHook(CompanionEntity entity, ItemStack stack,
+                                                             EquipmentSlot slot, PlayerModel<CompanionEntity> original) {
+        if (!CompanionSkinManager.usesSlimModel(entity)) {
+            return super.getArmorModelHook(entity, stack, slot, original);
         }
+        return slot == EquipmentSlot.LEGS ? this.slimInnerModel : this.slimOuterModel;
+    }
+
+    private static PlayerModel<CompanionEntity> bakeSlimModel(EntityModelSet modelSet,
+                                                              ModelLayerLocation location,
+                                                              ModelLayerLocation fallback) {
+        ModelPart part;
+        try {
+            part = modelSet.bakeLayer(location);
+        } catch (IllegalArgumentException ignored) {
+            part = modelSet.bakeLayer(fallback);
+        }
+        return new PlayerModel<>(part, true);
     }
 }
