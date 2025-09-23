@@ -21,7 +21,7 @@ import net.nextgen.entity.custom.CompanionEntity;
  * baked armor models when the companion is using a slim skin.
  */
 @OnlyIn(Dist.CLIENT)
-public class CompanionArmorLayer extends HumanoidArmorLayer<CompanionEntity, CompanionModel, PlayerModel<CompanionEntity>> {
+public class CompanionArmorLayer extends HumanoidArmorLayer<CompanionEntity, PlayerModel<CompanionEntity>, CompanionModel> {
 
     private static final ModelLayerLocation SLIM_INNER_ARMOR =
             new ModelLayerLocation(new ResourceLocation("minecraft", "player_slim_inner_armor"), "main");
