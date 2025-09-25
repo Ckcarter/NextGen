@@ -2,7 +2,6 @@ package net.nextgen.client.renderer;
 
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -11,7 +10,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.nextgen.client.model.CompanionModel;
-import net.nextgen.client.render.layer.CompanionArmorLayer;
+
+//import net.nextgen.client.renderer.layer.CompanionArmorLayer;
 import net.nextgen.client.skin.CompanionSkinManager;
 import net.nextgen.entity.custom.CompanionEntity;
 
@@ -33,8 +33,8 @@ public class CompanionRenderer extends HumanoidMobRenderer<CompanionEntity, Comp
         this.slimModel = new CompanionModel(context.bakeLayer(ModelLayers.PLAYER_SLIM), true);
 
 
-        //this.addLayer(new CompanionArmorLayer(this, context.getModelSet()));
-        this.addLayer(new CompanionArmorLayer(this, context.getModelSet()));
+//        this.addLayer(new CompanionArmorLayer(this, context.getModelSet()));
+
     }
 
 

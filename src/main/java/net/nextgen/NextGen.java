@@ -3,6 +3,7 @@ package net.nextgen;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.world.item.CreativeModeTabs;
+import net.nextgen.client.renderer.CompanionRenderer;
 import net.nextgen.client.screen.CompanionInventoryScreen;
 import net.nextgen.menu.ModMenuTypes;
 import net.nextgen.network.ModMessages;
@@ -27,7 +28,7 @@ import net.minecraftforge.registries.RegistryObject;
 import net.nextgen.entity.ModEntityTypes;
 import org.slf4j.Logger;
 import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.nextgen.client.render.CompanionRenderer;
+
 import net.nextgen.item.CompanionSummonerItem;
 
 
