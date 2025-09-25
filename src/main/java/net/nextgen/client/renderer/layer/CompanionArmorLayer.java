@@ -1,4 +1,5 @@
-package net.nextgen.client.render.layer;
+package net.nextgen.client.renderer.layer;
+
 
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.EntityModelSet;

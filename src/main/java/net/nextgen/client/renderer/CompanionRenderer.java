@@ -1,4 +1,4 @@
-package net.nextgen.client.render;
+package net.nextgen.client.renderer;
 
 
 import com.mojang.blaze3d.vertex.PoseStack;
