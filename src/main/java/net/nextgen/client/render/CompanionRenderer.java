@@ -34,8 +34,7 @@ public class CompanionRenderer extends HumanoidMobRenderer<CompanionEntity, Comp
 
 
         //this.addLayer(new CompanionArmorLayer(this, context.getModelSet()));
-        this.addLayer(new CompanionArmorLayer(this, context.getModelSet(), false));
-        this.addLayer(new CompanionArmorLayer(this, context.getModelSet(), true));
+        this.addLayer(new CompanionArmorLayer(this, context.getModelSet()));
     }
 
 
