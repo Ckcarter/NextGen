@@ -55,7 +55,7 @@ public class CompanionEntity extends TamableAnimal {
 
 
     private static final String INVENTORY_TAG = "Inventory";
-    public static final int INVENTORY_SIZE = 27;
+    public static final int INVENTORY_SIZE = 54;
 
     private final SimpleContainer inventory = new SimpleContainer(INVENTORY_SIZE);
     private boolean hasDroppedSummonerToken;

@@ -11,7 +11,7 @@ import net.nextgen.menu.CompanionInventoryMenu;
 public class CompanionInventoryScreen extends AbstractContainerScreen<CompanionInventoryMenu> {
 
     private static final ResourceLocation TEXTURE = new ResourceLocation("minecraft",
-            "textures/gui/container/shulker_box.png");
+            "textures/gui/container/generic_54.png");
 
 
 
@@ -24,7 +24,7 @@ public class CompanionInventoryScreen extends AbstractContainerScreen<CompanionI
     public CompanionInventoryScreen(CompanionInventoryMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
         this.imageWidth = 202;
-        this.imageHeight = 168;
+        this.imageHeight = 114 + menu.getCompanionRowCount() * SLOT_SPACING;
         this.titleLabelX = 8;
         this.titleLabelY = 6;
         this.inventoryLabelX = 8;

@@ -14,8 +14,9 @@ import net.nextgen.entity.custom.CompanionEntity;
 public class CompanionInventoryMenu extends AbstractContainerMenu {
 
     private static final int HOTBAR_SLOT_COUNT = 9;
-    private static final int COMPANION_ROWS = 3;
+
     private static final int COMPANION_COLUMNS = 9;
+    private static final int COMPANION_ROWS = CompanionEntity.INVENTORY_SIZE / COMPANION_COLUMNS;
     private static final int PLAYER_INVENTORY_ROWS = 3;
     private static final int SLOT_SPACING = 18;
     private static final int COMPANION_SLOT_START_X = 8;
@@ -38,6 +39,11 @@ public class CompanionInventoryMenu extends AbstractContainerMenu {
     private static final int PLAYER_INVENTORY_END = PLAYER_INVENTORY_START + PLAYER_INVENTORY_SLOT_COUNT;
     private static final int PLAYER_HOTBAR_START = PLAYER_INVENTORY_END;
     private static final int PLAYER_HOTBAR_END = PLAYER_HOTBAR_START + HOTBAR_SLOT_COUNT;
+
+
+    private static final int PLAYER_INVENTORY_START_Y =
+            COMPANION_SLOT_START_Y + COMPANION_ROWS * SLOT_SPACING + 12;
+    private static final int PLAYER_HOTBAR_Y = PLAYER_INVENTORY_START_Y + PLAYER_INVENTORY_ROWS * SLOT_SPACING + 4;
 
     private final CompanionEntity companion;
     private final SimpleContainer companionInventory;
@@ -103,16 +109,21 @@ public class CompanionInventoryMenu extends AbstractContainerMenu {
             for (int column = 0; column < 9; column++) {
                 int slotIndex = column + row * 9 + HOTBAR_SLOT_COUNT;
                 int x = 8 + column * SLOT_SPACING;
-                int y = 84 + row * SLOT_SPACING;
+                int y = PLAYER_INVENTORY_START_Y + row * SLOT_SPACING;
                 this.addSlot(new Slot(playerInventory, slotIndex, x, y));
             }
         }
 
         for (int column = 0; column < 9; column++) {
             int x = 8 + column * SLOT_SPACING;
-            int y = 142;
+            int y = PLAYER_HOTBAR_Y;
             this.addSlot(new Slot(playerInventory, column, x, y));
         }
+    }
+
+
+    public int getCompanionRowCount() {
+        return COMPANION_ROWS;
     }
 
     @Override
