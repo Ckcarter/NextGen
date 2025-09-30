@@ -205,6 +205,23 @@ public class CompanionEntity extends TamableAnimal {
             return InteractionResult.sidedSuccess(this.level().isClientSide);
         }
 
+
+        if (!stack.isEmpty() && this.isOwnedBy(player)) {
+            if (this.level().isClientSide) {
+                return this.hasInventorySpaceFor(stack)
+                        ? InteractionResult.SUCCESS
+                        : InteractionResult.PASS;
+            }
+            int inserted = this.storeItemInInventory(stack);
+            if (inserted > 0) {
+                if (!player.isCreative()) {
+                    stack.shrink(inserted);
+                }
+                return InteractionResult.CONSUME;
+            }
+        }
+
+
         return super.mobInteract(player, hand);
     }
 
@@ -375,6 +392,38 @@ public class CompanionEntity extends TamableAnimal {
     public void setSkinName(@Nullable String name) {
         this.entityData.set(DATA_SKIN, name == null ? "" : name);
     }
+
+    private boolean hasInventorySpaceFor(ItemStack stack) {
+        if (stack.isEmpty()) {
+            return false;
+        }
+        for (int slot = 0; slot < this.inventory.getContainerSize(); slot++) {
+            ItemStack current = this.inventory.getItem(slot);
+            if (current.isEmpty()) {
+                return true;
+            }
+            if (ItemStack.isSameItemSameTags(current, stack)) {
+                int maxStackSize = Math.min(current.getMaxStackSize(), this.inventory.getMaxStackSize());
+                if (current.getCount() < maxStackSize) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private int storeItemInInventory(ItemStack stack) {
+        if (stack.isEmpty()) {
+            return 0;
+        }
+        ItemStack copy = stack.copy();
+        int originalCount = copy.getCount();
+        ItemStack remainder = this.inventory.addItem(copy);
+        int remaining = remainder.isEmpty() ? 0 : remainder.getCount();
+        return originalCount - remaining;
+    }
+
+
 
     @Override
     public boolean isFood(ItemStack stack) {
