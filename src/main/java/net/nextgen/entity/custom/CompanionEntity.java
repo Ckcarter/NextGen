@@ -83,7 +83,7 @@ public class CompanionEntity extends TamableAnimal implements RangedAttackMob {
         this.goalSelector.addGoal(1, new SitWhenOrderedToGoal(this));
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.2D, true));
 
-        //this.goalSelector.addGoal(2, this.meleeAttackGoal);
+//        this.goalSelector.addGoal(2, this.meleeAttackGoal);
 
         this.goalSelector.addGoal(3, new FollowOwnerGoal(this, 1.15D, 5.0F, 2.0F, false));
         this.goalSelector.addGoal(4, new WaterAvoidingRandomStrollGoal(this, 1.0D));
@@ -94,7 +94,7 @@ public class CompanionEntity extends TamableAnimal implements RangedAttackMob {
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Monster.class, true));
 
-        //this.updateAttackGoal();
+//        this.updateAttackGoal();
 
     }
 
@@ -294,6 +294,7 @@ public class CompanionEntity extends TamableAnimal implements RangedAttackMob {
     public void aiStep() {
         super.aiStep();
         if (!this.level().isClientSide) {
+            this.updateWeaponChoice();
             this.collectNearbyItems();
         }
     }
@@ -563,5 +564,120 @@ public class CompanionEntity extends TamableAnimal implements RangedAttackMob {
             }
         }
 
+    }
+
+
+
+    private void updateWeaponChoice() {
+        LivingEntity target = this.getTarget();
+        ItemStack mainHand = this.getMainHandItem();
+
+        if (this.shouldUseRangedWeapon(target)) {
+            if (!this.isRangedWeapon(mainHand)) {
+                int slot = this.findRangedWeaponSlot();
+                if (slot >= 0) {
+                    this.swapMainHandWithInventorySlot(slot);
+                    mainHand = this.getMainHandItem();
+                }
+            }
+
+            if (this.isRangedWeapon(mainHand)
+                    && mainHand.getItem() instanceof ProjectileWeaponItem projectileWeaponItem
+                    && !this.hasProjectileFor(projectileWeaponItem)) {
+                int meleeSlot = this.findMeleeWeaponSlot();
+                if (meleeSlot >= 0) {
+                    this.swapMainHandWithInventorySlot(meleeSlot);
+                }
+            }
+        } else {
+            if (this.isRangedWeapon(mainHand)) {
+                int meleeSlot = this.findMeleeWeaponSlot();
+                if (meleeSlot >= 0) {
+                    this.swapMainHandWithInventorySlot(meleeSlot);
+                }
+            } else if (mainHand.isEmpty()) {
+                int meleeSlot = this.findMeleeWeaponSlot();
+                if (meleeSlot >= 0) {
+                    this.swapMainHandWithInventorySlot(meleeSlot);
+                }
+            }
+        }
+    }
+
+    private boolean shouldUseRangedWeapon(@Nullable LivingEntity target) {
+        if (target == null || !target.isAlive()) {
+            return false;
+        }
+
+        double distance = this.distanceToSqr(target);
+        if (distance <= 16.0D) {
+            return false;
+        }
+
+        ItemStack mainHand = this.getMainHandItem();
+        if (this.isRangedWeapon(mainHand)
+                && mainHand.getItem() instanceof ProjectileWeaponItem projectileWeaponItem
+                && this.hasProjectileFor(projectileWeaponItem)) {
+            return true;
+        }
+
+        int slot = this.findRangedWeaponSlot();
+        if (slot < 0) {
+            return false;
+        }
+
+        ItemStack stack = this.inventory.getItem(slot);
+        if (!(stack.getItem() instanceof ProjectileWeaponItem projectileWeaponItem)) {
+            return false;
+        }
+
+        return this.hasProjectileFor(projectileWeaponItem);
+    }
+
+    private boolean hasProjectileFor(ProjectileWeaponItem weaponItem) {
+        if (weaponItem.getSupportedHeldProjectiles().test(this.getOffhandItem())) {
+            return true;
+        }
+        return this.findProjectileSlot(weaponItem) >= 0;
+    }
+
+    private boolean isRangedWeapon(ItemStack stack) {
+        return stack.getItem() instanceof BowItem;
+    }
+
+    private int findRangedWeaponSlot() {
+        for (int slot = 0; slot < this.inventory.getContainerSize(); slot++) {
+            ItemStack stack = this.inventory.getItem(slot);
+            if (!stack.isEmpty() && stack.getItem() instanceof BowItem) {
+                return slot;
+            }
+        }
+        return -1;
+    }
+
+    private int findMeleeWeaponSlot() {
+        for (int slot = 0; slot < this.inventory.getContainerSize(); slot++) {
+            ItemStack stack = this.inventory.getItem(slot);
+            if (!stack.isEmpty() && (stack.getItem() instanceof TieredItem
+                    || stack.getItem() instanceof TridentItem)) {
+                return slot;
+            }
+        }
+        return -1;
+    }
+
+    private void swapMainHandWithInventorySlot(int slot) {
+        if (slot < 0 || slot >= this.inventory.getContainerSize()) {
+            return;
+        }
+
+        ItemStack inventoryStack = this.inventory.getItem(slot);
+        if (inventoryStack.isEmpty()) {
+            return;
+        }
+
+        ItemStack mainHand = this.getMainHandItem();
+        this.inventory.setItem(slot, mainHand);
+        this.setItemSlot(EquipmentSlot.MAINHAND, inventoryStack);
     }
 }
