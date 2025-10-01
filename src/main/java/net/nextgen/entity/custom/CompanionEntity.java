@@ -14,31 +14,25 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.TamableAnimal;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.FollowOwnerGoal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.SitWhenOrderedToGoal;
-import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
@@ -48,7 +42,7 @@ import net.nextgen.item.CompanionSummonerItem;
 import net.nextgen.menu.CompanionInventoryMenu;
 import net.nextgen.menu.CompanionSkinMenu;
 
-public class CompanionEntity extends TamableAnimal {
+public class CompanionEntity extends TamableAnimal implements RangedAttackMob {
 
     private static final EntityDataAccessor<String> DATA_SKIN =
             SynchedEntityData.defineId(CompanionEntity.class, EntityDataSerializers.STRING);
@@ -60,10 +54,18 @@ public class CompanionEntity extends TamableAnimal {
     private final SimpleContainer inventory = new SimpleContainer(INVENTORY_SIZE);
     private boolean hasDroppedSummonerToken;
 
+    private final MeleeAttackGoal meleeAttackGoal;
+    private final RangedBowAttackGoal<CompanionEntity> bowAttackGoal;
+
+
     public CompanionEntity(EntityType<? extends TamableAnimal> entityType, Level level) {
         super(entityType, level);
         this.setPersistenceRequired();
         this.setCanPickUpLoot(true);
+        this.meleeAttackGoal = new MeleeAttackGoal(this, 1.2D, true);
+        this.bowAttackGoal = new RangedBowAttackGoal<>(this, 1.15D, 20, 15.0F);
+
+
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -79,6 +81,9 @@ public class CompanionEntity extends TamableAnimal {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new SitWhenOrderedToGoal(this));
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.2D, true));
+
+        //this.goalSelector.addGoal(2, this.meleeAttackGoal);
+
         this.goalSelector.addGoal(3, new FollowOwnerGoal(this, 1.15D, 5.0F, 2.0F, false));
         this.goalSelector.addGoal(4, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 8.0F));
@@ -87,6 +92,9 @@ public class CompanionEntity extends TamableAnimal {
         this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Monster.class, true));
+
+        //this.updateAttackGoal();
+
     }
 
     @Override
@@ -94,6 +102,10 @@ public class CompanionEntity extends TamableAnimal {
         super.defineSynchedData();
         this.entityData.define(DATA_SKIN, "");
     }
+
+
+
+
 
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
@@ -132,6 +144,9 @@ public class CompanionEntity extends TamableAnimal {
         }
 
         this.setOrderedToSit(false);
+        if (!this.level().isClientSide) {
+            this.updateAttackGoal();
+        }
     }
 
     @Override
@@ -197,7 +212,6 @@ public class CompanionEntity extends TamableAnimal {
         }
 
 
-
         if (!stack.isEmpty() && this.canAcceptWeapon(stack) && this.isOwnedBy(player)) {
             if (!this.level().isClientSide) {
                 this.equipItem(player, EquipmentSlot.MAINHAND, stack);
@@ -244,8 +258,12 @@ public class CompanionEntity extends TamableAnimal {
 
     private boolean canAcceptWeapon(ItemStack stack) {
         Item item = stack.getItem();
-        return item instanceof TieredItem || item instanceof TridentItem;
+        return item instanceof TieredItem
+                || item instanceof TridentItem
+                || item instanceof BowItem
+                || item instanceof CrossbowItem;
     }
+
     private boolean canAcceptArmor(ItemStack stack) {
         return stack.getItem() instanceof ArmorItem;
     }
@@ -290,7 +308,6 @@ public class CompanionEntity extends TamableAnimal {
         this.dropSummonerTokenIfNeeded();
 
     }
-
 
 
     private void collectNearbyItems() {
@@ -379,9 +396,6 @@ public class CompanionEntity extends TamableAnimal {
     }
 
 
-
-
-
     private void dropItemWithoutDespawn(ItemStack stack) {
         ItemEntity itemEntity = this.spawnAtLocation(stack);
         if (itemEntity != null) {
@@ -424,7 +438,6 @@ public class CompanionEntity extends TamableAnimal {
     }
 
 
-
     @Override
     public boolean isFood(ItemStack stack) {
         return false;
@@ -434,5 +447,52 @@ public class CompanionEntity extends TamableAnimal {
     @Override
     public AgeableMob getBreedOffspring(ServerLevel level, AgeableMob partner) {
         return null;
+    }
+
+
+
+
+    @Override
+    public void setItemSlot(EquipmentSlot slot, ItemStack stack) {
+        super.setItemSlot(slot, stack);
+        if (!this.level().isClientSide && slot == EquipmentSlot.MAINHAND) {
+            this.updateAttackGoal();
+        }
+    }
+
+    private void updateAttackGoal() {
+        this.goalSelector.removeGoal(this.meleeAttackGoal);
+        this.goalSelector.removeGoal(this.bowAttackGoal);
+
+        ItemStack mainHand = this.getMainHandItem();
+        if (mainHand.getItem() instanceof BowItem) {
+            this.goalSelector.addGoal(2, this.bowAttackGoal);
+        } else {
+            this.goalSelector.addGoal(2, this.meleeAttackGoal);
+        }
+    }
+
+    @Override
+    public void performRangedAttack(LivingEntity target, float distanceFactor) {
+        ItemStack weapon = this.getItemInHand(
+                ProjectileUtil.getWeaponHoldingHand(this, item -> item instanceof BowItem));
+        ItemStack projectile = this.getProjectile(weapon);
+        AbstractArrow arrow = ProjectileUtil.getMobArrow(this, projectile, distanceFactor);
+        if (arrow == null) {
+            return;
+        }
+        if (weapon.getItem() instanceof BowItem bowItem) {
+            arrow = bowItem.customArrow(arrow);
+        }
+
+        double dx = target.getX() - this.getX();
+        double dz = target.getZ() - this.getZ();
+        double dy = target.getY(0.3333333333333333D) - arrow.getY();
+        double horizontalDistance = Math.sqrt(dx * dx + dz * dz);
+        arrow.shoot(dx, dy + horizontalDistance * 0.2D, dz, 1.6F,
+                (float) (14 - this.level().getDifficulty().getId() * 4));
+        this.playSound(SoundEvents.SKELETON_SHOOT, 1.0F,
+                1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
+        this.level().addFreshEntity(arrow);
     }
 }
