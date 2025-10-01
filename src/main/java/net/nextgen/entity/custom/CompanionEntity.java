@@ -2,6 +2,7 @@ package net.nextgen.entity.custom;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 import javax.annotation.Nullable;
 
@@ -476,8 +477,27 @@ public class CompanionEntity extends TamableAnimal implements RangedAttackMob {
     public void performRangedAttack(LivingEntity target, float distanceFactor) {
         ItemStack weapon = this.getItemInHand(
                 ProjectileUtil.getWeaponHoldingHand(this, item -> item instanceof BowItem));
-        ItemStack projectile = this.getProjectile(weapon);
-        AbstractArrow arrow = ProjectileUtil.getMobArrow(this, projectile, distanceFactor);
+
+
+        if (!(weapon.getItem() instanceof ProjectileWeaponItem projectileWeaponItem)) {
+            return;
+        }
+
+        int projectileSlot = this.findProjectileSlot(projectileWeaponItem);
+        if (projectileSlot < 0) {
+            return;
+        }
+
+        ItemStack projectileStack = this.inventory.getItem(projectileSlot);
+        if (projectileStack.isEmpty()) {
+            return;
+        }
+
+        ItemStack projectileCopy = projectileStack.copy();
+        projectileCopy.setCount(1);
+
+        AbstractArrow arrow = ProjectileUtil.getMobArrow(this, projectileCopy, distanceFactor);
+
         if (arrow == null) {
             return;
         }
@@ -494,5 +514,54 @@ public class CompanionEntity extends TamableAnimal implements RangedAttackMob {
         this.playSound(SoundEvents.SKELETON_SHOOT, 1.0F,
                 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
         this.level().addFreshEntity(arrow);
+
+
+        this.consumeProjectileFromSlot(projectileSlot);
+    }
+
+    @Override
+    public ItemStack getProjectile(ItemStack weapon) {
+        if (!(weapon.getItem() instanceof ProjectileWeaponItem projectileWeaponItem)) {
+            return ItemStack.EMPTY;
+        }
+
+        int slot = this.findProjectileSlot(projectileWeaponItem);
+        if (slot < 0) {
+            return ItemStack.EMPTY;
+        }
+
+        ItemStack stack = this.inventory.getItem(slot);
+        if (stack.isEmpty()) {
+            return ItemStack.EMPTY;
+        }
+
+        ItemStack copy = stack.copy();
+        copy.setCount(1);
+        return copy;
+    }
+
+    private int findProjectileSlot(ProjectileWeaponItem weaponItem) {
+        Predicate<ItemStack> predicate = weaponItem.getSupportedHeldProjectiles();
+        for (int slot = 0; slot < this.inventory.getContainerSize(); slot++) {
+            ItemStack stack = this.inventory.getItem(slot);
+            if (!stack.isEmpty() && predicate.test(stack)) {
+                return slot;
+            }
+        }
+        return -1;
+    }
+
+    private void consumeProjectileFromSlot(int slot) {
+        if (slot < 0) {
+            return;
+        }
+        ItemStack stack = this.inventory.getItem(slot);
+        if (!stack.isEmpty()) {
+            stack.shrink(1);
+            if (stack.isEmpty()) {
+                this.inventory.setItem(slot, ItemStack.EMPTY);
+            }
+        }
+
     }
 }
