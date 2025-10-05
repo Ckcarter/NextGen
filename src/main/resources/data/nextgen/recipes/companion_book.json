@@ -10,14 +10,11 @@
     },
     "C": {
       "item": "minecraft:diamond_sword"
-    },
-    "D": {
-      "item": "minecraft:nether_star"
     }
   },
     "pattern": [
       " A ",
-      "BDC",
+      "B C",
       "   "
     ],
     "result": {
