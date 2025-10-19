@@ -30,7 +30,8 @@ public class CompanionRenderer extends HumanoidMobRenderer<CompanionEntity, Comp
         super(context, defaultModel, 0.5F);
         this.defaultModel = defaultModel;
         this.slimModel = new CompanionModel(context.bakeLayer(ModelLayers.PLAYER_SLIM), true);
-
+        this(context, new CompanionModel(context.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR), false));
+        this(context, new CompanionModel(context.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR), false));
 
 //       this.addLayer(new CompanionArmorLayer(this, context.getModelSet()));
 
@@ -42,6 +43,8 @@ public class CompanionRenderer extends HumanoidMobRenderer<CompanionEntity, Comp
                        MultiBufferSource buffer, int packedLight) {
         this.model = CompanionSkinManager.usesSlimModel(entity) ? this.slimModel : this.defaultModel;
         super.render(entity, entityYaw, partialTick, poseStack, buffer, packedLight);
+
+
     }
 
 
