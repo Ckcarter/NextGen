@@ -16,17 +16,17 @@ public class CompanionModel extends HumanoidModel<CompanionEntity> {
     private final ModelPart rightSleeve;
     private final ModelPart leftPants;
     private final ModelPart rightPants;
-    private final ModelPart jacket;
+   // private final ModelPart jacket;
     private final boolean slim;
 
     public CompanionModel(ModelPart root, boolean slim) {
         super(root);
         this.slim = slim;
-        this.leftSleeve = root.getChild("left_sleeve");
-        this.rightSleeve = root.getChild("right_sleeve");
-        this.leftPants = root.getChild("left_pants");
-        this.rightPants = root.getChild("right_pants");
-        this.jacket = root.getChild("jacket");
+        this.leftSleeve = root.getChild("left_arm");
+        this.rightSleeve = root.getChild("right_arm");
+        this.leftPants = root.getChild("left_leg");
+        this.rightPants = root.getChild("right_leg");
+        //this.jacket = root.getChild("jacket");
     }
 
     @Override
@@ -50,7 +50,7 @@ public class CompanionModel extends HumanoidModel<CompanionEntity> {
         this.rightSleeve.visible = visible;
         this.leftPants.visible = visible;
         this.rightPants.visible = visible;
-        this.jacket.visible = visible;
+        //this.jacket.visible = visible;
     }
 
     @Override
@@ -61,7 +61,7 @@ public class CompanionModel extends HumanoidModel<CompanionEntity> {
         this.rightSleeve.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
         this.leftPants.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
         this.rightPants.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-        this.jacket.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+        //this.jacket.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
     }
 
     @Override
@@ -79,6 +79,6 @@ public class CompanionModel extends HumanoidModel<CompanionEntity> {
         this.rightSleeve.copyFrom(this.rightArm);
         this.leftPants.copyFrom(this.leftLeg);
         this.rightPants.copyFrom(this.rightLeg);
-        this.jacket.copyFrom(this.body);
+       // this.jacket.copyFrom(this.body);
     }
 }

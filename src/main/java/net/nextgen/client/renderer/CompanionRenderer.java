@@ -6,6 +6,7 @@ import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.HumanoidMobRenderer;
+import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -30,8 +31,10 @@ public class CompanionRenderer extends HumanoidMobRenderer<CompanionEntity, Comp
         super(context, defaultModel, 0.5F);
         this.defaultModel = defaultModel;
         this.slimModel = new CompanionModel(context.bakeLayer(ModelLayers.PLAYER_SLIM), true);
-        this(context, new CompanionModel(context.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR), false));
-        this(context, new CompanionModel(context.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR), false));
+        this.addLayer(new HumanoidArmorLayer<>(this,
+                new CompanionModel(context.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR), false),
+                new CompanionModel(context.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR), false),
+                context.getModelManager()));
 
 //       this.addLayer(new CompanionArmorLayer(this, context.getModelSet()));
 
