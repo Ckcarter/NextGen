@@ -42,6 +42,8 @@ import net.nextgen.NextGen;
 import net.nextgen.item.CompanionSummonerItem;
 import net.nextgen.menu.CompanionInventoryMenu;
 import net.nextgen.menu.CompanionSkinMenu;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.level.gameevent.GameEvent;
 
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -65,6 +67,10 @@ public class CompanionEntity extends TamableAnimal implements RangedAttackMob {
     private final MeleeAttackGoal meleeAttackGoal;
     private final RangedBowAttackGoal<CompanionEntity> bowAttackGoal;
 
+
+
+    private static final int CONSUMABLE_COOLDOWN_TICKS = 100;
+    private int consumableCooldown;
 
     public CompanionEntity(EntityType<? extends TamableAnimal> entityType, Level level) {
         super(entityType, level);
@@ -308,6 +314,11 @@ public class CompanionEntity extends TamableAnimal implements RangedAttackMob {
     public void aiStep() {
         super.aiStep();
         if (!this.level().isClientSide) {
+            if (this.consumableCooldown > 0) {
+                this.consumableCooldown--;
+            }
+            this.tryDrinkPotion();
+            this.tryEatFood();
             this.tryDrinkPotion();
             this.updateWeaponChoice();
             this.collectNearbyItems();
@@ -697,8 +708,7 @@ public class CompanionEntity extends TamableAnimal implements RangedAttackMob {
     }
 
     private void tryDrinkPotion() {
-        if (this.boardingCooldown > 0) {
-            this.boardingCooldown--;
+        if (this.consumableCooldown > 0) {
             return;
         }
 
@@ -738,7 +748,55 @@ public class CompanionEntity extends TamableAnimal implements RangedAttackMob {
             this.dropItemWithoutDespawn(remainder);
         }
 
-        this.boardingCooldown = 100;
+        this.consumableCooldown = CONSUMABLE_COOLDOWN_TICKS;
+    }
+
+    private void tryEatFood() {
+        if (this.consumableCooldown > 0) {
+            return;
+        }
+
+        if (this.isDeadOrDying() || this.getHealth() >= this.getMaxHealth()) {
+            return;
+        }
+
+        int slot = this.findHealingFoodSlot();
+        if (slot < 0) {
+            return;
+        }
+
+        ItemStack foodStack = this.inventory.getItem(slot);
+        FoodProperties properties = foodStack.getFoodProperties(this);
+        if (foodStack.isEmpty() || properties == null) {
+            return;
+        }
+
+        ItemStack singleFood = foodStack.copy();
+        singleFood.setCount(1);
+
+        this.swing(InteractionHand.MAIN_HAND);
+        this.level().playSound(null, this.getX(), this.getY(), this.getZ(),
+                SoundEvents.GENERIC_EAT, this.getSoundSource(), 1.0F, 1.0F);
+        this.gameEvent(GameEvent.EAT);
+
+        ItemStack container = singleFood.finishUsingItem(this.level(), this);
+
+        foodStack.shrink(1);
+        if (foodStack.isEmpty()) {
+            this.inventory.setItem(slot, ItemStack.EMPTY);
+        } else {
+            this.inventory.setItem(slot, foodStack);
+        }
+
+        if (!container.isEmpty() && !container.isEdible()) {
+            ItemStack remainder = this.inventory.addItem(container);
+            if (!remainder.isEmpty()) {
+                this.dropItemWithoutDespawn(remainder);
+            }
+        }
+
+        this.heal(properties.getNutrition());
+        this.consumableCooldown = CONSUMABLE_COOLDOWN_TICKS;
     }
 
     private void applyPotionEffects(ItemStack potionStack) {
@@ -770,6 +828,19 @@ public class CompanionEntity extends TamableAnimal implements RangedAttackMob {
         return -1;
     }
 
+    private int findHealingFoodSlot() {
+        for (int slot = 0; slot < this.inventory.getContainerSize(); slot++) {
+            ItemStack stack = this.inventory.getItem(slot);
+            if (this.isHealingFood(stack)) {
+                return slot;
+            }
+        }
+        return -1;
+    }
+
+
+
+
     private boolean isHealingPotion(ItemStack stack) {
         if (!(stack.getItem() instanceof PotionItem)) {
             return false;
@@ -791,5 +862,14 @@ public class CompanionEntity extends TamableAnimal implements RangedAttackMob {
                 || effect == MobEffects.HEALTH_BOOST
                 || effect == MobEffects.ABSORPTION;
     }
+    private boolean isHealingFood(ItemStack stack) {
+        if (!stack.isEdible()) {
+            return false;
+        }
+
+        FoodProperties properties = stack.getFoodProperties(this);
+        return properties != null && properties.getNutrition() > 0;
+    }
 
 }
+
