@@ -43,6 +43,13 @@ import net.nextgen.item.CompanionSummonerItem;
 import net.nextgen.menu.CompanionInventoryMenu;
 import net.nextgen.menu.CompanionSkinMenu;
 
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.item.alchemy.PotionUtils;
+
+
+
 public class CompanionEntity extends TamableAnimal implements RangedAttackMob {
 
     private static final EntityDataAccessor<String> DATA_SKIN =
@@ -301,6 +308,7 @@ public class CompanionEntity extends TamableAnimal implements RangedAttackMob {
     public void aiStep() {
         super.aiStep();
         if (!this.level().isClientSide) {
+            this.tryDrinkPotion();
             this.updateWeaponChoice();
             this.collectNearbyItems();
         }
@@ -687,4 +695,101 @@ public class CompanionEntity extends TamableAnimal implements RangedAttackMob {
         this.inventory.setItem(slot, mainHand);
         this.setItemSlot(EquipmentSlot.MAINHAND, inventoryStack);
     }
+
+    private void tryDrinkPotion() {
+        if (this.boardingCooldown > 0) {
+            this.boardingCooldown--;
+            return;
+        }
+
+        if (this.isDeadOrDying() || this.getHealth() >= this.getMaxHealth()) {
+            return;
+        }
+
+        int slot = this.findHealingPotionSlot();
+        if (slot < 0) {
+            return;
+        }
+
+        ItemStack potionStack = this.inventory.getItem(slot);
+        if (potionStack.isEmpty() || !(potionStack.getItem() instanceof PotionItem)) {
+            return;
+        }
+
+        ItemStack singlePotion = potionStack.copy();
+        singlePotion.setCount(1);
+
+        this.swing(InteractionHand.MAIN_HAND);
+        this.level().playSound(null, this.getX(), this.getY(), this.getZ(),
+                SoundEvents.GENERIC_DRINK, this.getSoundSource(), 1.0F, 1.0F);
+
+        this.applyPotionEffects(singlePotion);
+
+        potionStack.shrink(1);
+        if (potionStack.isEmpty()) {
+            this.inventory.setItem(slot, ItemStack.EMPTY);
+        } else {
+            this.inventory.setItem(slot, potionStack);
+        }
+
+        ItemStack bottle = new ItemStack(Items.GLASS_BOTTLE);
+        ItemStack remainder = this.inventory.addItem(bottle);
+        if (!remainder.isEmpty()) {
+            this.dropItemWithoutDespawn(remainder);
+        }
+
+        this.boardingCooldown = 100;
+    }
+
+    private void applyPotionEffects(ItemStack potionStack) {
+        if (!(potionStack.getItem() instanceof PotionItem)) {
+            return;
+        }
+
+        for (MobEffectInstance instance : PotionUtils.getMobEffects(potionStack)) {
+            MobEffect effect = instance.getEffect();
+            if (effect == null) {
+                continue;
+            }
+
+            if (effect.isInstantenous()) {
+                effect.applyInstantenousEffect(null, null, this, instance.getAmplifier(), 1.0D);
+            } else {
+                this.addEffect(new MobEffectInstance(instance));
+            }
+        }
+    }
+
+    private int findHealingPotionSlot() {
+        for (int slot = 0; slot < this.inventory.getContainerSize(); slot++) {
+            ItemStack stack = this.inventory.getItem(slot);
+            if (this.isHealingPotion(stack)) {
+                return slot;
+            }
+        }
+        return -1;
+    }
+
+    private boolean isHealingPotion(ItemStack stack) {
+        if (!(stack.getItem() instanceof PotionItem)) {
+            return false;
+        }
+
+        for (MobEffectInstance instance : PotionUtils.getMobEffects(stack)) {
+            MobEffect effect = instance.getEffect();
+            if (effect != null && this.isHealingEffect(effect)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean isHealingEffect(MobEffect effect) {
+        return effect == MobEffects.HEAL
+                || effect == MobEffects.REGENERATION
+                || effect == MobEffects.HEALTH_BOOST
+                || effect == MobEffects.ABSORPTION;
+    }
+
 }
