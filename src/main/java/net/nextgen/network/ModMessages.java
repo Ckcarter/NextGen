@@ -27,6 +27,9 @@ public final class ModMessages {
         id = packetId++;
         CHANNEL.registerMessage(id, UnsummonCompanionC2SPacket.class, UnsummonCompanionC2SPacket::toBytes,
                 UnsummonCompanionC2SPacket::new, UnsummonCompanionC2SPacket::handle);
+        id = packetId++;
+        CHANNEL.registerMessage(id, SetCompanionStayC2SPacket.class, SetCompanionStayC2SPacket::toBytes,
+                SetCompanionStayC2SPacket::new, SetCompanionStayC2SPacket::handle);
     }
 
     public static void sendToServer(Object message) {

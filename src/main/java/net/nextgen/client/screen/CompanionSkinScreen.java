@@ -14,6 +14,7 @@ import net.nextgen.entity.custom.CompanionEntity;
 import net.nextgen.menu.CompanionSkinMenu;
 import net.nextgen.network.ModMessages;
 import net.nextgen.network.SetCompanionSkinC2SPacket;
+import net.nextgen.network.SetCompanionStayC2SPacket;
 import net.nextgen.network.UnsummonCompanionC2SPacket;
 
 public class CompanionSkinScreen extends AbstractContainerScreen<CompanionSkinMenu> {
@@ -22,11 +23,12 @@ public class CompanionSkinScreen extends AbstractContainerScreen<CompanionSkinMe
     private Button saveButton;
     private Button clearButton;
     private Button unsummonButton;
+    private Button stayButton;
 
     public CompanionSkinScreen(CompanionSkinMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
-        this.imageWidth = 176;
-        this.imageHeight = 140;
+        this.imageWidth = 220;
+        this.imageHeight = 180;
     }
 
     @Override
@@ -39,8 +41,8 @@ public class CompanionSkinScreen extends AbstractContainerScreen<CompanionSkinMe
         this.inventoryLabelY = 0;
 
         int inputX = this.leftPos + 20;
-        int inputY = this.topPos + 42;
-        this.skinInput = new EditBox(this.font, inputX, inputY, 136, 20,
+        int inputY = this.topPos + 46;
+        this.skinInput = new EditBox(this.font, inputX, inputY, 180, 20,
                 Component.translatable("Pick a players skin by Name"));
         CompanionEntity entity = this.getEntity();
         if (entity != null) {
@@ -51,30 +53,39 @@ public class CompanionSkinScreen extends AbstractContainerScreen<CompanionSkinMe
         this.addRenderableWidget(this.skinInput);
         this.setInitialFocus(this.skinInput);
 
+        int buttonWidth = 84;
         int leftButtonX = this.leftPos + 20;
-        int rightButtonX = this.leftPos + this.imageWidth - 20 - 64;
-        int topRowY = this.topPos + 72;
-        int bottomRowY = this.topPos + 100;
+        int rightButtonX = this.leftPos + this.imageWidth - 20 - buttonWidth;
+        int centerButtonX = this.leftPos + (this.imageWidth - 64) / 2;
+        int topRowY = this.topPos + 86;
+        int bottomRowY = this.topPos + 118;
 
         this.saveButton = Button.builder(Component.translatable("Save"), button -> this.saveSkin())
-                .bounds(leftButtonX, topRowY, 64, 20)
+                .bounds(leftButtonX, topRowY, buttonWidth, 20)
                 .build();
         this.addRenderableWidget(this.saveButton);
 
         Button cancelButton = Button.builder(Component.translatable("Cancel"), button -> this.onClose())
-                .bounds(rightButtonX, topRowY, 64, 20)
+                .bounds(rightButtonX, topRowY, buttonWidth, 20)
                 .build();
         this.addRenderableWidget(cancelButton);
 
         this.clearButton = Button.builder(Component.translatable("Clear"), button -> this.clearSkin())
-                .bounds(leftButtonX, bottomRowY, 64, 20)
+                .bounds(leftButtonX, bottomRowY, buttonWidth, 20)
                 .build();
         this.addRenderableWidget(this.clearButton);
 
         this.unsummonButton = Button.builder(Component.translatable("Unsummon"), button -> this.unsummon())
-                .bounds(rightButtonX, bottomRowY, 64, 20)
+                .bounds(rightButtonX, bottomRowY, buttonWidth, 20)
                 .build();
         this.addRenderableWidget(this.unsummonButton);
+
+        this.stayButton = Button.builder(this.getStayButtonLabel(), button -> this.toggleStay())
+                .bounds(rightButtonX, 307, buttonWidth, 20)
+                .build();
+        this.addRenderableWidget(this.stayButton);
+
+
 
         this.updateButtonStates();
     }
@@ -92,6 +103,7 @@ public class CompanionSkinScreen extends AbstractContainerScreen<CompanionSkinMe
         if (this.skinInput != null) {
             this.skinInput.tick();
         }
+        this.updateButtonStates();
     }
 
     @Override
@@ -112,7 +124,7 @@ public class CompanionSkinScreen extends AbstractContainerScreen<CompanionSkinMe
         int x = this.leftPos;
         int y = this.topPos;
         guiGraphics.fill(x, y, x + this.imageWidth, y + this.imageHeight, 0xC0101010);
-        guiGraphics.fill(x + 10, y + 28, x + this.imageWidth - 10, y + this.imageHeight - 10, 0xFF202020);
+        guiGraphics.fill(x + 12, y + 32, x + this.imageWidth - 12, y + this.imageHeight - 12, 0xFF202020);
     }
 
     @Override
@@ -170,6 +182,18 @@ public class CompanionSkinScreen extends AbstractContainerScreen<CompanionSkinMe
         }
     }
 
+    private void toggleStay() {
+        if (this.minecraft == null) {
+            return;
+        }
+        CompanionEntity entity = this.getEntity();
+        boolean staying = entity != null && !entity.isOrderedToSit();
+        ModMessages.sendToServer(new SetCompanionStayC2SPacket(this.menu.getEntityId(), staying));
+        if (entity != null) {
+            entity.setStay(staying);
+        }
+    }
+
     private void updateButtonStates() {
         boolean hasEntity = this.getEntity() != null;
         String value = this.skinInput != null ? this.skinInput.getValue().trim() : "";
@@ -182,6 +206,10 @@ public class CompanionSkinScreen extends AbstractContainerScreen<CompanionSkinMe
         if (this.unsummonButton != null) {
             this.unsummonButton.active = hasEntity;
         }
+        if (this.stayButton != null) {
+            this.stayButton.active = hasEntity;
+            this.stayButton.setMessage(this.getStayButtonLabel());
+        }
     }
     private void updateKeyboardRepeatState(boolean enabled) {
         if (this.minecraft == null) {
@@ -192,4 +220,13 @@ public class CompanionSkinScreen extends AbstractContainerScreen<CompanionSkinMe
             keyboardHandler.setClipboard(String.valueOf(enabled));
         }
     }
+
+    private Component getStayButtonLabel() {
+        CompanionEntity entity = this.getEntity();
+        boolean staying = entity != null && entity.isOrderedToSit();
+        return Component.translatable(staying
+                ? "screen.nextgen.companion_skin.follow"
+                : "screen.nextgen.companion_skin.stay");
+    }
+
 }

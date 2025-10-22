@@ -144,7 +144,7 @@ public class CompanionEntity extends TamableAnimal implements RangedAttackMob {
             }
         }
 
-        this.setOrderedToSit(false);
+
         if (!this.level().isClientSide) {
             this.updateAttackGoal();
         }
@@ -255,6 +255,13 @@ public class CompanionEntity extends TamableAnimal implements RangedAttackMob {
     public void tame(Player player) {
         super.tame(player);
         this.setOrderedToSit(false);
+    }
+    public void setStay(boolean stay) {
+        this.setOrderedToSit(stay);
+        if (stay) {
+            this.getNavigation().stop();
+            this.setTarget(null);
+        }
     }
 
     private boolean canAcceptWeapon(ItemStack stack) {

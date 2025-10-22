@@ -14,6 +14,8 @@
   "screen.nextgen.companion_skin.cancel": "Cancel",
   "screen.nextgen.companion_skin.clear": "Clear",
   "screen.nextgen.companion_skin.unsummon": "Unsummon",
+  "screen.nextgen.companion_skin.stay": "Stay",
+  "screen.nextgen.companion_skin.follow": "Follow",
   "screen.nextgen.companion_skin.missing": "Companion not available",
   "item.nextgen.companion_summoner": "Help Companion"
 }
