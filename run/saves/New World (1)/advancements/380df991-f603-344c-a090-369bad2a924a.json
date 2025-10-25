@@ -521,9 +521,9 @@
     },
     "done": true
   },
-  "minecraft:recipes/misc/mojang_banner_pattern": {
+  "minecraft:nether/netherite_armor": {
     "criteria": {
-      "has_enchanted_golden_apple": "2025-10-22 06:48:00 -0500"
+      "netherite_armor": "2025-10-22 17:02:24 -0500"
     },
     "done": true
   },

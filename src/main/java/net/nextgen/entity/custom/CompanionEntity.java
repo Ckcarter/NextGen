@@ -6,6 +6,7 @@ import java.util.function.Predicate;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -21,6 +22,9 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -34,21 +38,18 @@ import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
 import net.nextgen.NextGen;
 import net.nextgen.item.CompanionSummonerItem;
 import net.nextgen.menu.CompanionInventoryMenu;
 import net.nextgen.menu.CompanionSkinMenu;
-import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.level.gameevent.GameEvent;
-
-import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.item.alchemy.PotionUtils;
 
 
 
@@ -59,6 +60,7 @@ public class CompanionEntity extends TamableAnimal implements RangedAttackMob {
 
 
     private static final String INVENTORY_TAG = "Inventory";
+    private static final String STAY_POS_TAG = "StayPos";
     public static final int INVENTORY_SIZE = 54;
 
     private final SimpleContainer inventory = new SimpleContainer(INVENTORY_SIZE);
@@ -67,7 +69,9 @@ public class CompanionEntity extends TamableAnimal implements RangedAttackMob {
     private final MeleeAttackGoal meleeAttackGoal;
     private final RangedBowAttackGoal<CompanionEntity> bowAttackGoal;
 
-
+    private static final int STAY_PATROL_RADIUS = 6;
+    @Nullable
+    private BlockPos stayPos;
 
     private static final int CONSUMABLE_COOLDOWN_TICKS = 100;
     private int consumableCooldown;
@@ -93,13 +97,13 @@ public class CompanionEntity extends TamableAnimal implements RangedAttackMob {
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
-        this.goalSelector.addGoal(1, new SitWhenOrderedToGoal(this));
+
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.2D, true));
 
 //        this.goalSelector.addGoal(2, this.meleeAttackGoal);
 
         this.goalSelector.addGoal(3, new FollowOwnerGoal(this, 1.15D, 5.0F, 2.0F, false));
-        this.goalSelector.addGoal(4, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        this.goalSelector.addGoal(4, new CompanionRandomStrollGoal(this, 1.0D));
         this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
 
@@ -138,6 +142,12 @@ public class CompanionEntity extends TamableAnimal implements RangedAttackMob {
         }
         tag.put(INVENTORY_TAG, items);
 
+
+        if (this.stayPos != null) {
+            tag.putLong(STAY_POS_TAG, this.stayPos.asLong());
+        }
+
+
     }
 
     @Override
@@ -161,6 +171,16 @@ public class CompanionEntity extends TamableAnimal implements RangedAttackMob {
         if (!this.level().isClientSide) {
             this.updateAttackGoal();
         }
+
+        if (tag.contains(STAY_POS_TAG, Tag.TAG_LONG)) {
+            this.stayPos = BlockPos.of(tag.getLong(STAY_POS_TAG));
+            if (this.isOrderedToSit()) {
+                this.restrictTo(this.stayPos, STAY_PATROL_RADIUS);
+            }
+        } else {
+            this.stayPos = null;
+        }
+
     }
 
     @Override
@@ -272,9 +292,19 @@ public class CompanionEntity extends TamableAnimal implements RangedAttackMob {
     public void setStay(boolean stay) {
         this.setOrderedToSit(stay);
         if (stay) {
+            BlockPos currentPos = this.blockPosition();
+            this.stayPos = currentPos;
+            this.restrictTo(currentPos, STAY_PATROL_RADIUS);
             this.getNavigation().stop();
             this.setTarget(null);
+        } else {
+            this.stayPos = null;
+            this.clearRestriction();
         }
+    }
+    @Nullable
+    public BlockPos getStayPos() {
+        return this.stayPos;
     }
 
     private boolean canAcceptWeapon(ItemStack stack) {
@@ -322,6 +352,7 @@ public class CompanionEntity extends TamableAnimal implements RangedAttackMob {
             this.tryDrinkPotion();
             this.updateWeaponChoice();
             this.collectNearbyItems();
+            this.updateStayBehavior();
         }
     }
 
@@ -362,6 +393,26 @@ public class CompanionEntity extends TamableAnimal implements RangedAttackMob {
             }
         }
     }
+
+
+    private void updateStayBehavior() {
+        if (!this.isOrderedToSit()) {
+            return;
+        }
+        if (this.stayPos == null) {
+            this.stayPos = this.blockPosition();
+            this.restrictTo(this.stayPos, STAY_PATROL_RADIUS);
+        }
+        if (this.stayPos == null) {
+            return;
+        }
+        Vec3 stayCenter = Vec3.atCenterOf(this.stayPos);
+        double maxDistance = (double) (STAY_PATROL_RADIUS + 2);
+        if (this.distanceToSqr(stayCenter) > maxDistance * maxDistance && !this.getNavigation().isInProgress()) {
+            this.getNavigation().moveTo(stayCenter.x, stayCenter.y, stayCenter.z, 1.0D);
+        }
+    }
+
 
 
     @Override
@@ -870,6 +921,48 @@ public class CompanionEntity extends TamableAnimal implements RangedAttackMob {
         FoodProperties properties = stack.getFoodProperties(this);
         return properties != null && properties.getNutrition() > 0;
     }
+
+
+    private static class CompanionRandomStrollGoal extends WaterAvoidingRandomStrollGoal {
+
+        private final CompanionEntity companion;
+
+        CompanionRandomStrollGoal(CompanionEntity companion, double speedModifier) {
+            super(companion, speedModifier);
+            this.companion = companion;
+        }
+
+        @Override
+        public boolean canUse() {
+            if (this.companion.isOrderedToSit() && this.companion.getStayPos() == null) {
+                return false;
+            }
+            return super.canUse();
+        }
+
+        @Nullable
+        @Override
+        protected Vec3 getPosition() {
+            if (this.companion.isOrderedToSit()) {
+                BlockPos stayPos = this.companion.getStayPos();
+                if (stayPos != null) {
+                    for (int attempt = 0; attempt < 8; attempt++) {
+                        int offsetX = this.companion.getRandom().nextIntBetweenInclusive(-STAY_PATROL_RADIUS, STAY_PATROL_RADIUS);
+                        int offsetZ = this.companion.getRandom().nextIntBetweenInclusive(-STAY_PATROL_RADIUS, STAY_PATROL_RADIUS);
+                        int offsetY = this.companion.getRandom().nextIntBetweenInclusive(-1, 1);
+                        BlockPos targetPos = stayPos.offset(offsetX, offsetY, offsetZ);
+                        double distanceSq = targetPos.distSqr(stayPos);
+                        if (distanceSq <= (double) (STAY_PATROL_RADIUS * STAY_PATROL_RADIUS)) {
+                            return Vec3.atCenterOf(targetPos);
+                        }
+                    }
+                    return Vec3.atCenterOf(stayPos);
+                }
+            }
+            return super.getPosition();
+        }
+    }
+
 
 }
 
