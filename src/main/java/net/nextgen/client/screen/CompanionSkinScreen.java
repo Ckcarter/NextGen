@@ -36,7 +36,7 @@ public class CompanionSkinScreen extends AbstractContainerScreen<CompanionSkinMe
         super.init();
         this.updateKeyboardRepeatState(true);
         this.titleLabelX = (this.imageWidth - this.font.width(this.title)) / 2;
-        this.titleLabelY = 8;
+        this.titleLabelY = 13;
         this.inventoryLabelX = 0;
         this.inventoryLabelY = 0;
 
@@ -142,7 +142,7 @@ public class CompanionSkinScreen extends AbstractContainerScreen<CompanionSkinMe
                     this.imageWidth / 2, 24, 0xFFD0D0);
         }
         guiGraphics.drawCenteredString(this.font,
-                Component.translatable("Instructions"), this.imageWidth / 2, 1, 0xFFA0A0);
+                Component.translatable("Instructions"), this.imageWidth / 2, 3, 0xFFA0A0);
     }
 
     private CompanionEntity getEntity() {
