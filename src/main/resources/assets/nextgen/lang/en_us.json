@@ -17,5 +17,6 @@
   "screen.nextgen.companion_skin.stay": "Stay",
   "screen.nextgen.companion_skin.follow": "Follow",
   "screen.nextgen.companion_skin.missing": "Companion not available",
-  "item.nextgen.companion_summoner": "NextGen"
+  "item.nextgen.companion_summoner": "NextGen",
+  "entity.nextgen.companion": "NextGen"
 }
