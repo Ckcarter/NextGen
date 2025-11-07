@@ -132,17 +132,17 @@ public class CompanionSkinScreen extends AbstractContainerScreen<CompanionSkinMe
         guiGraphics.drawCenteredString(this.font, this.title, this.imageWidth / 2, this.titleLabelY, 0xFFFFFF);
         CompanionEntity entity = this.getEntity();
         if (entity != null) {
-            guiGraphics.drawCenteredString(this.font, entity.getDisplayName(), this.imageWidth / 2, 24, 0xFFD0D0);
+            guiGraphics.drawCenteredString(this.font, entity.getDisplayName(), this.imageWidth / 2, 34, 0xFFD0D0);
             String current = entity.getSkinName().isBlank() ? "-" : entity.getSkinName();
             guiGraphics.drawCenteredString(this.font,
-                    Component.translatable("Current", current), this.imageWidth / 2, 56,
+                    Component.translatable("Current", current), this.imageWidth / 2, 24,
                     0xFFA0A0);
         } else {
             guiGraphics.drawCenteredString(this.font, Component.translatable("Missing"),
                     this.imageWidth / 2, 24, 0xFFD0D0);
         }
         guiGraphics.drawCenteredString(this.font,
-                Component.translatable("Instructions"), this.imageWidth / 2, 32, 0xFFA0A0);
+                Component.translatable("Instructions"), this.imageWidth / 2, 1, 0xFFA0A0);
     }
 
     private CompanionEntity getEntity() {
