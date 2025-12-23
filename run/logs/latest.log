@@ -1,486 +1,86 @@
-[07Nov2025 13:54:36.031] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher running: args [--launchTarget, forgeclientuserdev, --version, MOD_DEV, --assetIndex, 5, --assetsDir, C:\Users\ITAdmin\.gradle\caches\forge_gradle\assets, --gameDir, ., --fml.forgeVersion, 47.4.8, --fml.mcVersion, 1.20.1, --fml.forgeGroup, net.minecraftforge, --fml.mcpVersion, 20230612.114412]
-[07Nov2025 13:54:36.052] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher 10.0.9+10.0.9+main.dcd20f30 starting: java version 17.0.16 by Amazon.com Inc.; OS Windows 11 arch amd64 version 10.0
-[07Nov2025 13:54:36.252] [main/INFO] [net.minecraftforge.fml.loading.ImmediateWindowHandler/]: Loading ImmediateWindowProvider fmlearlywindow
-[07Nov2025 13:54:36.365] [main/INFO] [EARLYDISPLAY/]: Trying GL version 4.6
-[07Nov2025 13:54:36.732] [main/INFO] [EARLYDISPLAY/]: Requested GL version 4.6 got version 4.6
-[07Nov2025 13:54:36.958] [main/INFO] [mixin/]: SpongePowered MIXIN Subsystem Version=0.8.5 Source=union:/C:/Users/ITAdmin/.gradle/caches/modules-2/files-2.1/org.spongepowered/mixin/0.8.5/9d1c0c3a304ae6697ecd477218fa61b850bf57fc/mixin-0.8.5.jar%23128!/ Service=ModLauncher Env=CLIENT
-[07Nov2025 13:54:36.958] [pool-2-thread-1/INFO] [EARLYDISPLAY/]: GL info: AMD Radeon(TM) Graphics GL version 4.6.14802 Core Profile Forward-Compatible Context 21.40.46 30.0.14046.0, ATI Technologies Inc.
-[07Nov2025 13:54:37.488] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file C:\Users\ITAdmin\.gradle\caches\modules-2\files-2.1\net.minecraftforge\javafmllanguage\1.20.1-47.4.8\721e2d976494c8275bd81b3404e7dd109b7558c\javafmllanguage-1.20.1-47.4.8.jar is missing mods.toml file
-[07Nov2025 13:54:37.488] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file C:\Users\ITAdmin\.gradle\caches\modules-2\files-2.1\net.minecraftforge\lowcodelanguage\1.20.1-47.4.8\73022064045853db9acea4a61e8c76aad4df52d6\lowcodelanguage-1.20.1-47.4.8.jar is missing mods.toml file
-[07Nov2025 13:54:37.502] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file C:\Users\ITAdmin\.gradle\caches\modules-2\files-2.1\net.minecraftforge\mclanguage\1.20.1-47.4.8\f6f8fcedd2034d8aeb4c696bae232555fbc99bd3\mclanguage-1.20.1-47.4.8.jar is missing mods.toml file
-[07Nov2025 13:54:37.504] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file C:\Users\ITAdmin\.gradle\caches\modules-2\files-2.1\net.minecraftforge\fmlcore\1.20.1-47.4.8\21a451a2c815d519fd534d90eddbd8fd0c44d36e\fmlcore-1.20.1-47.4.8.jar is missing mods.toml file
-[07Nov2025 13:54:37.675] [main/INFO] [net.minecraftforge.fml.loading.moddiscovery.JarInJarDependencyLocator/]: No dependencies to load found. Skipping!
-[07Nov2025 13:54:39.889] [main/INFO] [cpw.mods.modlauncher.LaunchServiceHandler/MODLAUNCHER]: Launching target 'forgeclientuserdev' with arguments [--version, MOD_DEV, --gameDir, ., --assetsDir, C:\Users\ITAdmin\.gradle\caches\forge_gradle\assets, --assetIndex, 5]
-[07Nov2025 13:54:46.933] [Datafixer Bootstrap/INFO] [com.mojang.datafixers.DataFixerBuilder/]: 188 Datafixer optimizations took 253 milliseconds
-[07Nov2025 13:54:50.109] [Render thread/WARN] [net.minecraft.server.packs.VanillaPackResourcesBuilder/]: Assets URL 'union:/C:/Users/ITAdmin/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.4.8_mapped_parchment_1.19.3-2023.03.12-1.20/forge-1.20.1-47.4.8_mapped_parchment_1.19.3-2023.03.12-1.20-recomp.jar%23191!/assets/.mcassetsroot' uses unexpected schema
-[07Nov2025 13:54:50.110] [Render thread/WARN] [net.minecraft.server.packs.VanillaPackResourcesBuilder/]: Assets URL 'union:/C:/Users/ITAdmin/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.4.8_mapped_parchment_1.19.3-2023.03.12-1.20/forge-1.20.1-47.4.8_mapped_parchment_1.19.3-2023.03.12-1.20-recomp.jar%23191!/data/.mcassetsroot' uses unexpected schema
-[07Nov2025 13:54:50.136] [Render thread/INFO] [com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService/]: Environment: authHost='https://authserver.mojang.com', accountsHost='https://api.mojang.com', sessionHost='https://sessionserver.mojang.com', servicesHost='https://api.minecraftservices.com', name='PROD'
-[07Nov2025 13:54:50.145] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Setting user: Dev
-[07Nov2025 13:54:50.333] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Backend library: LWJGL version 3.3.1 build 7
-[07Nov2025 13:54:50.772] [modloading-worker-0/INFO] [net.minecraftforge.common.ForgeMod/FORGEMOD]: Forge mod loading, version 47.4.8, for MC 1.20.1 with MCP 20230612.114412
-[07Nov2025 13:54:50.773] [modloading-worker-0/INFO] [net.minecraftforge.common.MinecraftForge/FORGE]: MinecraftForge v47.4.8 Initialized
-[07Nov2025 13:54:52.404] [Render thread/INFO] [net.minecraftforge.gametest.ForgeGameTestHooks/]: Enabled Gametest Namespaces: [nextgen]
-[07Nov2025 13:54:53.013] [Render thread/INFO] [net.minecraft.server.packs.resources.ReloadableResourceManager/]: Reloading ResourceManager: vanilla, mod_resources
-[07Nov2025 13:54:53.180] [Forge Version Check/INFO] [net.minecraftforge.fml.VersionChecker/]: [forge] Starting version check at https://files.minecraftforge.net/net/minecraftforge/forge/promotions_slim.json
-[07Nov2025 13:54:53.258] [Worker-Main-7/INFO] [net.minecraft.client.gui.font.providers.UnihexProvider/]: Found unifont_all_no_pua-15.0.06.hex, loading
-[07Nov2025 13:54:53.294] [Worker-Main-3/ERROR] [net.minecraft.Util/]: Invalid path in pack: nextgen:models/item/CompanionSkinSelection.json, ignoring
-[07Nov2025 13:54:54.627] [Forge Version Check/INFO] [net.minecraftforge.fml.VersionChecker/]: [forge] Found status: OUTDATED Current: 47.4.8 Target: 47.4.10
-[07Nov2025 13:54:57.238] [Render thread/WARN] [net.minecraft.client.sounds.SoundEngine/]: Missing sound for event: minecraft:item.goat_horn.play
-[07Nov2025 13:54:57.239] [Render thread/WARN] [net.minecraft.client.sounds.SoundEngine/]: Missing sound for event: minecraft:entity.goat.screaming.horn_break
-[07Nov2025 13:54:57.314] [Render thread/INFO] [com.mojang.blaze3d.audio.Library/]: OpenAL initialized on device OpenAL Soft on Headphones (OpenDots ONE by Shokz)
-[07Nov2025 13:54:57.315] [Render thread/INFO] [net.minecraft.client.sounds.SoundEngine/SOUNDS]: Sound engine started
-[07Nov2025 13:54:57.531] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 1024x512x4 minecraft:textures/atlas/blocks.png-atlas
-[07Nov2025 13:54:57.775] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 256x256x4 minecraft:textures/atlas/signs.png-atlas
-[07Nov2025 13:54:57.778] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 512x512x4 minecraft:textures/atlas/shield_patterns.png-atlas
-[07Nov2025 13:54:57.782] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 512x512x4 minecraft:textures/atlas/banner_patterns.png-atlas
-[07Nov2025 13:54:57.785] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 1024x1024x4 minecraft:textures/atlas/armor_trims.png-atlas
-[07Nov2025 13:54:57.816] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 128x64x4 minecraft:textures/atlas/decorated_pot.png-atlas
-[07Nov2025 13:54:57.819] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 256x256x4 minecraft:textures/atlas/chest.png-atlas
-[07Nov2025 13:54:57.821] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 512x256x4 minecraft:textures/atlas/shulker_boxes.png-atlas
-[07Nov2025 13:54:57.825] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 512x256x4 minecraft:textures/atlas/beds.png-atlas
-[07Nov2025 13:54:58.077] [Render thread/WARN] [net.minecraft.client.renderer.ShaderInstance/]: Shader rendertype_entity_translucent_emissive could not find sampler named Sampler2 in the specified shader program.
-[07Nov2025 13:54:58.212] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 256x256x0 minecraft:textures/atlas/particles.png-atlas
-[07Nov2025 13:54:58.220] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 256x256x0 minecraft:textures/atlas/paintings.png-atlas
-[07Nov2025 13:54:58.222] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 128x128x0 minecraft:textures/atlas/mob_effects.png-atlas
-[07Nov2025 13:54:59.605] [Realms Notification Availability checker #1/INFO] [com.mojang.realmsclient.client.RealmsClient/]: Could not authorize you against Realms server: java.lang.RuntimeException: Failed to parse into SignedJWT: 0
-[07Nov2025 13:55:07.534] [Render thread/INFO] [net.minecraftforge.registries.GameData/REGISTRIES]: Injecting existing registry data into this CLIENT instance
-[07Nov2025 13:55:10.147] [Render thread/INFO] [net.minecraft.world.item.crafting.RecipeManager/]: Loaded 7 recipes
-[07Nov2025 13:55:10.340] [Render thread/INFO] [net.minecraft.advancements.AdvancementList/]: Loaded 1271 advancements
-[07Nov2025 13:55:10.855] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Starting integrated minecraft server version 1.20.1
-[07Nov2025 13:55:10.855] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Generating keypair
-[07Nov2025 13:55:11.402] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Preparing start region for dimension minecraft:overworld
-[07Nov2025 13:55:14.047] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 0%
-[07Nov2025 13:55:14.047] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 0%
-[07Nov2025 13:55:14.047] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 0%
-[07Nov2025 13:55:14.047] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 0%
-[07Nov2025 13:55:14.047] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 0%
-[07Nov2025 13:55:14.048] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 0%
-[07Nov2025 13:55:14.448] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 6%
-[07Nov2025 13:55:14.948] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 60%
-[07Nov2025 13:55:15.205] [Server thread/INFO] [net.minecraftforge.server.permission.PermissionAPI/]: Successfully initialized permission handler forge:default_handler
-[07Nov2025 13:55:15.215] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Time elapsed: 3784 ms
-[07Nov2025 13:55:15.397] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Changing view distance to 12, from 10
-[07Nov2025 13:55:15.400] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Changing simulation distance to 12, from 0
-[07Nov2025 13:55:15.535] [Render thread/WARN] [io.netty.util.internal.SystemPropertyUtil/]: Unable to parse the boolean system property 'java.net.preferIPv6Addresses':system - using the default value: false
-[07Nov2025 13:55:16.303] [Netty Local Client IO #0/INFO] [net.minecraftforge.network.NetworkHooks/]: Connected to a modded server.
-[07Nov2025 13:55:16.373] [Server thread/INFO] [net.minecraft.server.players.PlayerList/]: Dev[local:E:b83089e1] logged in with entity id 91 at (-5.300000011920929, -62.0, -10.699999988079071)
-[07Nov2025 13:55:16.463] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Dev joined the game
-[07Nov2025 13:55:17.269] [Render thread/INFO] [net.minecraft.advancements.AdvancementList/]: Loaded 42 advancements
-[07Nov2025 13:56:40.592] [Worker-Main-3/WARN] [com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService/]: Couldn't look up profile properties for com.mojang.authlib.GameProfile@1152a0c3[id=79a92911-06fb-31a6-af1d-d858d641842d,name=WitherTheOnly,properties={},legacy=false]
-java.lang.IllegalArgumentException: Name and ID cannot both be blank
-	at com.mojang.authlib.GameProfile.<init>(GameProfile.java:34) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillGameProfile(YggdrasilMinecraftSessionService.java:181) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillProfileProperties(YggdrasilMinecraftSessionService.java:152) ~[authlib-4.0.43.jar%23133!/:?]
-	at net.nextgen.client.skin.CompanionSkinManager.resolveProfile(CompanionSkinManager.java:206) ~[%23196!/:?]
-	at net.nextgen.client.skin.CompanionSkinManager.lambda$requestSkin$0(CompanionSkinManager.java:128) ~[%23196!/:?]
-	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1395) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec$$$capture(ForkJoinTask.java:373) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java) ~[?:?]
-	at java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1182) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1655) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1622) ~[?:?]
-	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:165) ~[?:?]
-[07Nov2025 13:56:40.784] [Worker-Main-3/WARN] [com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService/]: Couldn't look up profile properties for com.mojang.authlib.GameProfile@1152a0c3[id=79a92911-06fb-31a6-af1d-d858d641842d,name=WitherTheOnly,properties={},legacy=false]
-java.lang.IllegalArgumentException: Name and ID cannot both be blank
-	at com.mojang.authlib.GameProfile.<init>(GameProfile.java:34) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillGameProfile(YggdrasilMinecraftSessionService.java:181) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillProfileProperties(YggdrasilMinecraftSessionService.java:152) ~[authlib-4.0.43.jar%23133!/:?]
-	at net.nextgen.client.skin.CompanionSkinManager.resolveProfile(CompanionSkinManager.java:206) ~[%23196!/:?]
-	at net.nextgen.client.skin.CompanionSkinManager.lambda$requestSkin$0(CompanionSkinManager.java:128) ~[%23196!/:?]
-	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1395) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec$$$capture(ForkJoinTask.java:373) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java) ~[?:?]
-	at java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1182) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1655) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1622) ~[?:?]
-	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:165) ~[?:?]
-[07Nov2025 13:56:40.868] [Worker-Main-3/WARN] [com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService/]: Couldn't look up profile properties for com.mojang.authlib.GameProfile@1152a0c3[id=79a92911-06fb-31a6-af1d-d858d641842d,name=WitherTheOnly,properties={},legacy=false]
-java.lang.IllegalArgumentException: Name and ID cannot both be blank
-	at com.mojang.authlib.GameProfile.<init>(GameProfile.java:34) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillGameProfile(YggdrasilMinecraftSessionService.java:181) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillProfileProperties(YggdrasilMinecraftSessionService.java:152) ~[authlib-4.0.43.jar%23133!/:?]
-	at net.minecraft.client.resources.SkinManager.lambda$registerSkins$4(SkinManager.java:126) ~[forge-1.20.1-47.4.8_mapped_parchment_1.19.3-2023.03.12-1.20-recomp.jar%23191!/:?]
-	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1395) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec$$$capture(ForkJoinTask.java:373) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java) ~[?:?]
-	at java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1182) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1655) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1622) ~[?:?]
-	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:165) ~[?:?]
-[07Nov2025 13:56:41.062] [Worker-Main-7/WARN] [com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService/]: Couldn't look up profile properties for com.mojang.authlib.GameProfile@1152a0c3[id=79a92911-06fb-31a6-af1d-d858d641842d,name=WitherTheOnly,properties={},legacy=false]
-java.lang.IllegalArgumentException: Name and ID cannot both be blank
-	at com.mojang.authlib.GameProfile.<init>(GameProfile.java:34) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillGameProfile(YggdrasilMinecraftSessionService.java:181) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillProfileProperties(YggdrasilMinecraftSessionService.java:152) ~[authlib-4.0.43.jar%23133!/:?]
-	at net.nextgen.client.skin.CompanionSkinManager.resolveProfile(CompanionSkinManager.java:206) ~[%23196!/:?]
-	at net.nextgen.client.skin.CompanionSkinManager.lambda$requestSkin$0(CompanionSkinManager.java:128) ~[%23196!/:?]
-	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1395) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec$$$capture(ForkJoinTask.java:373) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java) ~[?:?]
-	at java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1182) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1655) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1622) ~[?:?]
-	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:165) ~[?:?]
-[07Nov2025 13:56:41.256] [Worker-Main-7/WARN] [com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService/]: Couldn't look up profile properties for com.mojang.authlib.GameProfile@1152a0c3[id=79a92911-06fb-31a6-af1d-d858d641842d,name=WitherTheOnly,properties={},legacy=false]
-java.lang.IllegalArgumentException: Name and ID cannot both be blank
-	at com.mojang.authlib.GameProfile.<init>(GameProfile.java:34) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillGameProfile(YggdrasilMinecraftSessionService.java:181) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillProfileProperties(YggdrasilMinecraftSessionService.java:152) ~[authlib-4.0.43.jar%23133!/:?]
-	at net.nextgen.client.skin.CompanionSkinManager.resolveProfile(CompanionSkinManager.java:206) ~[%23196!/:?]
-	at net.nextgen.client.skin.CompanionSkinManager.lambda$requestSkin$0(CompanionSkinManager.java:128) ~[%23196!/:?]
-	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1395) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec$$$capture(ForkJoinTask.java:373) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java) ~[?:?]
-	at java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1182) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1655) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1622) ~[?:?]
-	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:165) ~[?:?]
-[07Nov2025 13:56:41.358] [Worker-Main-3/WARN] [com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService/]: Couldn't look up profile properties for com.mojang.authlib.GameProfile@1152a0c3[id=79a92911-06fb-31a6-af1d-d858d641842d,name=WitherTheOnly,properties={},legacy=false]
-java.lang.IllegalArgumentException: Name and ID cannot both be blank
-	at com.mojang.authlib.GameProfile.<init>(GameProfile.java:34) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillGameProfile(YggdrasilMinecraftSessionService.java:181) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillProfileProperties(YggdrasilMinecraftSessionService.java:152) ~[authlib-4.0.43.jar%23133!/:?]
-	at net.nextgen.client.skin.CompanionSkinManager.resolveProfile(CompanionSkinManager.java:206) ~[%23196!/:?]
-	at net.nextgen.client.skin.CompanionSkinManager.lambda$requestSkin$0(CompanionSkinManager.java:128) ~[%23196!/:?]
-	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1395) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec$$$capture(ForkJoinTask.java:373) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java) ~[?:?]
-	at java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1182) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1655) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1622) ~[?:?]
-	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:165) ~[?:?]
-[07Nov2025 13:56:41.359] [Worker-Main-7/WARN] [com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService/]: Couldn't look up profile properties for com.mojang.authlib.GameProfile@1152a0c3[id=79a92911-06fb-31a6-af1d-d858d641842d,name=WitherTheOnly,properties={},legacy=false]
-java.lang.IllegalArgumentException: Name and ID cannot both be blank
-	at com.mojang.authlib.GameProfile.<init>(GameProfile.java:34) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillGameProfile(YggdrasilMinecraftSessionService.java:181) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillProfileProperties(YggdrasilMinecraftSessionService.java:152) ~[authlib-4.0.43.jar%23133!/:?]
-	at net.minecraft.client.resources.SkinManager.lambda$registerSkins$4(SkinManager.java:126) ~[forge-1.20.1-47.4.8_mapped_parchment_1.19.3-2023.03.12-1.20-recomp.jar%23191!/:?]
-	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1395) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec$$$capture(ForkJoinTask.java:373) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java) ~[?:?]
-	at java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1182) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1655) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1622) ~[?:?]
-	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:165) ~[?:?]
-[07Nov2025 13:56:41.556] [Worker-Main-3/WARN] [com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService/]: Couldn't look up profile properties for com.mojang.authlib.GameProfile@1152a0c3[id=79a92911-06fb-31a6-af1d-d858d641842d,name=WitherTheOnly,properties={},legacy=false]
-java.lang.IllegalArgumentException: Name and ID cannot both be blank
-	at com.mojang.authlib.GameProfile.<init>(GameProfile.java:34) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillGameProfile(YggdrasilMinecraftSessionService.java:181) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillProfileProperties(YggdrasilMinecraftSessionService.java:152) ~[authlib-4.0.43.jar%23133!/:?]
-	at net.nextgen.client.skin.CompanionSkinManager.resolveProfile(CompanionSkinManager.java:206) ~[%23196!/:?]
-	at net.nextgen.client.skin.CompanionSkinManager.lambda$requestSkin$0(CompanionSkinManager.java:128) ~[%23196!/:?]
-	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1395) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec$$$capture(ForkJoinTask.java:373) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java) ~[?:?]
-	at java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1182) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1655) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1622) ~[?:?]
-	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:165) ~[?:?]
-[07Nov2025 13:56:41.647] [Worker-Main-3/WARN] [com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService/]: Couldn't look up profile properties for com.mojang.authlib.GameProfile@1152a0c3[id=79a92911-06fb-31a6-af1d-d858d641842d,name=WitherTheOnly,properties={},legacy=false]
-java.lang.IllegalArgumentException: Name and ID cannot both be blank
-	at com.mojang.authlib.GameProfile.<init>(GameProfile.java:34) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillGameProfile(YggdrasilMinecraftSessionService.java:181) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillProfileProperties(YggdrasilMinecraftSessionService.java:152) ~[authlib-4.0.43.jar%23133!/:?]
-	at net.minecraft.client.resources.SkinManager.lambda$registerSkins$4(SkinManager.java:126) ~[forge-1.20.1-47.4.8_mapped_parchment_1.19.3-2023.03.12-1.20-recomp.jar%23191!/:?]
-	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1395) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec$$$capture(ForkJoinTask.java:373) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java) ~[?:?]
-	at java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1182) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1655) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1622) ~[?:?]
-	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:165) ~[?:?]
-[07Nov2025 13:56:42.190] [Worker-Main-1/WARN] [com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService/]: Couldn't look up profile properties for com.mojang.authlib.GameProfile@1152a0c3[id=79a92911-06fb-31a6-af1d-d858d641842d,name=WitherTheOnly,properties={},legacy=false]
-java.lang.IllegalArgumentException: Name and ID cannot both be blank
-	at com.mojang.authlib.GameProfile.<init>(GameProfile.java:34) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillGameProfile(YggdrasilMinecraftSessionService.java:181) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillProfileProperties(YggdrasilMinecraftSessionService.java:152) ~[authlib-4.0.43.jar%23133!/:?]
-	at net.minecraft.client.resources.SkinManager.lambda$registerSkins$4(SkinManager.java:126) ~[forge-1.20.1-47.4.8_mapped_parchment_1.19.3-2023.03.12-1.20-recomp.jar%23191!/:?]
-	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1395) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec$$$capture(ForkJoinTask.java:373) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java) ~[?:?]
-	at java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1182) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1655) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1622) ~[?:?]
-	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:165) ~[?:?]
-[07Nov2025 13:56:42.779] [Worker-Main-3/WARN] [com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService/]: Couldn't look up profile properties for com.mojang.authlib.GameProfile@1152a0c3[id=79a92911-06fb-31a6-af1d-d858d641842d,name=WitherTheOnly,properties={},legacy=false]
-java.lang.IllegalArgumentException: Name and ID cannot both be blank
-	at com.mojang.authlib.GameProfile.<init>(GameProfile.java:34) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillGameProfile(YggdrasilMinecraftSessionService.java:181) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillProfileProperties(YggdrasilMinecraftSessionService.java:152) ~[authlib-4.0.43.jar%23133!/:?]
-	at net.minecraft.client.resources.SkinManager.lambda$registerSkins$4(SkinManager.java:126) ~[forge-1.20.1-47.4.8_mapped_parchment_1.19.3-2023.03.12-1.20-recomp.jar%23191!/:?]
-	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1395) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec$$$capture(ForkJoinTask.java:373) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java) ~[?:?]
-	at java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1182) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1655) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1622) ~[?:?]
-	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:165) ~[?:?]
-[07Nov2025 13:56:42.785] [Worker-Main-7/WARN] [com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService/]: Couldn't look up profile properties for com.mojang.authlib.GameProfile@1152a0c3[id=79a92911-06fb-31a6-af1d-d858d641842d,name=WitherTheOnly,properties={},legacy=false]
-java.lang.IllegalArgumentException: Name and ID cannot both be blank
-	at com.mojang.authlib.GameProfile.<init>(GameProfile.java:34) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillGameProfile(YggdrasilMinecraftSessionService.java:181) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillProfileProperties(YggdrasilMinecraftSessionService.java:152) ~[authlib-4.0.43.jar%23133!/:?]
-	at net.nextgen.client.skin.CompanionSkinManager.resolveProfile(CompanionSkinManager.java:206) ~[%23196!/:?]
-	at net.nextgen.client.skin.CompanionSkinManager.lambda$requestSkin$0(CompanionSkinManager.java:128) ~[%23196!/:?]
-	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1395) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec$$$capture(ForkJoinTask.java:373) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java) ~[?:?]
-	at java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1182) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1655) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1622) ~[?:?]
-	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:165) ~[?:?]
-[07Nov2025 13:56:42.868] [Worker-Main-7/WARN] [com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService/]: Couldn't look up profile properties for com.mojang.authlib.GameProfile@1152a0c3[id=79a92911-06fb-31a6-af1d-d858d641842d,name=WitherTheOnly,properties={},legacy=false]
-java.lang.IllegalArgumentException: Name and ID cannot both be blank
-	at com.mojang.authlib.GameProfile.<init>(GameProfile.java:34) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillGameProfile(YggdrasilMinecraftSessionService.java:181) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillProfileProperties(YggdrasilMinecraftSessionService.java:152) ~[authlib-4.0.43.jar%23133!/:?]
-	at net.minecraft.client.resources.SkinManager.lambda$registerSkins$4(SkinManager.java:126) ~[forge-1.20.1-47.4.8_mapped_parchment_1.19.3-2023.03.12-1.20-recomp.jar%23191!/:?]
-	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1395) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec$$$capture(ForkJoinTask.java:373) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java) ~[?:?]
-	at java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1182) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1655) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1622) ~[?:?]
-	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:165) ~[?:?]
-[07Nov2025 13:56:43.139] [Worker-Main-3/WARN] [com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService/]: Couldn't look up profile properties for com.mojang.authlib.GameProfile@1152a0c3[id=79a92911-06fb-31a6-af1d-d858d641842d,name=WitherTheOnly,properties={},legacy=false]
-java.lang.IllegalArgumentException: Name and ID cannot both be blank
-	at com.mojang.authlib.GameProfile.<init>(GameProfile.java:34) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillGameProfile(YggdrasilMinecraftSessionService.java:181) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillProfileProperties(YggdrasilMinecraftSessionService.java:152) ~[authlib-4.0.43.jar%23133!/:?]
-	at net.nextgen.client.skin.CompanionSkinManager.resolveProfile(CompanionSkinManager.java:206) ~[%23196!/:?]
-	at net.nextgen.client.skin.CompanionSkinManager.lambda$requestSkin$0(CompanionSkinManager.java:128) ~[%23196!/:?]
-	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1395) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec$$$capture(ForkJoinTask.java:373) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java) ~[?:?]
-	at java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1182) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1655) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1622) ~[?:?]
-	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:165) ~[?:?]
-[07Nov2025 13:56:43.183] [Worker-Main-7/WARN] [com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService/]: Couldn't look up profile properties for com.mojang.authlib.GameProfile@1152a0c3[id=79a92911-06fb-31a6-af1d-d858d641842d,name=WitherTheOnly,properties={},legacy=false]
-java.lang.IllegalArgumentException: Name and ID cannot both be blank
-	at com.mojang.authlib.GameProfile.<init>(GameProfile.java:34) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillGameProfile(YggdrasilMinecraftSessionService.java:181) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillProfileProperties(YggdrasilMinecraftSessionService.java:152) ~[authlib-4.0.43.jar%23133!/:?]
-	at net.minecraft.client.resources.SkinManager.lambda$registerSkins$4(SkinManager.java:126) ~[forge-1.20.1-47.4.8_mapped_parchment_1.19.3-2023.03.12-1.20-recomp.jar%23191!/:?]
-	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1395) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec$$$capture(ForkJoinTask.java:373) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java) ~[?:?]
-	at java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1182) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1655) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1622) ~[?:?]
-	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:165) ~[?:?]
-[07Nov2025 13:56:43.655] [Worker-Main-1/WARN] [com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService/]: Couldn't look up profile properties for com.mojang.authlib.GameProfile@1152a0c3[id=79a92911-06fb-31a6-af1d-d858d641842d,name=WitherTheOnly,properties={},legacy=false]
-java.lang.IllegalArgumentException: Name and ID cannot both be blank
-	at com.mojang.authlib.GameProfile.<init>(GameProfile.java:34) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillGameProfile(YggdrasilMinecraftSessionService.java:181) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillProfileProperties(YggdrasilMinecraftSessionService.java:152) ~[authlib-4.0.43.jar%23133!/:?]
-	at net.nextgen.client.skin.CompanionSkinManager.resolveProfile(CompanionSkinManager.java:206) ~[%23196!/:?]
-	at net.nextgen.client.skin.CompanionSkinManager.lambda$requestSkin$0(CompanionSkinManager.java:128) ~[%23196!/:?]
-	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1395) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec$$$capture(ForkJoinTask.java:373) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java) ~[?:?]
-	at java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1182) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1655) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1622) ~[?:?]
-	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:165) ~[?:?]
-[07Nov2025 13:56:43.761] [Worker-Main-3/WARN] [com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService/]: Couldn't look up profile properties for com.mojang.authlib.GameProfile@1152a0c3[id=79a92911-06fb-31a6-af1d-d858d641842d,name=WitherTheOnly,properties={},legacy=false]
-java.lang.IllegalArgumentException: Name and ID cannot both be blank
-	at com.mojang.authlib.GameProfile.<init>(GameProfile.java:34) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillGameProfile(YggdrasilMinecraftSessionService.java:181) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillProfileProperties(YggdrasilMinecraftSessionService.java:152) ~[authlib-4.0.43.jar%23133!/:?]
-	at net.nextgen.client.skin.CompanionSkinManager.resolveProfile(CompanionSkinManager.java:206) ~[%23196!/:?]
-	at net.nextgen.client.skin.CompanionSkinManager.lambda$requestSkin$0(CompanionSkinManager.java:128) ~[%23196!/:?]
-	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1395) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec$$$capture(ForkJoinTask.java:373) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java) ~[?:?]
-	at java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1182) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1655) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1622) ~[?:?]
-	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:165) ~[?:?]
-[07Nov2025 13:56:43.859] [Worker-Main-1/WARN] [com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService/]: Couldn't look up profile properties for com.mojang.authlib.GameProfile@1152a0c3[id=79a92911-06fb-31a6-af1d-d858d641842d,name=WitherTheOnly,properties={},legacy=false]
-java.lang.IllegalArgumentException: Name and ID cannot both be blank
-	at com.mojang.authlib.GameProfile.<init>(GameProfile.java:34) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillGameProfile(YggdrasilMinecraftSessionService.java:181) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillProfileProperties(YggdrasilMinecraftSessionService.java:152) ~[authlib-4.0.43.jar%23133!/:?]
-	at net.nextgen.client.skin.CompanionSkinManager.resolveProfile(CompanionSkinManager.java:206) ~[%23196!/:?]
-	at net.nextgen.client.skin.CompanionSkinManager.lambda$requestSkin$0(CompanionSkinManager.java:128) ~[%23196!/:?]
-	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1395) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec$$$capture(ForkJoinTask.java:373) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java) ~[?:?]
-	at java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1182) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1655) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1622) ~[?:?]
-	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:165) ~[?:?]
-[07Nov2025 13:56:43.947] [Worker-Main-1/WARN] [com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService/]: Couldn't look up profile properties for com.mojang.authlib.GameProfile@1152a0c3[id=79a92911-06fb-31a6-af1d-d858d641842d,name=WitherTheOnly,properties={},legacy=false]
-java.lang.IllegalArgumentException: Name and ID cannot both be blank
-	at com.mojang.authlib.GameProfile.<init>(GameProfile.java:34) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillGameProfile(YggdrasilMinecraftSessionService.java:181) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillProfileProperties(YggdrasilMinecraftSessionService.java:152) ~[authlib-4.0.43.jar%23133!/:?]
-	at net.minecraft.client.resources.SkinManager.lambda$registerSkins$4(SkinManager.java:126) ~[forge-1.20.1-47.4.8_mapped_parchment_1.19.3-2023.03.12-1.20-recomp.jar%23191!/:?]
-	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1395) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec$$$capture(ForkJoinTask.java:373) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java) ~[?:?]
-	at java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1182) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1655) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1622) ~[?:?]
-	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:165) ~[?:?]
-[07Nov2025 13:56:43.957] [Worker-Main-3/WARN] [com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService/]: Couldn't look up profile properties for com.mojang.authlib.GameProfile@1152a0c3[id=79a92911-06fb-31a6-af1d-d858d641842d,name=WitherTheOnly,properties={},legacy=false]
-java.lang.IllegalArgumentException: Name and ID cannot both be blank
-	at com.mojang.authlib.GameProfile.<init>(GameProfile.java:34) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillGameProfile(YggdrasilMinecraftSessionService.java:181) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillProfileProperties(YggdrasilMinecraftSessionService.java:152) ~[authlib-4.0.43.jar%23133!/:?]
-	at net.nextgen.client.skin.CompanionSkinManager.resolveProfile(CompanionSkinManager.java:206) ~[%23196!/:?]
-	at net.nextgen.client.skin.CompanionSkinManager.lambda$requestSkin$0(CompanionSkinManager.java:128) ~[%23196!/:?]
-	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1395) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec$$$capture(ForkJoinTask.java:373) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java) ~[?:?]
-	at java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1182) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1655) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1622) ~[?:?]
-	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:165) ~[?:?]
-[07Nov2025 13:56:44.339] [Worker-Main-1/WARN] [com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService/]: Couldn't look up profile properties for com.mojang.authlib.GameProfile@1152a0c3[id=79a92911-06fb-31a6-af1d-d858d641842d,name=WitherTheOnly,properties={},legacy=false]
-java.lang.IllegalArgumentException: Name and ID cannot both be blank
-	at com.mojang.authlib.GameProfile.<init>(GameProfile.java:34) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillGameProfile(YggdrasilMinecraftSessionService.java:181) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillProfileProperties(YggdrasilMinecraftSessionService.java:152) ~[authlib-4.0.43.jar%23133!/:?]
-	at net.nextgen.client.skin.CompanionSkinManager.resolveProfile(CompanionSkinManager.java:206) ~[%23196!/:?]
-	at net.nextgen.client.skin.CompanionSkinManager.lambda$requestSkin$0(CompanionSkinManager.java:128) ~[%23196!/:?]
-	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1395) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec$$$capture(ForkJoinTask.java:373) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java) ~[?:?]
-	at java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1182) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1655) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1622) ~[?:?]
-	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:165) ~[?:?]
-[07Nov2025 13:56:44.438] [Worker-Main-1/WARN] [com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService/]: Couldn't look up profile properties for com.mojang.authlib.GameProfile@1152a0c3[id=79a92911-06fb-31a6-af1d-d858d641842d,name=WitherTheOnly,properties={},legacy=false]
-java.lang.IllegalArgumentException: Name and ID cannot both be blank
-	at com.mojang.authlib.GameProfile.<init>(GameProfile.java:34) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillGameProfile(YggdrasilMinecraftSessionService.java:181) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillProfileProperties(YggdrasilMinecraftSessionService.java:152) ~[authlib-4.0.43.jar%23133!/:?]
-	at net.nextgen.client.skin.CompanionSkinManager.resolveProfile(CompanionSkinManager.java:206) ~[%23196!/:?]
-	at net.nextgen.client.skin.CompanionSkinManager.lambda$requestSkin$0(CompanionSkinManager.java:128) ~[%23196!/:?]
-	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1395) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec$$$capture(ForkJoinTask.java:373) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java) ~[?:?]
-	at java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1182) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1655) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1622) ~[?:?]
-	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:165) ~[?:?]
-[07Nov2025 13:56:44.633] [Worker-Main-1/WARN] [com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService/]: Couldn't look up profile properties for com.mojang.authlib.GameProfile@1152a0c3[id=79a92911-06fb-31a6-af1d-d858d641842d,name=WitherTheOnly,properties={},legacy=false]
-java.lang.IllegalArgumentException: Name and ID cannot both be blank
-	at com.mojang.authlib.GameProfile.<init>(GameProfile.java:34) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillGameProfile(YggdrasilMinecraftSessionService.java:181) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillProfileProperties(YggdrasilMinecraftSessionService.java:152) ~[authlib-4.0.43.jar%23133!/:?]
-	at net.minecraft.client.resources.SkinManager.lambda$registerSkins$4(SkinManager.java:126) ~[forge-1.20.1-47.4.8_mapped_parchment_1.19.3-2023.03.12-1.20-recomp.jar%23191!/:?]
-	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1395) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec$$$capture(ForkJoinTask.java:373) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java) ~[?:?]
-	at java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1182) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1655) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1622) ~[?:?]
-	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:165) ~[?:?]
-[07Nov2025 13:56:44.643] [Worker-Main-7/WARN] [com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService/]: Couldn't look up profile properties for com.mojang.authlib.GameProfile@1152a0c3[id=79a92911-06fb-31a6-af1d-d858d641842d,name=WitherTheOnly,properties={},legacy=false]
-java.lang.IllegalArgumentException: Name and ID cannot both be blank
-	at com.mojang.authlib.GameProfile.<init>(GameProfile.java:34) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillGameProfile(YggdrasilMinecraftSessionService.java:181) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillProfileProperties(YggdrasilMinecraftSessionService.java:152) ~[authlib-4.0.43.jar%23133!/:?]
-	at net.nextgen.client.skin.CompanionSkinManager.resolveProfile(CompanionSkinManager.java:206) ~[%23196!/:?]
-	at net.nextgen.client.skin.CompanionSkinManager.lambda$requestSkin$0(CompanionSkinManager.java:128) ~[%23196!/:?]
-	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1395) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec$$$capture(ForkJoinTask.java:373) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java) ~[?:?]
-	at java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1182) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1655) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1622) ~[?:?]
-	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:165) ~[?:?]
-[07Nov2025 13:56:44.742] [Worker-Main-7/WARN] [com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService/]: Couldn't look up profile properties for com.mojang.authlib.GameProfile@1152a0c3[id=79a92911-06fb-31a6-af1d-d858d641842d,name=WitherTheOnly,properties={},legacy=false]
-java.lang.IllegalArgumentException: Name and ID cannot both be blank
-	at com.mojang.authlib.GameProfile.<init>(GameProfile.java:34) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillGameProfile(YggdrasilMinecraftSessionService.java:181) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillProfileProperties(YggdrasilMinecraftSessionService.java:152) ~[authlib-4.0.43.jar%23133!/:?]
-	at net.minecraft.client.resources.SkinManager.lambda$registerSkins$4(SkinManager.java:126) ~[forge-1.20.1-47.4.8_mapped_parchment_1.19.3-2023.03.12-1.20-recomp.jar%23191!/:?]
-	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1395) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec$$$capture(ForkJoinTask.java:373) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java) ~[?:?]
-	at java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1182) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1655) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1622) ~[?:?]
-	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:165) ~[?:?]
-[07Nov2025 13:56:44.774] [Worker-Main-1/WARN] [com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService/]: Couldn't look up profile properties for com.mojang.authlib.GameProfile@1152a0c3[id=79a92911-06fb-31a6-af1d-d858d641842d,name=WitherTheOnly,properties={},legacy=false]
-java.lang.IllegalArgumentException: Name and ID cannot both be blank
-	at com.mojang.authlib.GameProfile.<init>(GameProfile.java:34) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillGameProfile(YggdrasilMinecraftSessionService.java:181) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillProfileProperties(YggdrasilMinecraftSessionService.java:152) ~[authlib-4.0.43.jar%23133!/:?]
-	at net.nextgen.client.skin.CompanionSkinManager.resolveProfile(CompanionSkinManager.java:206) ~[%23196!/:?]
-	at net.nextgen.client.skin.CompanionSkinManager.lambda$requestSkin$0(CompanionSkinManager.java:128) ~[%23196!/:?]
-	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1395) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec$$$capture(ForkJoinTask.java:373) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java) ~[?:?]
-	at java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1182) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1655) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1622) ~[?:?]
-	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:165) ~[?:?]
-[07Nov2025 13:56:44.973] [Worker-Main-1/WARN] [com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService/]: Couldn't look up profile properties for com.mojang.authlib.GameProfile@1152a0c3[id=79a92911-06fb-31a6-af1d-d858d641842d,name=WitherTheOnly,properties={},legacy=false]
-java.lang.IllegalArgumentException: Name and ID cannot both be blank
-	at com.mojang.authlib.GameProfile.<init>(GameProfile.java:34) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillGameProfile(YggdrasilMinecraftSessionService.java:181) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillProfileProperties(YggdrasilMinecraftSessionService.java:152) ~[authlib-4.0.43.jar%23133!/:?]
-	at net.nextgen.client.skin.CompanionSkinManager.resolveProfile(CompanionSkinManager.java:206) ~[%23196!/:?]
-	at net.nextgen.client.skin.CompanionSkinManager.lambda$requestSkin$0(CompanionSkinManager.java:128) ~[%23196!/:?]
-	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1395) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec$$$capture(ForkJoinTask.java:373) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java) ~[?:?]
-	at java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1182) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1655) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1622) ~[?:?]
-	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:165) ~[?:?]
-[07Nov2025 13:56:45.191] [Worker-Main-1/WARN] [com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService/]: Couldn't look up profile properties for com.mojang.authlib.GameProfile@1152a0c3[id=79a92911-06fb-31a6-af1d-d858d641842d,name=WitherTheOnly,properties={},legacy=false]
-java.lang.IllegalArgumentException: Name and ID cannot both be blank
-	at com.mojang.authlib.GameProfile.<init>(GameProfile.java:34) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillGameProfile(YggdrasilMinecraftSessionService.java:181) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillProfileProperties(YggdrasilMinecraftSessionService.java:152) ~[authlib-4.0.43.jar%23133!/:?]
-	at net.minecraft.client.resources.SkinManager.lambda$registerSkins$4(SkinManager.java:126) ~[forge-1.20.1-47.4.8_mapped_parchment_1.19.3-2023.03.12-1.20-recomp.jar%23191!/:?]
-	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1395) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec$$$capture(ForkJoinTask.java:373) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java) ~[?:?]
-	at java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1182) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1655) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1622) ~[?:?]
-	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:165) ~[?:?]
-[07Nov2025 13:56:45.257] [Worker-Main-3/WARN] [com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService/]: Couldn't look up profile properties for com.mojang.authlib.GameProfile@1152a0c3[id=79a92911-06fb-31a6-af1d-d858d641842d,name=WitherTheOnly,properties={},legacy=false]
-java.lang.IllegalArgumentException: Name and ID cannot both be blank
-	at com.mojang.authlib.GameProfile.<init>(GameProfile.java:34) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillGameProfile(YggdrasilMinecraftSessionService.java:181) ~[authlib-4.0.43.jar%23133!/:?]
-	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillProfileProperties(YggdrasilMinecraftSessionService.java:152) ~[authlib-4.0.43.jar%23133!/:?]
-	at net.nextgen.client.skin.CompanionSkinManager.resolveProfile(CompanionSkinManager.java:206) ~[%23196!/:?]
-	at net.nextgen.client.skin.CompanionSkinManager.lambda$requestSkin$0(CompanionSkinManager.java:128) ~[%23196!/:?]
-	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1395) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec$$$capture(ForkJoinTask.java:373) ~[?:?]
-	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java) ~[?:?]
-	at java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1182) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1655) ~[?:?]
-	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1622) ~[?:?]
-	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:165) ~[?:?]
-[07Nov2025 13:56:51.685] [Render thread/INFO] [net.minecraft.advancements.AdvancementList/]: Loaded 43 advancements
-[07Nov2025 13:58:00.405] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Saving and pausing game...
-[07Nov2025 13:58:00.429] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[New World]'/minecraft:overworld
-[07Nov2025 13:58:00.455] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[New World]'/minecraft:the_end
-[07Nov2025 13:58:00.461] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[New World]'/minecraft:the_nether
-[07Nov2025 13:58:19.305] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Saving and pausing game...
-[07Nov2025 13:58:19.329] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[New World]'/minecraft:overworld
-[07Nov2025 13:58:19.347] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[New World]'/minecraft:the_end
-[07Nov2025 13:58:19.350] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[New World]'/minecraft:the_nether
-[07Nov2025 13:58:20.915] [Server thread/INFO] [net.minecraft.server.network.ServerGamePacketListenerImpl/]: Dev lost connection: Disconnected
-[07Nov2025 13:58:20.915] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Dev left the game
-[07Nov2025 13:58:20.935] [Server thread/INFO] [net.minecraft.server.network.ServerGamePacketListenerImpl/]: Stopping singleplayer server as player logged out
-[07Nov2025 13:58:20.955] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Stopping server
-[07Nov2025 13:58:20.956] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving players
-[07Nov2025 13:58:20.956] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving worlds
-[07Nov2025 13:58:21.542] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[New World]'/minecraft:overworld
-[07Nov2025 13:58:22.219] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[New World]'/minecraft:the_end
-[07Nov2025 13:58:22.222] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[New World]'/minecraft:the_nether
-[07Nov2025 13:58:22.245] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (New World): All chunks are saved
-[07Nov2025 13:58:22.246] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
-[07Nov2025 13:58:22.246] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
-[07Nov2025 13:58:22.246] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage: All dimensions are saved
-[07Nov2025 13:58:29.430] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Stopping!
+[23Dec2025 11:02:28.163] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher running: args [--launchTarget, forgeclientuserdev, --version, MOD_DEV, --assetIndex, 5, --assetsDir, C:\Users\ITAdmin\.gradle\caches\forge_gradle\assets, --gameDir, ., --fml.forgeVersion, 47.4.8, --fml.mcVersion, 1.20.1, --fml.forgeGroup, net.minecraftforge, --fml.mcpVersion, 20230612.114412]
+[23Dec2025 11:02:28.169] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher 10.0.9+10.0.9+main.dcd20f30 starting: java version 17.0.17 by Amazon.com Inc.; OS Windows 11 arch amd64 version 10.0
+[23Dec2025 11:02:28.358] [main/INFO] [net.minecraftforge.fml.loading.ImmediateWindowHandler/]: Loading ImmediateWindowProvider fmlearlywindow
+[23Dec2025 11:02:28.473] [main/INFO] [EARLYDISPLAY/]: Trying GL version 4.6
+[23Dec2025 11:02:28.834] [main/INFO] [EARLYDISPLAY/]: Requested GL version 4.6 got version 4.6
+[23Dec2025 11:02:28.975] [pool-2-thread-1/INFO] [EARLYDISPLAY/]: GL info: AMD Radeon(TM) Graphics GL version 4.6.14802 Core Profile Forward-Compatible Context 21.40.46 30.0.14046.0, ATI Technologies Inc.
+[23Dec2025 11:02:28.988] [main/INFO] [mixin/]: SpongePowered MIXIN Subsystem Version=0.8.5 Source=union:/C:/Users/ITAdmin/.gradle/caches/modules-2/files-2.1/org.spongepowered/mixin/0.8.5/9d1c0c3a304ae6697ecd477218fa61b850bf57fc/mixin-0.8.5.jar%23128!/ Service=ModLauncher Env=CLIENT
+[23Dec2025 11:02:29.413] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file C:\Users\ITAdmin\.gradle\caches\modules-2\files-2.1\net.minecraftforge\javafmllanguage\1.20.1-47.4.8\721e2d976494c8275bd81b3404e7dd109b7558c\javafmllanguage-1.20.1-47.4.8.jar is missing mods.toml file
+[23Dec2025 11:02:29.421] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file C:\Users\ITAdmin\.gradle\caches\modules-2\files-2.1\net.minecraftforge\lowcodelanguage\1.20.1-47.4.8\73022064045853db9acea4a61e8c76aad4df52d6\lowcodelanguage-1.20.1-47.4.8.jar is missing mods.toml file
+[23Dec2025 11:02:29.428] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file C:\Users\ITAdmin\.gradle\caches\modules-2\files-2.1\net.minecraftforge\mclanguage\1.20.1-47.4.8\f6f8fcedd2034d8aeb4c696bae232555fbc99bd3\mclanguage-1.20.1-47.4.8.jar is missing mods.toml file
+[23Dec2025 11:02:29.436] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file C:\Users\ITAdmin\.gradle\caches\modules-2\files-2.1\net.minecraftforge\fmlcore\1.20.1-47.4.8\21a451a2c815d519fd534d90eddbd8fd0c44d36e\fmlcore-1.20.1-47.4.8.jar is missing mods.toml file
+[23Dec2025 11:02:29.558] [main/INFO] [net.minecraftforge.fml.loading.moddiscovery.JarInJarDependencyLocator/]: No dependencies to load found. Skipping!
+[23Dec2025 11:02:31.177] [main/INFO] [cpw.mods.modlauncher.LaunchServiceHandler/MODLAUNCHER]: Launching target 'forgeclientuserdev' with arguments [--version, MOD_DEV, --gameDir, ., --assetsDir, C:\Users\ITAdmin\.gradle\caches\forge_gradle\assets, --assetIndex, 5]
+[23Dec2025 11:02:36.667] [Datafixer Bootstrap/INFO] [com.mojang.datafixers.DataFixerBuilder/]: 188 Datafixer optimizations took 247 milliseconds
+[23Dec2025 11:02:39.267] [Render thread/WARN] [net.minecraft.server.packs.VanillaPackResourcesBuilder/]: Assets URL 'union:/C:/Users/ITAdmin/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.4.8_mapped_parchment_1.19.3-2023.03.12-1.20/forge-1.20.1-47.4.8_mapped_parchment_1.19.3-2023.03.12-1.20-recomp.jar%23191!/assets/.mcassetsroot' uses unexpected schema
+[23Dec2025 11:02:39.268] [Render thread/WARN] [net.minecraft.server.packs.VanillaPackResourcesBuilder/]: Assets URL 'union:/C:/Users/ITAdmin/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.4.8_mapped_parchment_1.19.3-2023.03.12-1.20/forge-1.20.1-47.4.8_mapped_parchment_1.19.3-2023.03.12-1.20-recomp.jar%23191!/data/.mcassetsroot' uses unexpected schema
+[23Dec2025 11:02:39.295] [Render thread/INFO] [com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService/]: Environment: authHost='https://authserver.mojang.com', accountsHost='https://api.mojang.com', sessionHost='https://sessionserver.mojang.com', servicesHost='https://api.minecraftservices.com', name='PROD'
+[23Dec2025 11:02:39.306] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Setting user: Dev
+[23Dec2025 11:02:39.490] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Backend library: LWJGL version 3.3.1 build 7
+[23Dec2025 11:02:39.865] [modloading-worker-0/INFO] [net.minecraftforge.common.ForgeMod/FORGEMOD]: Forge mod loading, version 47.4.8, for MC 1.20.1 with MCP 20230612.114412
+[23Dec2025 11:02:39.867] [modloading-worker-0/INFO] [net.minecraftforge.common.MinecraftForge/FORGE]: MinecraftForge v47.4.8 Initialized
+[23Dec2025 11:02:41.039] [Render thread/INFO] [net.minecraftforge.gametest.ForgeGameTestHooks/]: Enabled Gametest Namespaces: [nextgen]
+[23Dec2025 11:02:41.430] [Render thread/INFO] [net.minecraft.server.packs.resources.ReloadableResourceManager/]: Reloading ResourceManager: vanilla, mod_resources
+[23Dec2025 11:02:41.629] [Worker-Main-4/INFO] [net.minecraft.client.gui.font.providers.UnihexProvider/]: Found unifont_all_no_pua-15.0.06.hex, loading
+[23Dec2025 11:02:41.645] [Forge Version Check/INFO] [net.minecraftforge.fml.VersionChecker/]: [forge] Starting version check at https://files.minecraftforge.net/net/minecraftforge/forge/promotions_slim.json
+[23Dec2025 11:02:41.676] [Worker-Main-2/ERROR] [net.minecraft.Util/]: Invalid path in pack: nextgen:models/item/CompanionSkinSelection.json, ignoring
+[23Dec2025 11:02:42.539] [Forge Version Check/INFO] [net.minecraftforge.fml.VersionChecker/]: [forge] Found status: OUTDATED Current: 47.4.8 Target: 47.4.10
+[23Dec2025 11:02:45.199] [Render thread/WARN] [net.minecraft.client.sounds.SoundEngine/]: Missing sound for event: minecraft:item.goat_horn.play
+[23Dec2025 11:02:45.200] [Render thread/WARN] [net.minecraft.client.sounds.SoundEngine/]: Missing sound for event: minecraft:entity.goat.screaming.horn_break
+[23Dec2025 11:02:45.347] [Render thread/INFO] [com.mojang.blaze3d.audio.Library/]: OpenAL initialized on device OpenAL Soft on Speakers (Dell AC511 USB SoundBar)
+[23Dec2025 11:02:45.348] [Render thread/INFO] [net.minecraft.client.sounds.SoundEngine/SOUNDS]: Sound engine started
+[23Dec2025 11:02:45.528] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 1024x512x4 minecraft:textures/atlas/blocks.png-atlas
+[23Dec2025 11:02:45.745] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 256x256x4 minecraft:textures/atlas/signs.png-atlas
+[23Dec2025 11:02:45.749] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 512x512x4 minecraft:textures/atlas/shield_patterns.png-atlas
+[23Dec2025 11:02:45.753] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 512x512x4 minecraft:textures/atlas/banner_patterns.png-atlas
+[23Dec2025 11:02:45.757] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 1024x1024x4 minecraft:textures/atlas/armor_trims.png-atlas
+[23Dec2025 11:02:45.788] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 128x64x4 minecraft:textures/atlas/decorated_pot.png-atlas
+[23Dec2025 11:02:45.791] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 256x256x4 minecraft:textures/atlas/chest.png-atlas
+[23Dec2025 11:02:45.793] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 512x256x4 minecraft:textures/atlas/shulker_boxes.png-atlas
+[23Dec2025 11:02:45.795] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 512x256x4 minecraft:textures/atlas/beds.png-atlas
+[23Dec2025 11:02:46.049] [Render thread/WARN] [net.minecraft.client.renderer.ShaderInstance/]: Shader rendertype_entity_translucent_emissive could not find sampler named Sampler2 in the specified shader program.
+[23Dec2025 11:02:46.159] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 256x256x0 minecraft:textures/atlas/particles.png-atlas
+[23Dec2025 11:02:46.166] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 256x256x0 minecraft:textures/atlas/paintings.png-atlas
+[23Dec2025 11:02:46.168] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 128x128x0 minecraft:textures/atlas/mob_effects.png-atlas
+[23Dec2025 11:02:46.537] [Realms Notification Availability checker #1/INFO] [com.mojang.realmsclient.client.RealmsClient/]: Could not authorize you against Realms server: java.lang.RuntimeException: Failed to parse into SignedJWT: 0
+[23Dec2025 11:02:51.680] [Render thread/INFO] [net.minecraftforge.registries.GameData/REGISTRIES]: Injecting existing registry data into this CLIENT instance
+[23Dec2025 11:02:53.554] [Render thread/INFO] [net.minecraft.world.item.crafting.RecipeManager/]: Loaded 7 recipes
+[23Dec2025 11:02:53.696] [Render thread/INFO] [net.minecraft.advancements.AdvancementList/]: Loaded 1271 advancements
+[23Dec2025 11:02:54.151] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Starting integrated minecraft server version 1.20.1
+[23Dec2025 11:02:54.152] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Generating keypair
+[23Dec2025 11:02:54.560] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Preparing start region for dimension minecraft:overworld
+[23Dec2025 11:02:57.027] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 0%
+[23Dec2025 11:02:57.027] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 0%
+[23Dec2025 11:02:57.027] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 0%
+[23Dec2025 11:02:57.028] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 0%
+[23Dec2025 11:02:57.028] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 0%
+[23Dec2025 11:02:57.126] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 0%
+[23Dec2025 11:02:57.626] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 31%
+[23Dec2025 11:02:58.095] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 86%
+[23Dec2025 11:02:58.176] [Server thread/INFO] [net.minecraftforge.server.permission.PermissionAPI/]: Successfully initialized permission handler forge:default_handler
+[23Dec2025 11:02:58.192] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Time elapsed: 3598 ms
+[23Dec2025 11:02:58.327] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Changing view distance to 12, from 10
+[23Dec2025 11:02:58.332] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Changing simulation distance to 12, from 0
+[23Dec2025 11:02:58.486] [Render thread/WARN] [io.netty.util.internal.SystemPropertyUtil/]: Unable to parse the boolean system property 'java.net.preferIPv6Addresses':system - using the default value: false
+[23Dec2025 11:02:59.148] [Netty Local Client IO #0/INFO] [net.minecraftforge.network.NetworkHooks/]: Connected to a modded server.
+[23Dec2025 11:02:59.219] [Server thread/INFO] [net.minecraft.server.players.PlayerList/]: Dev[local:E:5cd1c87c] logged in with entity id 93 at (-10.009830686529103, -60.0, -9.531872142999305)
+[23Dec2025 11:02:59.304] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Dev joined the game
+[23Dec2025 11:03:00.028] [Render thread/INFO] [net.minecraft.advancements.AdvancementList/]: Loaded 43 advancements
+[23Dec2025 11:03:07.376] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Saving and pausing game...
+[23Dec2025 11:03:07.398] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[New World]'/minecraft:overworld
+[23Dec2025 11:03:07.420] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[New World]'/minecraft:the_end
+[23Dec2025 11:03:07.423] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[New World]'/minecraft:the_nether
+[23Dec2025 11:03:08.184] [Server thread/INFO] [net.minecraft.server.network.ServerGamePacketListenerImpl/]: Dev lost connection: Disconnected
+[23Dec2025 11:03:08.184] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Dev left the game
+[23Dec2025 11:03:08.198] [Server thread/INFO] [net.minecraft.server.network.ServerGamePacketListenerImpl/]: Stopping singleplayer server as player logged out
+[23Dec2025 11:03:08.230] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Stopping server
+[23Dec2025 11:03:08.231] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving players
+[23Dec2025 11:03:08.231] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving worlds
+[23Dec2025 11:03:08.790] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[New World]'/minecraft:overworld
+[23Dec2025 11:03:09.257] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[New World]'/minecraft:the_end
+[23Dec2025 11:03:09.260] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[New World]'/minecraft:the_nether
+[23Dec2025 11:03:09.288] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (New World): All chunks are saved
+[23Dec2025 11:03:09.290] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[23Dec2025 11:03:09.290] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[23Dec2025 11:03:09.290] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage: All dimensions are saved
+[23Dec2025 11:03:51.486] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Stopping!
