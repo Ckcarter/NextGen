@@ -52,7 +52,7 @@ VertexConsumer vc = bufferSource.getBuffer(RenderType.entitySolid(capeTex));
         this.getParentModel().body.translateAndRotate(poseStack);
 
         // Push the cape slightly backward so it doesn't z-fight the body.
-        poseStack.translate(0.0D, 0.0D, 0.125D);
+        poseStack.translate(0.0D, 0.0D, 0.2D);
 
         // A small default tilt backward, plus a tiny walk sway.
         float sway = Mth.sin(ageInTicks * 0.1F) * 2.0F;
