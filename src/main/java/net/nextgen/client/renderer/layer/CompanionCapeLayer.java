@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.nextgen.client.cape.CompanionCapeCache;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.nextgen.client.model.CompanionModel;
@@ -42,8 +43,8 @@ public class CompanionCapeLayer extends RenderLayer<CompanionEntity, CompanionMo
         if (entity.isInvisible()) return;
 
         // ✅ Use compat: CraftHeraldry cape if present, otherwise fallback cape texture
-        ResourceLocation capeTex = CapeCompat.getCompanionCapeTexture(entity);
-        VertexConsumer vc = bufferSource.getBuffer(RenderType.entitySolid(capeTex));
+        ResourceLocation capeTex = CompanionCapeCache.getOrCreate(entity, entity.getCapeSourceUuid(), entity.getCapeVersion());
+VertexConsumer vc = bufferSource.getBuffer(RenderType.entitySolid(capeTex));
 
         poseStack.pushPose();
 
@@ -66,10 +67,38 @@ public class CompanionCapeLayer extends RenderLayer<CompanionEntity, CompanionMo
         Matrix4f pose = poseStack.last().pose();
         Matrix3f normal = poseStack.last().normal();
 
-        // UVs: whole texture (simple)
-        float u0 = 0.0F, v0 = 0.0F, u1 = 1.0F, v1 = 1.0F;
+        
+// === VANILLA CAPE UV REGION (CraftHeraldry builds a 64x32 cape texture like Mojang) ===
+// The actual cape cloth lives in the TOP-LEFT 10x16 pixels of the 64x32 texture.
+float U0 = 0.0F;
+float V0 = 0.0F;
+float U1 = 10.0F / 64.0F; // 0.15625
+float V1 = 16.0F / 32.0F; // 0.5
 
-        // Thickness: front at z=0, back at z=-d
+// === TUNING KNOBS ===
+// ZOOM > 1.0 samples a smaller window of the cloth region, making the crest appear larger.
+final float ZOOM = 1.00F; // final tuned size // slightly smaller crest
+// Offset the sampling window inside the cloth region to center the crest on your companion cape.
+// +X moves RIGHT, +Y moves DOWN (small values like +/-0.02)
+final float OFF_X = 0.10F; // +1px right
+final float OFF_Y = -1.955F;
+
+float du = (U1 - U0) / ZOOM;
+float dv = (V1 - V0) / ZOOM;
+
+float uMid = (U0 + U1) * 0.5F + OFF_X * (U1 - U0);
+float vMid = (V0 + V1) * 0.5F + OFF_Y * (V1 - V0);
+
+float u0 = uMid - du * 0.5F;
+float u1 = uMid + du * 0.5F;
+
+// Flip horizontally (mirror crest)
+float tmpU = u0;
+u0 = u1;
+u1 = tmpU;
+float v0 = vMid - dv * 0.5F;
+float v1 = vMid + dv * 0.5F;
+// Thickness: front at z=0, back at z=-d
         float zFront = 0.0F;
         float zBack = -d;
 

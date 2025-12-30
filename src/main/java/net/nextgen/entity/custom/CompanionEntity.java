@@ -2,6 +2,7 @@ package net.nextgen.entity.custom;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.function.Predicate;
 
 import javax.annotation.Nullable;
@@ -50,6 +51,8 @@ import net.nextgen.NextGen;
 import net.nextgen.item.CompanionSummonerItem;
 import net.nextgen.menu.CompanionInventoryMenu;
 import net.nextgen.menu.CompanionSkinMenu;
+import net.minecraft.world.item.ItemStack;
+import net.nextgen.compat.CraftHeraldryCompat;
 
 
 
@@ -57,6 +60,11 @@ public class CompanionEntity extends TamableAnimal implements RangedAttackMob {
 
     private static final EntityDataAccessor<String> DATA_SKIN =
             SynchedEntityData.defineId(CompanionEntity.class, EntityDataSerializers.STRING);
+    // --- Independent cape data (synced to clients, saved to NBT) ---
+    private static final EntityDataAccessor<String> DATA_CAPE_SOURCE_UUID =
+            SynchedEntityData.defineId(CompanionEntity.class, EntityDataSerializers.STRING);
+    private static final EntityDataAccessor<Integer> DATA_CAPE_VERSION =
+            SynchedEntityData.defineId(CompanionEntity.class, EntityDataSerializers.INT);
 
 
     private static final String INVENTORY_TAG = "Inventory";
@@ -119,6 +127,8 @@ public class CompanionEntity extends TamableAnimal implements RangedAttackMob {
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(DATA_SKIN, "");
+        this.entityData.define(DATA_CAPE_SOURCE_UUID, "");
+        this.entityData.define(DATA_CAPE_VERSION, 0);
     }
 
 
@@ -129,6 +139,8 @@ public class CompanionEntity extends TamableAnimal implements RangedAttackMob {
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putString("Skin", this.getSkinName());
+        tag.putString("CapeSourceUuid", this.entityData.get(DATA_CAPE_SOURCE_UUID));
+        tag.putInt("CapeVersion", this.entityData.get(DATA_CAPE_VERSION));
 
         ListTag items = new ListTag();
         for (int slot = 0; slot < this.inventory.getContainerSize(); slot++) {
@@ -155,6 +167,8 @@ public class CompanionEntity extends TamableAnimal implements RangedAttackMob {
         super.readAdditionalSaveData(tag);
         if (tag.contains("Skin")) {
             this.setSkinName(tag.getString("Skin"));
+        if (tag.contains("CapeSourceUuid")) this.entityData.set(DATA_CAPE_SOURCE_UUID, tag.getString("CapeSourceUuid"));
+        if (tag.contains("CapeVersion")) this.entityData.set(DATA_CAPE_VERSION, tag.getInt("CapeVersion"));
         }
 
         this.inventory.clearContent();
@@ -186,6 +200,20 @@ public class CompanionEntity extends TamableAnimal implements RangedAttackMob {
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
+
+
+// CraftHeraldry scroll interaction: apply/clear an INDEPENDENT companion cape snapshot.
+if (!this.level().isClientSide && CraftHeraldryCompat.isScroll(stack) && this.isOwnedBy(player)) {
+    if (player.isCrouching()) {
+        this.clearCape();
+        player.displayClientMessage(Component.literal("Companion cape cleared."), true);
+    } else {
+        this.applyCapeFromPlayer(player.getUUID());
+        player.displayClientMessage(Component.literal("Companion cape applied."), true);
+    }
+    return InteractionResult.CONSUME;
+}
+
 
         if (player.isCrouching() && stack.isEmpty() && this.isOwnedBy(player)) {
             if (!this.level().isClientSide && player instanceof ServerPlayer serverPlayer) {
@@ -338,6 +366,31 @@ public class CompanionEntity extends TamableAnimal implements RangedAttackMob {
     public String getSkinName() {
         return this.entityData.get(DATA_SKIN);
     }
+
+
+public @Nullable UUID getCapeSourceUuid() {
+    String s = this.entityData.get(DATA_CAPE_SOURCE_UUID);
+    if (s == null || s.isEmpty()) return null;
+    try { return UUID.fromString(s); } catch (Exception e) { return null; }
+}
+
+public int getCapeVersion() {
+    return this.entityData.get(DATA_CAPE_VERSION);
+}
+
+/** Apply (or re-apply) the cape from a player UUID. Increments version to force clients to re-snapshot. */
+public void applyCapeFromPlayer(UUID playerUuid) {
+    if (playerUuid == null) return;
+    this.entityData.set(DATA_CAPE_SOURCE_UUID, playerUuid.toString());
+    this.entityData.set(DATA_CAPE_VERSION, this.entityData.get(DATA_CAPE_VERSION) + 1);
+}
+
+/** Clear the companion cape. */
+public void clearCape() {
+    this.entityData.set(DATA_CAPE_SOURCE_UUID, "");
+    this.entityData.set(DATA_CAPE_VERSION, this.entityData.get(DATA_CAPE_VERSION) + 1);
+}
+
 
 
     @Override
@@ -965,4 +1018,3 @@ public class CompanionEntity extends TamableAnimal implements RangedAttackMob {
 
 
 }
-
