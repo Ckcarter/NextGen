@@ -65,6 +65,13 @@ public class CompanionEntity extends TamableAnimal implements RangedAttackMob {
             SynchedEntityData.defineId(CompanionEntity.class, EntityDataSerializers.STRING);
     private static final EntityDataAccessor<Integer> DATA_CAPE_VERSION =
             SynchedEntityData.defineId(CompanionEntity.class, EntityDataSerializers.INT);
+    // --- Client-only cape chasing state (for smooth Mojang-like cape physics) ---
+    // These are NOT synced/saved; they are purely for rendering interpolation on the client.
+    public double capeX, capeY, capeZ;
+    public double capeXO, capeYO, capeZO;
+    private boolean capeChaseInit = false;
+    private static final double CAPE_SMOOTHING = 0.25D; // 0.15 = floatier, 0.35 = snappier
+
 
 
     private static final String INVENTORY_TAG = "Inventory";
@@ -393,9 +400,31 @@ public void clearCape() {
 
 
 
-    @Override
+
+
+private void updateCapeChasingPos() {
+    // Initialize to current position to avoid a big snap on the first client tick.
+    if (!capeChaseInit) {
+        capeChaseInit = true;
+        capeX = capeXO = this.getX();
+        capeY = capeYO = this.getY();
+        capeZ = capeZO = this.getZ();
+        return;
+    }
+
+    capeXO = capeX;
+    capeYO = capeY;
+    capeZO = capeZ;
+
+    // Cloak-chasing smoothing (vanilla uses a similar idea for xCloak/yCloak/zCloak)
+    capeX += (this.getX() - capeX) * CAPE_SMOOTHING;
+    capeY += (this.getY() - capeY) * CAPE_SMOOTHING;
+    capeZ += (this.getZ() - capeZ) * CAPE_SMOOTHING;
+}
+
     public void aiStep() {
         super.aiStep();
+        if (this.level().isClientSide) this.updateCapeChasingPos();
         if (!this.level().isClientSide) {
             if (this.consumableCooldown > 0) {
                 this.consumableCooldown--;
