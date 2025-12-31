@@ -52,7 +52,7 @@ VertexConsumer vc = bufferSource.getBuffer(RenderType.entitySolid(capeTex));
         this.getParentModel().body.translateAndRotate(poseStack);
 
         // Push the cape slightly backward so it doesn't z-fight the body.
-        poseStack.translate(0.0D, 0.0D, 0.2D);
+        poseStack.translate(0.0D, 0.0D, 0.125D);
 
         // A small default tilt backward, plus a tiny walk sway.
         float sway = Mth.sin(ageInTicks * 0.1F) * 2.0F;
@@ -105,7 +105,8 @@ float v1 = vMid + dv * 0.5F;
         // ✅ NOTE: every quad call must include packedLight
 
         // Front face (+Z)
-        quad(vc, pose, normal,
+        // Rotate crest 270° (equivalent to -90°) in UV space
+        quadRot270(vc, pose, normal,
                 -halfW, 0.0F,  zFront,
                 halfW, 0.0F,  zFront,
                 halfW, h,     zFront,
@@ -115,7 +116,7 @@ float v1 = vMid + dv * 0.5F;
                 0.0F, 0.0F, 1.0F);
 
         // Back face (-Z) (reverse winding)
-        quad(vc, pose, normal,
+        quadRot270(vc, pose, normal,
                 -halfW, h,     zBack,
                 halfW, h,     zBack,
                 halfW, 0.0F,  zBack,
@@ -125,7 +126,7 @@ float v1 = vMid + dv * 0.5F;
                 0.0F, 0.0F, -1.0F);
 
         // Left face (-X)
-        quad(vc, pose, normal,
+        quadRot270(vc, pose, normal,
                 -halfW, 0.0F,  zBack,
                 -halfW, 0.0F,  zFront,
                 -halfW, h,     zFront,
@@ -135,7 +136,7 @@ float v1 = vMid + dv * 0.5F;
                 -1.0F, 0.0F, 0.0F);
 
         // Right face (+X)
-        quad(vc, pose, normal,
+        quadRot270(vc, pose, normal,
                 halfW, 0.0F,  zFront,
                 halfW, 0.0F,  zBack,
                 halfW, h,     zBack,
@@ -145,7 +146,7 @@ float v1 = vMid + dv * 0.5F;
                 1.0F, 0.0F, 0.0F);
 
         // Top face (-Y)
-        quad(vc, pose, normal,
+        quadRot270(vc, pose, normal,
                 -halfW, 0.0F,  zBack,
                 halfW, 0.0F,  zBack,
                 halfW, 0.0F,  zFront,
@@ -155,7 +156,7 @@ float v1 = vMid + dv * 0.5F;
                 0.0F, -1.0F, 0.0F);
 
         // Bottom face (+Y)
-        quad(vc, pose, normal,
+        quadRot270(vc, pose, normal,
                 -halfW, h,     zFront,
                 halfW, h,     zFront,
                 halfW, h,     zBack,
@@ -184,6 +185,31 @@ float v1 = vMid + dv * 0.5F;
         vertex(vc, pose, normalMat, x1, y1, z1, u1, v0, light, nx, ny, nz);
         vertex(vc, pose, normalMat, x2, y2, z2, u1, v1, light, nx, ny, nz);
         vertex(vc, pose, normalMat, x3, y3, z3, u0, v1, light, nx, ny, nz);
+    }
+
+    /**
+     * UV-space rotation of the crest by 270° (equivalent to -90° / 90° clockwise).
+     * This rotates the sampled crest region without changing geometry.
+     */
+    private static void quadRot270(VertexConsumer vc,
+                                  Matrix4f pose,
+                                  Matrix3f normalMat,
+                                  float x0, float y0, float z0,
+                                  float x1, float y1, float z1,
+                                  float x2, float y2, float z2,
+                                  float x3, float y3, float z3,
+                                  float u0, float v0, float u1, float v1,
+                                  int light,
+                                  float nx, float ny, float nz) {
+
+        // Original quad UVs:
+        // 0:(u0,v0) 1:(u1,v0) 2:(u1,v1) 3:(u0,v1)
+        // Rot270 (=-90°) UVs (90° clockwise):
+        // 0:(u0,v1) 1:(u0,v0) 2:(u1,v0) 3:(u1,v1)
+        vertex(vc, pose, normalMat, x0, y0, z0, u0, v1, light, nx, ny, nz);
+        vertex(vc, pose, normalMat, x1, y1, z1, u0, v0, light, nx, ny, nz);
+        vertex(vc, pose, normalMat, x2, y2, z2, u1, v0, light, nx, ny, nz);
+        vertex(vc, pose, normalMat, x3, y3, z3, u1, v1, light, nx, ny, nz);
     }
 
     private static void vertex(VertexConsumer vc,
