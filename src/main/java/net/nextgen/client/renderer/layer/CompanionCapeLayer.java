@@ -52,14 +52,49 @@ VertexConsumer vc = bufferSource.getBuffer(RenderType.entitySolid(capeTex));
         this.getParentModel().body.translateAndRotate(poseStack);
 
         // Push the cape slightly backward so it doesn't z-fight the body.
-        poseStack.translate(0.0D, 0.0D, 0.125D);
+        poseStack.translate(0.0D, 0.0D, 0.2D);
 
-        // A small default tilt backward, plus a tiny walk sway.
-        float sway = Mth.sin(ageInTicks * 0.1F) * 2.0F;
-        float walk = Mth.clamp(limbSwingAmount, 0.0F, 1.0F) * 10.0F;
-        poseStack.mulPose(Axis.XP.rotationDegrees(10.0F + sway + walk));
+        // Vanilla-like cape physics:
+// We keep a small client-side "cloak" position that chases the companion's position,
+// then use the difference (cloak - body) to produce tilt and side-sway like the player cape.
+CapePhysics.State s = CapePhysics.get(entity);
+s.tick(entity);
 
-        // Cape size (model units; 1 unit = 1/16 block)
+double cloakX = Mth.lerp(partialTick, s.xo, s.x);
+double cloakY = Mth.lerp(partialTick, s.yo, s.y);
+double cloakZ = Mth.lerp(partialTick, s.zo, s.z);
+
+double bodyX  = Mth.lerp(partialTick, entity.xo, entity.getX());
+double bodyY  = Mth.lerp(partialTick, entity.yo, entity.getY());
+double bodyZ  = Mth.lerp(partialTick, entity.zo, entity.getZ());
+
+double dx = cloakX - bodyX;
+double dy = cloakY - bodyY;
+double dz = cloakZ - bodyZ;
+
+float bodyYaw = Mth.rotLerp(partialTick, entity.yBodyRotO, entity.yBodyRot);
+float sin = Mth.sin(bodyYaw * ((float)Math.PI / 180F));
+float cos = -Mth.cos(bodyYaw * ((float)Math.PI / 180F));
+
+float f1 = (float)(dx * sin + dz * cos) * 100.0F; // forward/back
+float f2 = (float)(dx * cos - dz * sin) * 100.0F; // left/right
+float f3 = (float)dy * 10.0F;                     // vertical
+
+f1 = Mth.clamp(f1, -6.0F, 32.0F);
+f2 = Mth.clamp(f2, -20.0F, 20.0F);
+f3 = Mth.clamp(f3, -6.0F, 32.0F);
+
+// Walking bob (uses the same limbSwing/amount values the renderer already gives us)
+float walkBob = Mth.sin(limbSwing * 6.0F) * 32.0F * limbSwingAmount;
+
+if (entity.isCrouching()) {
+    f1 += 25.0F;
+}
+
+poseStack.mulPose(Axis.XP.rotationDegrees(6.0F + f1 / 2.0F + f3 + walkBob));
+poseStack.mulPose(Axis.ZP.rotationDegrees(f2 / 2.0F));
+poseStack.mulPose(Axis.YP.rotationDegrees(0.0F - f2 / 2.0F));
+// Cape size (model units; 1 unit = 1/16 block)
         float halfW = (10.0F / 16.0F) / 2.0F; // 10px wide
         float h = 16.0F / 16.0F;             // 16px tall
         float d = 1.0F / 16.0F;              // 1px thick
@@ -105,8 +140,7 @@ float v1 = vMid + dv * 0.5F;
         // ✅ NOTE: every quad call must include packedLight
 
         // Front face (+Z)
-        // Rotate crest 270° (equivalent to -90°) in UV space
-        quadRot270(vc, pose, normal,
+        quad(vc, pose, normal,
                 -halfW, 0.0F,  zFront,
                 halfW, 0.0F,  zFront,
                 halfW, h,     zFront,
@@ -116,7 +150,7 @@ float v1 = vMid + dv * 0.5F;
                 0.0F, 0.0F, 1.0F);
 
         // Back face (-Z) (reverse winding)
-        quadRot270(vc, pose, normal,
+        quad(vc, pose, normal,
                 -halfW, h,     zBack,
                 halfW, h,     zBack,
                 halfW, 0.0F,  zBack,
@@ -126,7 +160,7 @@ float v1 = vMid + dv * 0.5F;
                 0.0F, 0.0F, -1.0F);
 
         // Left face (-X)
-        quadRot270(vc, pose, normal,
+        quad(vc, pose, normal,
                 -halfW, 0.0F,  zBack,
                 -halfW, 0.0F,  zFront,
                 -halfW, h,     zFront,
@@ -136,7 +170,7 @@ float v1 = vMid + dv * 0.5F;
                 -1.0F, 0.0F, 0.0F);
 
         // Right face (+X)
-        quadRot270(vc, pose, normal,
+        quad(vc, pose, normal,
                 halfW, 0.0F,  zFront,
                 halfW, 0.0F,  zBack,
                 halfW, h,     zBack,
@@ -146,7 +180,7 @@ float v1 = vMid + dv * 0.5F;
                 1.0F, 0.0F, 0.0F);
 
         // Top face (-Y)
-        quadRot270(vc, pose, normal,
+        quad(vc, pose, normal,
                 -halfW, 0.0F,  zBack,
                 halfW, 0.0F,  zBack,
                 halfW, 0.0F,  zFront,
@@ -156,7 +190,7 @@ float v1 = vMid + dv * 0.5F;
                 0.0F, -1.0F, 0.0F);
 
         // Bottom face (+Y)
-        quadRot270(vc, pose, normal,
+        quad(vc, pose, normal,
                 -halfW, h,     zFront,
                 halfW, h,     zFront,
                 halfW, h,     zBack,
@@ -169,6 +203,46 @@ float v1 = vMid + dv * 0.5F;
 
         poseStack.popPose();
     }
+
+/**
+ * Minimal client-side "cloak" position cache to emulate AbstractClientPlayer's cloak/chasing behavior.
+ * This lets non-player entities get vanilla-like cape motion without needing player-only fields.
+ */
+private static final class CapePhysics {
+    private static final java.util.Map<java.util.UUID, State> STATES = new java.util.concurrent.ConcurrentHashMap<>();
+
+    static State get(CompanionEntity e) {
+        return STATES.computeIfAbsent(e.getUUID(), id -> new State(e.getX(), e.getY(), e.getZ()));
+    }
+
+    static final class State {
+        double x, y, z;
+        double xo, yo, zo;
+
+        State(double x, double y, double z) {
+            this.x = this.xo = x;
+            this.y = this.yo = y;
+            this.z = this.zo = z;
+        }
+
+        void tick(CompanionEntity e) {
+            // store previous
+            this.xo = this.x;
+            this.yo = this.y;
+            this.zo = this.z;
+
+            // chase current position with smoothing (similar feel to vanilla)
+            double tx = e.getX();
+            double ty = e.getY();
+            double tz = e.getZ();
+
+            double chase = 0.08D; // smoother (lower = more floaty, higher = snappier)
+            this.x += (tx - this.x) * chase;
+            this.y += (ty - this.y) * chase;
+            this.z += (tz - this.z) * chase;
+        }
+    }
+}
 
     private static void quad(VertexConsumer vc,
                              Matrix4f pose,
@@ -185,31 +259,6 @@ float v1 = vMid + dv * 0.5F;
         vertex(vc, pose, normalMat, x1, y1, z1, u1, v0, light, nx, ny, nz);
         vertex(vc, pose, normalMat, x2, y2, z2, u1, v1, light, nx, ny, nz);
         vertex(vc, pose, normalMat, x3, y3, z3, u0, v1, light, nx, ny, nz);
-    }
-
-    /**
-     * UV-space rotation of the crest by 270° (equivalent to -90° / 90° clockwise).
-     * This rotates the sampled crest region without changing geometry.
-     */
-    private static void quadRot270(VertexConsumer vc,
-                                  Matrix4f pose,
-                                  Matrix3f normalMat,
-                                  float x0, float y0, float z0,
-                                  float x1, float y1, float z1,
-                                  float x2, float y2, float z2,
-                                  float x3, float y3, float z3,
-                                  float u0, float v0, float u1, float v1,
-                                  int light,
-                                  float nx, float ny, float nz) {
-
-        // Original quad UVs:
-        // 0:(u0,v0) 1:(u1,v0) 2:(u1,v1) 3:(u0,v1)
-        // Rot270 (=-90°) UVs (90° clockwise):
-        // 0:(u0,v1) 1:(u0,v0) 2:(u1,v0) 3:(u1,v1)
-        vertex(vc, pose, normalMat, x0, y0, z0, u0, v1, light, nx, ny, nz);
-        vertex(vc, pose, normalMat, x1, y1, z1, u0, v0, light, nx, ny, nz);
-        vertex(vc, pose, normalMat, x2, y2, z2, u1, v0, light, nx, ny, nz);
-        vertex(vc, pose, normalMat, x3, y3, z3, u1, v1, light, nx, ny, nz);
     }
 
     private static void vertex(VertexConsumer vc,
