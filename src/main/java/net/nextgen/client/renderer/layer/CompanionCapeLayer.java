@@ -91,7 +91,7 @@ f2 = Mth.clamp(f2, -20.0F, 20.0F);
 f3 = Mth.clamp(f3, -6.0F, 32.0F);
 
 // Walking bob (uses the same limbSwing/amount values the renderer already gives us)
-float walkBob = Mth.sin(limbSwing * 6.0F) * 32.0F * limbSwingAmount * 0.5F;
+float walkBob = Mth.sin(limbSwing * 1.0F) * 32.0F * limbSwingAmount * 0.5F;
 
 if (entity.isCrouching()) {
     f1 += 25.0F;
