@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:book"
+    },
+    "B": {
+      "item": "minecraft:diamond_helmet"
+    },
+    "C": {
+      "item": "minecraft:diamond_sword"
+    }
+  },
+    "pattern": [
+      " A ",
+      "B C",
+      "   "
+    ],
+    "result": {
+      "item": "nextgen:companion_summoner"
+    },
+    "show_notification": true
+}

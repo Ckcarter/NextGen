@@ -143,22 +143,6 @@ float v1 = vMid + dv * 0.5F;
         float zFront = 0.0F;
         float zBack = -d;
 
-        // Mojang-style side UVs: only sample 1px edge strips so the crest never wraps onto the cape sides.
-        final float sideLeftU0 = 0.0F / 64.0F;
-        final float sideLeftU1 = 1.0F / 64.0F;
-        final float sideRightU0 = 63.0F / 64.0F;
-        final float sideRightU1 = 64.0F / 64.0F;
-        final float sideV0 = 0.0F / 32.0F;
-        final float sideV1 = 16.0F / 32.0F;
-
-        // Use a thin, safe strip for the top/bottom caps too, instead of the crest area.
-        final float capU0 = 0.0F / 64.0F;
-        final float capU1 = 10.0F / 64.0F;
-        final float capTopV0 = 0.0F / 32.0F;
-        final float capTopV1 = 1.0F / 32.0F;
-        final float capBottomV0 = 15.0F / 32.0F;
-        final float capBottomV1 = 16.0F / 32.0F;
-
         // ✅ NOTE: every quad call must include packedLight
 
         // Front face (+Z)
@@ -181,43 +165,43 @@ float v1 = vMid + dv * 0.5F;
                 packedLight,
                 0.0F, 0.0F, -1.0F);
 
-        // Left face (-X): 1px left edge only
+        // Left face (-X)
         quad(vc, pose, normal,
                 -halfW, 0.0F,  zBack,
                 -halfW, 0.0F,  zFront,
                 -halfW, h,     zFront,
                 -halfW, h,     zBack,
-                sideLeftU0, sideV0, sideLeftU1, sideV1,
+                u0, v0, u1, v1,
                 packedLight,
                 -1.0F, 0.0F, 0.0F);
 
-        // Right face (+X): 1px right edge only
+        // Right face (+X)
         quad(vc, pose, normal,
                 halfW, 0.0F,  zFront,
                 halfW, 0.0F,  zBack,
                 halfW, h,     zBack,
                 halfW, h,     zFront,
-                sideRightU0, sideV0, sideRightU1, sideV1,
+                u0, v0, u1, v1,
                 packedLight,
                 1.0F, 0.0F, 0.0F);
 
-        // Top face (-Y): thin top strip only
+        // Top face (-Y)
         quad(vc, pose, normal,
                 -halfW, 0.0F,  zBack,
                 halfW, 0.0F,  zBack,
                 halfW, 0.0F,  zFront,
                 -halfW, 0.0F,  zFront,
-                capU0, capTopV0, capU1, capTopV1,
+                u0, v0, u1, v1,
                 packedLight,
                 0.0F, -1.0F, 0.0F);
 
-        // Bottom face (+Y): thin bottom strip only
+        // Bottom face (+Y)
         quad(vc, pose, normal,
                 -halfW, h,     zFront,
                 halfW, h,     zFront,
                 halfW, h,     zBack,
                 -halfW, h,     zBack,
-                capU0, capBottomV0, capU1, capBottomV1,
+                u0, v0, u1, v1,
                 packedLight,
                 0.0F, 1.0F, 0.0F);
 
